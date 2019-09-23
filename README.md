@@ -1,4 +1,4 @@
-# Python_API_SDK
+# Dome9 SDK python
 
 Dome9 Api Client - Python SDK
 
