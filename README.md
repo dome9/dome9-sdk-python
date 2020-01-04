@@ -1,8 +1,8 @@
 # Dome9 SDK python
 
-Dome9 Api Client - Python SDK
+Dome9 Python SDK
 
-Author - Udi-Yehuda Tamar [devops@dome9.com](mailto:devops@dome9.com)
+Author - dome9 SRE Team [d9ops](mailto:d9ops@checkpoint.com)
 
 This SDK implements a Python wrapper for the Dome9 API V2.
 
