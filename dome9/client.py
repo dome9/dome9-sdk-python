@@ -4,9 +4,9 @@ import requests
 from urllib.parse import urljoin
 from requests.auth import HTTPBasicAuth
 
-from .consts import RequestMethods
-from .exceptions import Dome9APIException
-from .statics import Statics
+from dome9.consts import RequestMethods
+from dome9.exceptions import Dome9APIException
+from dome9.statics import Statics
 
 
 class Client:

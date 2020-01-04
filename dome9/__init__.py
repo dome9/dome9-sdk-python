@@ -1,6 +1,6 @@
-from ._version import __version__
-from .exceptions import Dome9APIException
-from .consts import Protocols, Regions, OperationModes, ProtectionModes, CloudAccountTypes, NewGroupBehaviors, CloudVendors
+from dome9._version import __version__
+from dome9.exceptions import Dome9APIException
+from dome9.consts import Protocols, Regions, OperationModes, ProtectionModes, CloudAccountTypes, NewGroupBehaviors, CloudVendors
 
 __all__ = [
 	'Dome9APIException', 'Protocols', 'Regions', 'OperationModes', 'ProtectionModes', 'CloudAccountTypes', 'NewGroupBehaviors',
