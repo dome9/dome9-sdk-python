@@ -1,8 +1,6 @@
 # Dome9 SDK python
 
-Dome9 Python SDK
-
-Author - dome9 SRE Team [d9ops](mailto:d9ops@checkpoint.com)
+Author - Dome9 SRE Team [mail_us](mailto:d9ops@checkpoint.com)
 
 This SDK implements a Python wrapper for the Dome9 API V2.
 
