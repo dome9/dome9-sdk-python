@@ -49,9 +49,9 @@ def getCloudAccountId(self, cloudAccountId: str) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUIDOr12Digits(cloudAccountId)
+	Statics.checkIsUUIDOr12Digits(cloudAccountId)
 
-	route = 'CloudAccounts/{}'.format(cloudAccountId)
+	route = f'CloudAccounts/{cloudAccountId}'
 
 	return self._request(method=Client.RequestMethods.GET, route=route)
 
