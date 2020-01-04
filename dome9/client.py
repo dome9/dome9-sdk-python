@@ -23,9 +23,9 @@ class Client:
 			baseURL (str): Origin of API (URL). Defaults to 'https://api.dome9.com/v2/'.
 		"""
 
-		Statics._checkIsUUID(apiKey)
-		Statics._checkOnlyContainsLowercaseAlphanumeric(apiSecret)
-		Statics._checkIsHTTPURL(baseURL)
+		Statics.checkIsUUID(apiKey)
+		Statics.checkOnlyContainsLowercaseAlphanumeric(apiSecret)
+		Statics.checkIsHTTPURL(baseURL)
 
 		self.baseURL = baseURL
 		self.clientAuth = HTTPBasicAuth(apiKey, apiSecret)
@@ -33,6 +33,7 @@ class Client:
 	def _request(self, method: RequestMethods, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
 		url = urljoin(self.baseURL, route)
 		headers = {'Accept': Client._DEFAULT_FORMAT, 'Content-Type': Client._DEFAULT_FORMAT}
+
 		try:
 			response = getattr(requests, method.value)(url=url, json=body, params=params, headers=headers, auth=self.clientAuth)
 		except requests.ConnectionError as connectionError:

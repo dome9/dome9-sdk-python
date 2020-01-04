@@ -1,10 +1,15 @@
+from typing import Callable
+
 from re import match
 
 
 class Statics:
 
+	def __new__(cls: Callable):
+		raise BaseException(f'cannot instantiate {cls.__name__} class')
+
 	@staticmethod
-	def _checkIsUUID(arg: str, optional: bool = False) -> None:
+	def checkIsUUID(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -12,7 +17,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkOnlyContainsLowercaseAlphanumeric(arg: str, optional: bool = False) -> None:
+	def checkOnlyContainsLowercaseAlphanumeric(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -20,7 +25,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsHTTPURL(arg: str, optional: bool = False) -> None:
+	def checkIsHTTPURL(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -38,7 +43,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsIP(arg: str, optional: bool = False) -> None:
+	def checkIsIP(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -46,7 +51,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsDuration(arg: str, optional: bool = False) -> None:
+	def checkIsDuration(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -54,7 +59,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsEmail(arg: str, optional: bool = False) -> None:
+	def checkIsEmail(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -62,7 +67,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsUUIDOr12Digits(arg: str, optional: bool = False) -> None:
+	def checkIsUUIDOr12Digits(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -70,7 +75,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsNotNegative(arg: int, optional: bool = False) -> None:
+	def checkIsNotNegative(arg: int, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -78,7 +83,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsNotEmpty(arg: str, optional: bool = False) -> None:
+	def checkIsNotEmpty(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -86,27 +91,9 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsPort(arg: int, optional: bool = False) -> None:
+	def checkIsPort(arg: int, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
 		if arg < 0 or arg > 65535:
 			raise ValueError
-
-	@staticmethod
-	def getJson(path: str) -> Any:
-		"""Creates a Python object from a JSON file.
-	
-		Args:
-			path (str): Path to the file.
-	
-		Returns:
-			Python object.
-	
-		Raises:
-			OSError: Could not read file.
-			JSONDecodeError: Could not decode file contents.
-		"""
-
-		with open(file=path) as jsonFile:
-			return json.load(jsonFile)

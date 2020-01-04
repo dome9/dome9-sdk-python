@@ -113,7 +113,7 @@ def onBoardingAwsAccount(self,
 	"""
 
 	Statics._checkIsARN(arn)
-	Statics._checkOnlyContainsLowercaseAlphanumeric(secret)
+	Statics.checkOnlyContainsLowercaseAlphanumeric(secret)
 
 	route = 'CloudAccounts'
 	body = {
@@ -151,9 +151,9 @@ def onBoardingAzureAccount(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(subscriptionId)
-	Statics._checkIsUUID(tenantId)
-	Statics._checkIsUUID(clientId)
+	Statics.checkIsUUID(subscriptionId)
+	Statics.checkIsUUID(tenantId)
+	Statics.checkIsUUID(clientId)
 
 	route = 'AzureCloudAccount'
 	body = {
@@ -188,9 +188,9 @@ def updateAwsAccountCredentials(self,
 	"""
 
 	Statics._checkIsARN(arn)
-	Statics._checkOnlyContainsLowercaseAlphanumeric(secret)
+	Statics.checkOnlyContainsLowercaseAlphanumeric(secret)
 	# check externalAccountNumber format
-	Statics._checkIsUUID(cloudAccountId, optional=True)
+	Statics.checkIsUUID(cloudAccountId, optional=True)
 
 	route = 'CloudAccounts/credentials'
 	body = {
@@ -220,8 +220,8 @@ def updateOrganizationalUnitForAWSCloudAccount(self, cloudAccountId: str, organi
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
-	Statics._checkIsUUID(organizationalUnitId, optional=True)
+	Statics.checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(organizationalUnitId, optional=True)
 
 	route = 'cloudaccounts/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
@@ -244,8 +244,8 @@ def updateOrganizationalUnitForAzureCloudAccount(self, cloudAccountId: str, orga
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
-	Statics._checkIsUUID(organizationalUnitId, optional=True)
+	Statics.checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(organizationalUnitId, optional=True)
 
 	route = 'AzureCloudAccount/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
@@ -346,12 +346,12 @@ def updateCloudAccountID(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
-	Statics._checkIsUUID(organizationalUnitId, optional=True)
+	Statics.checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(organizationalUnitId, optional=True)
 	# validate organizationalUnitPath
 	# validate organizationalUnitName
 	Statics._checkIsARN(arn)
-	Statics._checkOnlyContainsLowercaseAlphanumeric(secret)
+	Statics.checkOnlyContainsLowercaseAlphanumeric(secret)
 
 	route = 'CloudAccounts/{}'.format(cloudAccountId)
 	body = {
@@ -430,7 +430,7 @@ def getCloudSecurityGroup(self, cloudAccountId: str, regionId: Regions) -> List[
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(cloudAccountId)
 
 	route = 'cloudsecuritygroup/{}'.format(cloudAccountId)
 	params = {'cloudAccountId': cloudAccountId, 'regionId': regionId.value}
@@ -452,7 +452,7 @@ def getAllEntityFetchStatus(self, cloudAccountId: str) -> List[Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(cloudAccountId)
 
 	route = 'EntityFetchStatus'
 	params = {'cloudAccountId': cloudAccountId}
@@ -474,7 +474,7 @@ def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(cloudAccountId)
 
 	route = 'cloudaccounts/{}/SyncNow'.format(cloudAccountId)
 
@@ -631,7 +631,7 @@ def acquireAwsLease(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUID(cloudAccountId)
+	Statics.checkIsUUID(cloudAccountId)
 	Statics._checkIsNotNegative(securityGroupId)  # doc says is string
 	Statics._checkIsIP(ip)
 	Statics._checkIsPort(portFrom)
