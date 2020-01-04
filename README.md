@@ -12,4 +12,4 @@ Quick Start
 Installation
 ~~~~~~~~~~~~
 
-$ pip install git+https://github.com/Dome9/dome9-sdk-python
+$ pip install git+https://github.com/dome9/dome9-sdk-python
