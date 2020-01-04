@@ -9,10 +9,10 @@ def readme():
 
 
 about = {}
-with io.open('dome9_sdk_python/_version.py', 'r', encoding='utf-8') as f:
+with io.open('dome9/_version.py', 'r', encoding='utf-8') as f:
 	exec (f.read(), about)
 
-setup(name='dome9_sdk_python',
+setup(name='dome9',
 	description='Dome9 sdk module',
 	version=about['__version__'],
 	long_description=readme(),
@@ -23,7 +23,8 @@ setup(name='dome9_sdk_python',
 	packages=find_packages(),
 	include_package_data=True,
 	install_requires=[
-		'requests'
+		'requests',
+		'loguru'
 	],
 	zip_safe=False)
 project_urls = {
