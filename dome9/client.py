@@ -1,48 +1,42 @@
+from typing import Dict, Any, Union, Optional
+
 import requests
-from enum import Enum
 from urllib.parse import urljoin
 from requests.auth import HTTPBasicAuth
-from typing import Dict, Any, Union, Optional, List, Set
 
+from .consts import RequestMethods
 from .exceptions import Dome9APIException
-from .consts import Protocols, Regions, OperationModes, ProtectionModes, CloudAccountTypes
 from .statics import Statics
 
 
 class Client:
 
-	class _RequestMethods(Enum):
-		GET = 'get'
-		POST = 'post'
-		PATCH = 'patch'
-		PUT = 'put'
-		DELETE = 'delete'
+	_DEFAULT_SITE = 'https://api.dome9.com/v2/'
+	_DEFAULT_FORMAT = 'application/json'
 
-	_ORIGIN = 'https://api.dome9.com/v2/'
-
-	def __init__(self, key: str, secret: str, origin: str = _ORIGIN):
-		"""Initializes a Dome9 API SDK object.
+	def __init__(self, apiKey: str, apiSecret: str, baseURL: str = _DEFAULT_SITE):
+		"""initializes a d9 SDK object.
 
 		Args:
-			key (str): API id (key).
-			secret (str): API secret.
-			origin (str): Origin of API (URL). Defaults to 'https://api.dome9.com/v2/'.
+			apiKey (str): API id (key).
+			apiSecret (str): API secret.
+			baseURL (str): Origin of API (URL). Defaults to 'https://api.dome9.com/v2/'.
 		"""
 
-		Statics._checkIsUUID(key)
-		Statics._checkOnlyContainsLowercaseAlphanumeric(secret)
-		Statics._checkIsHTTPURL(origin)
+		Statics._checkIsUUID(apiKey)
+		Statics._checkOnlyContainsLowercaseAlphanumeric(apiSecret)
+		Statics._checkIsHTTPURL(baseURL)
 
-		self._origin = origin
-		self._clientAuth = HTTPBasicAuth(key, secret)
+		self.baseURL = baseURL
+		self.clientAuth = HTTPBasicAuth(apiKey, apiSecret)
 
-	def _request(self, method: _RequestMethods, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
-		url = urljoin(self._origin, route)
-		headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+	def _request(self, method: RequestMethods, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
+		url = urljoin(self.baseURL, route)
+		headers = {'Accept': Client._DEFAULT_FORMAT, 'Content-Type': Client._DEFAULT_FORMAT}
 		try:
-			response = getattr(requests, method.value)(url=url, json=body, params=params, headers=headers, auth=self._clientAuth)
+			response = getattr(requests, method.value)(url=url, json=body, params=params, headers=headers, auth=self.clientAuth)
 		except requests.ConnectionError as connectionError:
-			raise Dome9APIException('{} {}'.format(url, str(connectionError)))
+			raise Dome9APIException(f'{url} {connectionError}')
 
 		if response.status_code not in range(200, 299):
 			raise Dome9APIException(message=response.reason, code=response.status_code, content=response.content)

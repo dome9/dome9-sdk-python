@@ -3,6 +3,73 @@
 from enum import Enum
 
 
+class RequestMethods(Enum):
+	GET = 'get'
+	POST = 'post'
+	PATCH = 'patch'
+	PUT = 'put'
+	DELETE = 'delete'
+
+
+# need to change into names
+class Regions(Enum):
+	US_EAST_1 = 'us_east_1'
+	US_WEST_1 = 'us_west_1'
+	EU_WEST_1 = 'eu_west_1'
+	AP_SOUTHEAST_1 = 'ap_southeast_1'
+	AP_NORTHEAST_1 = 'ap_northeast_1'
+	US_WEST_2 = 'us_west_2'
+	SA_EAST_1 = 'sa_east_1'
+	AZ_1_REGION_A_GEO_1 = 'az_1_region_a_geo_1'
+	AZ_2_REGION_A_GEO_1 = 'az_2_region_a_geo_1'
+	AZ_3_REGION_A_GEO_1 = 'az_3_region_a_geo_1'
+	AP_SOUTHEAST_2 = 'ap_southeast_2'
+	MELLANOX_REGION = 'mellanox_region'
+	US_GOV_WEST_1 = 'us_gov_west_1'
+	EU_CENTRAL_1 = 'eu_central_1'
+	AP_NORTHEAST_2 = 'ap_northeast_2'
+	AP_SOUTH_1 = 'ap_south_1'
+	US_EAST_2 = 'us_east_2'
+	CA_CENTRAL_1 = 'ca_central_1'
+	EU_WEST_2 = 'eu_west_2'
+	EU_WEST_3 = 'eu_west_3'
+	EU_NORTH_1 = 'eu_north_1'
+	CN_NORTH_1 = 'cn_north_1'
+	CN_NORTHWEST_1 = 'cn_northwest_1'
+	US_GOV_EAST_1 = 'us_gov_east_1'
+
+
+class OperationModes(Enum):
+	READ = 'Read'
+	MANAGED = 'Managed'
+
+
+class ProtectionModes(Enum):
+	FULL_MANAGE = 'FullManage'
+	READ_ONLY = 'ReadOnly'
+
+
+class CloudAccountTypes(Enum):
+	AWS = 'Aws'
+	AZURE = 'Azure'
+	GOOGLE = 'Google'
+	KUBERNETES = 'Kubernetes'
+
+
+class NewGroupBehaviors(Enum):
+	READ_ONLY = 'ReadOnly'
+	FULL_MANAGE = 'FullManage'
+	RESET = 'Reset'
+
+
+class CloudVendors(Enum):
+	AWS = 'aws'
+	AZURE = 'azure'
+	GOOGLE = 'google'
+	KUBERNETES = 'kubernetes'
+
+
+# protocols of what? check with erez.b
 class Protocols(Enum):
 	ALL = 'ALL'
 	HOPOPT = 'HOPOPT'
@@ -143,60 +210,3 @@ class Protocols(Enum):
 	SHIM6 = 'SHIM6'
 	WESP = 'WESP'
 	ROHC = 'ROHC'
-
-
-class Regions(Enum):
-	US_EAST_1 = 'us_east_1'
-	US_WEST_1 = 'us_west_1'
-	EU_WEST_1 = 'eu_west_1'
-	AP_SOUTHEAST_1 = 'ap_southeast_1'
-	AP_NORTHEAST_1 = 'ap_northeast_1'
-	US_WEST_2 = 'us_west_2'
-	SA_EAST_1 = 'sa_east_1'
-	AZ_1_REGION_A_GEO_1 = 'az_1_region_a_geo_1'
-	AZ_2_REGION_A_GEO_1 = 'az_2_region_a_geo_1'
-	AZ_3_REGION_A_GEO_1 = 'az_3_region_a_geo_1'
-	AP_SOUTHEAST_2 = 'ap_southeast_2'
-	MELLANOX_REGION = 'mellanox_region'
-	US_GOV_WEST_1 = 'us_gov_west_1'
-	EU_CENTRAL_1 = 'eu_central_1'
-	AP_NORTHEAST_2 = 'ap_northeast_2'
-	AP_SOUTH_1 = 'ap_south_1'
-	US_EAST_2 = 'us_east_2'
-	CA_CENTRAL_1 = 'ca_central_1'
-	EU_WEST_2 = 'eu_west_2'
-	EU_WEST_3 = 'eu_west_3'
-	EU_NORTH_1 = 'eu_north_1'
-	CN_NORTH_1 = 'cn_north_1'
-	CN_NORTHWEST_1 = 'cn_northwest_1'
-	US_GOV_EAST_1 = 'us_gov_east_1'
-
-
-class OperationModes(Enum):
-	READ = 'Read'
-	MANAGED = 'Managed'
-
-
-class ProtectionModes(Enum):
-	FULL_MANAGE = 'FullManage'
-	READ_ONLY = 'ReadOnly'
-
-
-class CloudAccountTypes(Enum):
-	AWS = 'Aws'
-	AZURE = 'Azure'
-	GOOGLE = 'Google'
-	KUBERNETES = 'Kubernetes'
-
-
-class NewGroupBehaviors(Enum):
-	READ_ONLY = 'ReadOnly'
-	FULL_MANAGE = 'FullManage'
-	RESET = 'Reset'
-
-
-class Vendors(Enum):
-	AWS = 'aws'
-	AZURE = 'azure'
-	GOOGLE = 'google'
-	KUBERNETES = 'kubernetes'
