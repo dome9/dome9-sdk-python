@@ -13,12 +13,13 @@ class Client:
 
 	_DEFAULT_SITE = 'https://api.dome9.com/v2/'
 	_DEFAULT_FORMAT = 'application/json'
+	_HTTP_OK_RANGE = range(200, 299)
 
 	def __init__(self, apiKey: str, apiSecret: str, baseURL: str = _DEFAULT_SITE):
 		"""initializes a d9 SDK object.
 
 		Args:
-			apiKey (str): API id (key).
+			apiKey (str): API key.
 			apiSecret (str): API secret.
 			baseURL (str): Origin of API (URL). Defaults to 'https://api.dome9.com/v2/'.
 		"""
@@ -27,19 +28,19 @@ class Client:
 		Statics.checkOnlyContainsLowercaseAlphanumeric(apiSecret)
 		Statics.checkIsHTTPURL(baseURL)
 
-		self.baseURL = baseURL
-		self.clientAuth = HTTPBasicAuth(apiKey, apiSecret)
+		self._baseURL = baseURL
+		self._clientAuth = HTTPBasicAuth(apiKey, apiSecret)
 
 	def _request(self, method: RequestMethods, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
-		url = urljoin(self.baseURL, route)
+		url = urljoin(self._baseURL, route)
 		headers = {'Accept': Client._DEFAULT_FORMAT, 'Content-Type': Client._DEFAULT_FORMAT}
 
 		try:
-			response = getattr(requests, method.value)(url=url, json=body, params=params, headers=headers, auth=self.clientAuth)
+			response = getattr(requests, method.value)(url=url, json=body, params=params, headers=headers, auth=self._clientAuth)
 		except requests.ConnectionError as connectionError:
 			raise Dome9APIException(f'{url} {connectionError}')
 
-		if response.status_code not in range(200, 299):
+		if response.status_code not in Client._HTTP_OK_RANGE:
 			raise Dome9APIException(message=response.reason, code=response.status_code, content=response.content)
 
 		if response.content:
