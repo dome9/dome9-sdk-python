@@ -1,3 +1,10 @@
+from typing import Any, List, Dict, Set, Optional
+
+from dome9 import OperationModes
+from dome9.client import Client
+from dome9.statics import Statics
+
+
 def getAllUsers(self) -> List[Any]:
 	"""Get all Dome9 users.
 
@@ -10,7 +17,7 @@ def getAllUsers(self) -> List[Any]:
 
 	route = 'user'
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 def getCloudAccounts(self) -> Dict[str, Any]:
@@ -25,7 +32,7 @@ def getCloudAccounts(self) -> Dict[str, Any]:
 
 	route = 'CloudAccounts'
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 def getCloudAccountId(self, cloudAccountId: str) -> Dict[str, Any]:
@@ -46,7 +53,7 @@ def getCloudAccountId(self, cloudAccountId: str) -> Dict[str, Any]:
 
 	route = 'CloudAccounts/{}'.format(cloudAccountId)
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 def getCloudAccountRegions(self, cloudAccountId: str) -> Set[str]:
@@ -82,7 +89,7 @@ def getRoles(self) -> List[Any]:
 
 	route = 'role'
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 def onBoardingAwsAccount(self,
@@ -119,7 +126,7 @@ def onBoardingAwsAccount(self,
 		'fullProtection': fullProtection,
 		'allowReadOnly': allowReadOnly
 	}
-	self._request(method=Client._RequestMethods.POST, route=route, body=body)
+	self._request(method=Client.RequestMethods.POST, route=route, body=body)
 
 
 def onBoardingAzureAccount(self,
@@ -159,7 +166,7 @@ def onBoardingAzureAccount(self,
 		},
 		'operationMode': operationMode.value,
 	}
-	self._request(method=Client._RequestMethods.POST, route=route, body=body)
+	self._request(method=Client.RequestMethods.POST, route=route, body=body)
 
 
 def updateAwsAccountCredentials(self,
@@ -195,7 +202,7 @@ def updateAwsAccountCredentials(self,
 		'type': 'RoleBased'
 		}
 	}
-	self._request(method=Client._RequestMethods.PUT, route=route, body=body)
+	self._request(method=Client.RequestMethods.PUT, route=route, body=body)
 
 
 def updateOrganizationalUnitForAWSCloudAccount(self, cloudAccountId: str, organizationalUnitId: Optional[str] = None) -> Dict[str, Any]:
@@ -219,7 +226,7 @@ def updateOrganizationalUnitForAWSCloudAccount(self, cloudAccountId: str, organi
 	route = 'cloudaccounts/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
 
-	return self._request(method=Client._RequestMethods.PUT, route=route, body=body)
+	return self._request(method=Client.RequestMethods.PUT, route=route, body=body)
 
 
 def updateOrganizationalUnitForAzureCloudAccount(self, cloudAccountId: str, organizationalUnitId: Optional[str] = None) -> Dict[str, Any]:
@@ -243,7 +250,7 @@ def updateOrganizationalUnitForAzureCloudAccount(self, cloudAccountId: str, orga
 	route = 'AzureCloudAccount/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
 
-	return self._request(method=Client._RequestMethods.PUT, route=route, body=body)
+	return self._request(method=Client.RequestMethods.PUT, route=route, body=body)
 
 
 def updateRoleById(self,
@@ -284,7 +291,7 @@ def updateRoleById(self,
 		}
 	}
 	route = 'Role/{}'.format(roleId)
-	self._request(method=Client._RequestMethods.PUT, route=route, body=body)
+	self._request(method=Client.RequestMethods.PUT, route=route, body=body)
 
 
 def getRoleById(self, roleId: int) -> Dict[str, Any]:
@@ -305,7 +312,7 @@ def getRoleById(self, roleId: int) -> Dict[str, Any]:
 
 	route = 'Role/{}'.format(roleId)
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 # doesn't exist in documentation
@@ -361,7 +368,7 @@ def updateCloudAccountID(self,
 		'type': 'RoleBased'
 		}
 	}
-	self._request(method=Client._RequestMethods.PATCH, route=route, body=body)
+	self._request(method=Client.RequestMethods.PATCH, route=route, body=body)
 
 
 def getCloudTrail(self) -> List[Any]:
@@ -376,7 +383,7 @@ def getCloudTrail(self) -> List[Any]:
 
 	route = 'CloudTrail'
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 def getFlatOrganizationalUnits(self) -> List[Any]:
@@ -391,7 +398,7 @@ def getFlatOrganizationalUnits(self) -> List[Any]:
 
 	route = 'organizationalunit/GetFlatOrganizationalUnits'
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 # doesn't exist in documentation
@@ -405,7 +412,7 @@ def getAwsSecurityGroups(self):
 		Dome9APIException: API command failed.
 	"""
 
-	return self._request(method=Client._RequestMethods.GET, route='view/awssecuritygroup/index')
+	return self._request(method=Client.RequestMethods.GET, route='view/awssecuritygroup/index')
 
 
 def getCloudSecurityGroup(self, cloudAccountId: str, regionId: Regions) -> List[Any]:
@@ -428,7 +435,7 @@ def getCloudSecurityGroup(self, cloudAccountId: str, regionId: Regions) -> List[
 	route = 'cloudsecuritygroup/{}'.format(cloudAccountId)
 	params = {'cloudAccountId': cloudAccountId, 'regionId': regionId.value}
 
-	return self._request(method=Client._RequestMethods.GET, route=route, params=params)
+	return self._request(method=Client.RequestMethods.GET, route=route, params=params)
 
 
 def getAllEntityFetchStatus(self, cloudAccountId: str) -> List[Any]:
@@ -450,7 +457,7 @@ def getAllEntityFetchStatus(self, cloudAccountId: str) -> List[Any]:
 	route = 'EntityFetchStatus'
 	params = {'cloudAccountId': cloudAccountId}
 
-	return self._request(method=Client._RequestMethods.GET, route=route, params=params)
+	return self._request(method=Client.RequestMethods.GET, route=route, params=params)
 
 
 def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
@@ -471,7 +478,7 @@ def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
 
 	route = 'cloudaccounts/{}/SyncNow'.format(cloudAccountId)
 
-	return self._request(method=Client._RequestMethods.POST, route=route)
+	return self._request(method=Client.RequestMethods.POST, route=route)
 
 
 def setCloudSecurityGroupProtectionMode(self, securityGroupId: str, protectionMode: ProtectionModes) -> None:
@@ -490,7 +497,7 @@ def setCloudSecurityGroupProtectionMode(self, securityGroupId: str, protectionMo
 
 	route = 'cloudsecuritygroup/{}/protection-mode'.format(securityGroupId)
 	body = {'protectionMode': protectionMode}
-	self._request(method=Client._RequestMethods.POST, route=route, body=body)
+	self._request(method=Client.RequestMethods.POST, route=route, body=body)
 
 
 def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountType: CloudAccountTypes, name: Optional[str],
@@ -550,7 +557,7 @@ def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountTy
 		}
 	}
 
-	return self._request(method=Client._RequestMethods.POST, route=route, body=body)
+	return self._request(method=Client.RequestMethods.POST, route=route, body=body)
 
 
 def getAccountBundles(self) -> List[Any]:
@@ -565,7 +572,7 @@ def getAccountBundles(self) -> List[Any]:
 
 	route = 'CompliancePolicy'
 
-	return self._request(method=Client._RequestMethods.GET, route=route)
+	return self._request(method=Client.RequestMethods.GET, route=route)
 
 
 def updateRuleBundleById(self, bundleId: int, rules: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -589,7 +596,7 @@ def updateRuleBundleById(self, bundleId: int, rules: List[Dict[str, Any]]) -> Di
 	route = 'CompliancePolicy'
 	body = {'id': bundleId, 'rules': rules}
 
-	return self._request(method=Client._RequestMethods.PUT, route=route, body=body)
+	return self._request(method=Client.RequestMethods.PUT, route=route, body=body)
 
 
 def acquireAwsLease(self,
@@ -647,4 +654,4 @@ def acquireAwsLease(self,
 		'name': name,
 		'user': user
 	}
-	self._request(method=Client._RequestMethods.POST, route=route, body=body)
+	self._request(method=Client.RequestMethods.POST, route=route, body=body)
