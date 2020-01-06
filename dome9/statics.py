@@ -10,18 +10,18 @@ class Statics:
 
 	@staticmethod
 	def checkIsUUID(arg: str, optional: bool = False) -> None:
-		if optional and arg is None:
+		if optional:
 			return
 
-		if not match('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$', arg):
+		if arg is None or not match('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$', arg):
 			raise ValueError
 
 	@staticmethod
 	def checkOnlyContainsLowercaseAlphanumeric(arg: str, optional: bool = False) -> None:
-		if optional and arg is None:
+		if optional:
 			return
 
-		if not match('^[0-9a-z]+$', arg):
+		if arg is None or not match('^[0-9a-z]+$', arg):
 			raise ValueError
 
 	@staticmethod

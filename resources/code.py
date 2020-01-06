@@ -1,6 +1,6 @@
 from typing import Any, List, Dict, Set, Optional
 
-from dome9 import OperationModes
+from dome9.consts import OperationModes, AwsRegions, ProtectionModes, CloudAccountTypes, Protocols
 from dome9.client import Client
 from dome9.statics import Statics
 
@@ -415,7 +415,7 @@ def getAwsSecurityGroups(self):
 	return self._request(method=Client.RequestMethods.GET, route='view/awssecuritygroup/index')
 
 
-def getCloudSecurityGroup(self, cloudAccountId: str, regionId: Regions) -> List[Any]:
+def getCloudSecurityGroup(self, cloudAccountId: str, regionId: AwsRegions) -> List[Any]:
 	"""Get AWS security groups for a specific cloud account and region.
 
 	Args:
@@ -502,7 +502,7 @@ def setCloudSecurityGroupProtectionMode(self, securityGroupId: str, protectionMo
 
 def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountType: CloudAccountTypes, name: Optional[str],
 	description: Optional[str], isCft: Optional[bool], dome9CloudAccountId: Optional[str],
-	externalCloudAccountId: Optional[str], region: Optional[Regions], cloudNetwork: Optional[str],
+	externalCloudAccountId: Optional[str], region: Optional[AwsRegions], cloudNetwork: Optional[str],
 	rootName: Optional[str], params: Optional[List[Dict]], files: Optional[List[Dict]]) -> Dict[str, Any]:
 	"""Run an assessment on a cloud environment using a bundle (V2).
 
@@ -607,7 +607,7 @@ def acquireAwsLease(self,
 	portTo: Optional[int] = None,
 	protocol: Optional[Protocols] = None,
 	duration: Optional[str] = None,
-	region: Optional[Regions] = None,
+	region: Optional[AwsRegions] = None,
 	accountId: Optional[int] = None,
 	name: Optional[str] = None,
 	user: Optional[str] = None) -> None:
