@@ -52,6 +52,12 @@ class Client:
 				classInstance = classObject(client=self)
 				setattr(self, moduleName, classInstance)
 
+	# Prevent to update client's attributes (resources)
+	def __setattr__(self, name, value):
+		if hasattr(self, name):
+			raise Exception('can not update client attributes (resources)')
+		super().__setattr__(name, value)
+
 
 class Config:
 

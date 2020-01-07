@@ -22,22 +22,22 @@ class Dome9Resource:
 		self.loggerController = LoggerController(config=self._client._config)
 
 	# crud methods
-	def get(self, route: str, body=None):
+	def _get(self, route: str, body=None):
 		return self.__request(method=RequestMethods.GET, route=route, body=body)
 
-	def post(self, route: str, body=None):
+	def _post(self, route: str, body=None):
 		return self.__request(method=RequestMethods.POST, route=route, body=body)
 
-	def patch(self, route: str, body=None):
+	def _patch(self, route: str, body=None):
 		return self.__request(method=RequestMethods.PATCH, route=route, body=body)
 
-	def put(self, route: str, body=None):
+	def _put(self, route: str, body=None):
 		return self.__request(method=RequestMethods.PUT, route=route, body=body)
 
-	def delete(self, route: str, body=None):
+	def _delete(self, route: str, body=None):
 		return self.__request(method=RequestMethods.DELETE, route=route, body=body)
 
-	@logger.catch
+	@logger.catch(reraise=True)
 	def __request(self, method: str, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
 		url = urljoin(self._client._config.baseURL, route)
 

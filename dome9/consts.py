@@ -1,9 +1,8 @@
 #!/usr/bin/env python
+from dome9.generics import Enum
 
-from enum import Enum
 
-
-class ConfigConsts:
+class ConfigConsts(Enum):
 	DOME9_ACCESS_ID = 'DOME9_ACCESS_ID'
 	DOME9_SECRET_KEY = 'DOME9_SECRET_KEY'
 	DEFAULT_BASE_URL = 'https://api.dome9.com/v2/'
@@ -14,17 +13,17 @@ class ConfigConsts:
 	DEFAULT_LOGGER_ROTATION = '100 MB'
 
 
-class ClientConsts:
+class ClientConsts(Enum):
 	RESOURCES = 'resources'
 	PY_EXTENSION = '.py'
 
 
-class LoggerConsts:
+class LoggerConsts(Enum):
 	LOG_LEVEL = 'LOG_LEVEL'
 	LOG_FILE_PATH = 'LOG_FILE_PATH'
 
 
-class RequestMethods:
+class RequestMethods(Enum):
 	GET = 'get'
 	POST = 'post'
 	PATCH = 'patch'
@@ -32,29 +31,29 @@ class RequestMethods:
 	DELETE = 'delete'
 
 
-class SuccessCodes:
+class SuccessCodes(Enum):
 	MIN = 200
 	MAX = 299
 
 
 class AwsRegions(Enum):
-	OREGON = 'us-west-2'
-	NORTH_CALIFORNIA = 'us-west-1'
-	OHIO = 'us-east-2'
-	NORTH_VIRGINIA = 'us-east-1'
-	MUMBAI = 'ap-south-1'
-	SEOUL = 'ap-northeast-2'
-	SINGAPORE = 'ap-southeast-1'
-	SYDNEY = 'ap-southeast-2'
-	TOKYO = 'ap-northeast-1'
-	CANADA = 'ca-central-1'
-	FRANKFURT = 'eu-central-1'
-	IRELAND = 'eu-west-1'
-	LONDON = 'eu-west-2'
-	PARIS = 'eu-west-3'
-	# HONG_KONG        = 'ap-east-1'  # known bug (the security token included in the request is invalid)
-	STOCKHOLM = 'eu-north-1'
-	SAO_PAULO = 'sa-east-1'
+	OREGON = 'us_west_2'
+	NORTH_CALIFORNIA = 'us_west_1'
+	OHIO = 'us_east_2'
+	NORTH_VIRGINIA = 'us_east_1'
+	MUMBAI = 'ap_south_1'
+	SEOUL = 'ap_northeast_2'
+	SINGAPORE = 'ap_southeast_1'
+	SYDNEY = 'ap_southeast_2'
+	TOKYO = 'ap_northeast_1'
+	CANADA = 'ca_central_1'
+	FRANKFURT = 'eu_central_1'
+	IRELAND = 'eu_west_1'
+	LONDON = 'eu_west_2'
+	PARIS = 'eu_west_3'
+	# HONG_KONG        = 'ap_east_1'  # known bug (the security token included in the request is invalid)
+	STOCKHOLM = 'eu_north_1'
+	SAO_PAULO = 'sa_east_1'
 
 
 class OperationModes(Enum):
