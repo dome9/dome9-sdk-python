@@ -4,9 +4,9 @@ from urllib.parse import urljoin
 import requests
 from loguru import logger
 
-from dome9 import Dome9APIException
+from dome9.exceptions import Dome9APIException
 from dome9.client import Client
-from dome9.consts import RequestMethods
+from dome9.consts import RequestMethods, SuccessCodes
 from dome9.logger import LoggerController
 
 
@@ -53,7 +53,7 @@ class Dome9Resource:
 
 		logger.debug(f'response received: {response}')
 
-		if response.status_code not in range(200, 299):
+		if response.status_code not in range(SuccessCodes.MIN, SuccessCodes.MAX):
 			raise Dome9APIException(message=response.reason, code=response.status_code, content=response.content)
 
 		if response.content:

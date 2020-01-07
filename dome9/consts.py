@@ -6,10 +6,17 @@ from enum import Enum
 class ConfigConsts:
 	DOME9_ACCESS_ID = 'DOME9_ACCESS_ID'
 	DOME9_SECRET_KEY = 'DOME9_SECRET_KEY'
-	DEFAULT_FORMAT = 'application/json'
 	DEFAULT_BASE_URL = 'https://api.dome9.com/v2/'
+	DEFAULT_FORMAT = 'application/json'
+	ACCEPT = 'Accept'
+	CONTENT_TYPE = 'Content-Type'
 	DEFAULT_LOG_LEVEL = 'INFO'
 	DEFAULT_LOGGER_ROTATION = '100 MB'
+
+
+class ClientConsts:
+	RESOURCES = 'resources'
+	PY_EXTENSION = '.py'
 
 
 class LoggerConsts:
@@ -23,6 +30,11 @@ class RequestMethods:
 	PATCH = 'patch'
 	PUT = 'put'
 	DELETE = 'delete'
+
+
+class SuccessCodes:
+	MIN = 200
+	MAX = 299
 
 
 class AwsRegions(Enum):

@@ -6,7 +6,7 @@ from os.path import isfile
 from requests.auth import HTTPBasicAuth
 from loguru import logger
 
-from dome9.consts import ConfigConsts, LoggerConsts
+from dome9.consts import ConfigConsts, LoggerConsts, ClientConsts
 
 from dome9.statics import Statics
 
@@ -39,13 +39,12 @@ class Client:
 			loggerRotation=loggerRotation)
 
 		# set all resources as client's attributes
-		for file in listdir('resources'):
-			if file.endswith('.py') and isfile(f'resources/{file}'):
-				# TODO: OS Basename
-				moduleName = path.splitext(file)[0]
+		for file in listdir(ClientConsts.RESOURCES):
+			if file.endswith(ClientConsts.PY_EXTENSION) and isfile(f'{ClientConsts.RESOURCES}/{file}'):
+				moduleName, _ = path.splitext(file)
 				className = ''.join(x.title() for x in moduleName.split('_'))
 				try:
-					classObject = getattr(import_module(f'resources.{moduleName}'), className)
+					classObject = getattr(import_module(f'{ClientConsts.RESOURCES}.{moduleName}'), className)
 				except AttributeError as e:
 					logger.warning(e)
 					continue
@@ -87,7 +86,7 @@ class Config:
 		self.loggerFilePath = getenv(LoggerConsts.LOG_FILE_PATH, loggerPath)
 		self.loggerRotation = loggerRotation
 
-		self.headers = {'Accept': ConfigConsts.DEFAULT_FORMAT, 'Content-Type': ConfigConsts.DEFAULT_FORMAT}
+		self.headers = {ConfigConsts.ACCEPT: ConfigConsts.DEFAULT_FORMAT, ConfigConsts.CONTENT_TYPE: ConfigConsts.DEFAULT_FORMAT}
 
 		self.baseURL = baseURL if baseURL else ConfigConsts.DEFAULT_BASE_URL
 		self.clientAuth = HTTPBasicAuth(username=accessID, password=secretKey)
