@@ -1,6 +1,5 @@
-import io
-
 from setuptools import setup, find_packages
+from dome9 import __version__
 
 
 def readme():
@@ -8,13 +7,9 @@ def readme():
 		return md.read()
 
 
-about = {}
-with io.open('dome9/_version.py', 'r', encoding='utf-8') as f:
-	exec (f.read(), about)
-
 setup(name='dome9',
 	description='Dome9 sdk module',
-	version=about['__version__'],
+	version=__version__,
 	long_description=readme(),
 	author='dome9 sre team',
 	author_email='d9ops@checkpoint.com',
@@ -22,13 +17,10 @@ setup(name='dome9',
 	url='git+https://github.com/Dome9/dome9-sdk-python',
 	packages=find_packages(),
 	include_package_data=True,
-	install_requires=[
-		'requests',
-		'loguru'
-	],
+	install_requires=['requests', 'loguru'],
 	zip_safe=False)
 project_urls = {
-			   "Repository"   : "https://github.com/Dome9/dome9-sdk-python",
-			   "Bug Reports"  : "https://github.com/Dome9/dome9-sdk-python/issues",
-			   "Documentation": "https://github.com/Dome9/dome9-sdk-python",
-		   },
+	"Repository": "https://github.com/Dome9/dome9-sdk-python",
+	"Bug Reports": "https://github.com/Dome9/dome9-sdk-python/issues",
+	"Documentation": "https://github.com/Dome9/dome9-sdk-python",
+},

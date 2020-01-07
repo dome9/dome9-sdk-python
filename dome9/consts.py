@@ -3,7 +3,28 @@
 from enum import Enum
 
 
-class RequestMethods(Enum):
+class ConfigConsts:
+	DOME9_ACCESS_ID = 'DOME9_ACCESS_ID'
+	DOME9_SECRET_KEY = 'DOME9_SECRET_KEY'
+	DEFAULT_BASE_URL = 'https://api.dome9.com/v2/'
+	DEFAULT_FORMAT = 'application/json'
+	ACCEPT = 'Accept'
+	CONTENT_TYPE = 'Content-Type'
+	DEFAULT_LOG_LEVEL = 'INFO'
+	DEFAULT_LOGGER_ROTATION = '100 MB'
+
+
+class ClientConsts:
+	RESOURCES = 'resources'
+	PY_EXTENSION = '.py'
+
+
+class LoggerConsts:
+	LOG_LEVEL = 'LOG_LEVEL'
+	LOG_FILE_PATH = 'LOG_FILE_PATH'
+
+
+class RequestMethods:
 	GET = 'get'
 	POST = 'post'
 	PATCH = 'patch'
@@ -11,32 +32,29 @@ class RequestMethods(Enum):
 	DELETE = 'delete'
 
 
-# need to change into names
-class Regions(Enum):
-	US_EAST_1 = 'us_east_1'
-	US_WEST_1 = 'us_west_1'
-	EU_WEST_1 = 'eu_west_1'
-	AP_SOUTHEAST_1 = 'ap_southeast_1'
-	AP_NORTHEAST_1 = 'ap_northeast_1'
-	US_WEST_2 = 'us_west_2'
-	SA_EAST_1 = 'sa_east_1'
-	AZ_1_REGION_A_GEO_1 = 'az_1_region_a_geo_1'
-	AZ_2_REGION_A_GEO_1 = 'az_2_region_a_geo_1'
-	AZ_3_REGION_A_GEO_1 = 'az_3_region_a_geo_1'
-	AP_SOUTHEAST_2 = 'ap_southeast_2'
-	MELLANOX_REGION = 'mellanox_region'
-	US_GOV_WEST_1 = 'us_gov_west_1'
-	EU_CENTRAL_1 = 'eu_central_1'
-	AP_NORTHEAST_2 = 'ap_northeast_2'
-	AP_SOUTH_1 = 'ap_south_1'
-	US_EAST_2 = 'us_east_2'
-	CA_CENTRAL_1 = 'ca_central_1'
-	EU_WEST_2 = 'eu_west_2'
-	EU_WEST_3 = 'eu_west_3'
-	EU_NORTH_1 = 'eu_north_1'
-	CN_NORTH_1 = 'cn_north_1'
-	CN_NORTHWEST_1 = 'cn_northwest_1'
-	US_GOV_EAST_1 = 'us_gov_east_1'
+class SuccessCodes:
+	MIN = 200
+	MAX = 299
+
+
+class AwsRegions(Enum):
+	OREGON = 'us-west-2'
+	NORTH_CALIFORNIA = 'us-west-1'
+	OHIO = 'us-east-2'
+	NORTH_VIRGINIA = 'us-east-1'
+	MUMBAI = 'ap-south-1'
+	SEOUL = 'ap-northeast-2'
+	SINGAPORE = 'ap-southeast-1'
+	SYDNEY = 'ap-southeast-2'
+	TOKYO = 'ap-northeast-1'
+	CANADA = 'ca-central-1'
+	FRANKFURT = 'eu-central-1'
+	IRELAND = 'eu-west-1'
+	LONDON = 'eu-west-2'
+	PARIS = 'eu-west-3'
+	# HONG_KONG        = 'ap-east-1'  # known bug (the security token included in the request is invalid)
+	STOCKHOLM = 'eu-north-1'
+	SAO_PAULO = 'sa-east-1'
 
 
 class OperationModes(Enum):
@@ -69,7 +87,6 @@ class CloudVendors(Enum):
 	KUBERNETES = 'kubernetes'
 
 
-# protocols of what? check with erez.b
 class Protocols(Enum):
 	ALL = 'ALL'
 	HOPOPT = 'HOPOPT'
