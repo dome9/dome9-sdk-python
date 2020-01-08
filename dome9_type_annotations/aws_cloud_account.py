@@ -35,3 +35,11 @@ class aws_cloud_account(BaseAwsCloudAccount):
 	@classmethod
 	def delete(cls, awsCloudAccountID: str):
 		pass
+
+	@classmethod
+	def attachIAMSafeToAWSCloudAccount(cls, body: AttachIamSafe):
+		pass
+
+	@classmethod
+	def detachIAMSafeToAWSCloudAccount(cls, awsCloudAccountID: str):
+		pass

@@ -15,6 +15,7 @@ class AwsCloudAccountConsts(Enum):
 	ORGANIZATIONAL_UNIT_ROUTE = 'organizationalUnit'
 	NAME_ROUTE = 'name'
 	CREDENTIALS_ROUTE = 'credentials'
+	IAM_SAFE_ROUTE = 'iam-safe'
 
 
 class AwsCloudAccountCredentialsConsts(Enum):
@@ -134,6 +135,32 @@ class AwsCloudAccountUpdateCredentials(BaseDataclassRequest):
 	data: AwsCloudAccountCredentials
 
 
+@dataclass
+class IAMSafeData:
+	"""IAM safe data
+
+		Args:
+			awsGroupArn(str): (Required) AWS group arn.
+			awsPolicyArn(str): (Required) AWS policy arn.
+
+	"""
+	awsGroupArn: str
+	awsPolicyArn: str
+
+
+@dataclass
+class AttachIamSafe(BaseDataclassRequest):
+	"""IAMSafeData
+
+		Args:
+			cloudAccountID(str): (Required) AWS cloud account to attach IAM safe to it.
+			data(str): (Required) IAM safe data
+
+	"""
+	cloudAccountID: str
+	data: IAMSafeData
+
+
 class AwsCloudAccount(Dome9Resource):
 
 	def __init__(self, client: Client):
@@ -167,4 +194,13 @@ class AwsCloudAccount(Dome9Resource):
 
 	def delete(self, awsCloudAccountID: str):
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}'
+		return self._delete(route=route)
+
+	# attach iam safe to cloud account
+	def attachIAMSafeToAWSCloudAccount(self, body: AttachIamSafe):
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
+		return self._put(route=route, body=body)
+
+	def detachIAMSafeToAWSCloudAccount(self, awsCloudAccountID: str):
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
 		return self._delete(route=route)
