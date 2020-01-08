@@ -19,7 +19,7 @@ class Dome9Resource:
 			client (Client): D9 client
 		"""
 		self._client = client
-		self.loggerController = LoggerController(config=self._client._config)
+		self.loggerController = LoggerController(config=client._config)
 
 	# crud methods
 	def _get(self, route: str, body=None):
@@ -54,7 +54,9 @@ class Dome9Resource:
 		logger.debug(f'response received: {response}')
 
 		if response.status_code not in range(SuccessCodes.MIN.value, SuccessCodes.MAX.value):
-			raise Dome9APIException(message=response.reason, code=response.status_code, content=response.content)
+			exception = Dome9APIException(message=response.reason, code=response.status_code, content=response.content)
+			logger.exception(exception)
+			raise exception
 
 		if response.content:
 			try:
@@ -63,4 +65,6 @@ class Dome9Resource:
 				return jsonResponse
 
 			except ValueError as valueError:
-				raise Dome9APIException(message=str(valueError), code=response.status_code, content=response.content)
+				exception = Dome9APIException(message=str(valueError), code=response.status_code, content=response.content)
+				logger.exception(exception)
+				raise exception
