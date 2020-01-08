@@ -24,6 +24,15 @@ class AwsCloudAccountCredentialsConsts(Enum):
 
 @dataclass
 class AwsCloudAccountCredentials:
+	"""AWS cloud account credentials
+
+		Args:
+			arn (str): (Required) AWS Role ARN (to be assumed by Dome9)
+			secret (str): (Required) The AWS role External ID (Dome9 will have to use this secret in order to assume the role)
+			type (str): (Required) The cloud account onboarding method. Set to "RoleBased".
+			apiKey (str): (Optional) aws cloud account apiKey.
+
+	"""
 	arn: str
 	secret: str
 	type: str = AwsCloudAccountCredentialsConsts.ROLE_BASED_TYPE.value
@@ -38,21 +47,31 @@ class AwsCloudAccountCredentials:
 
 @dataclass
 class AwsCloudAccountRequest(BaseDataclassRequest):
+	"""AWS cloud account request
+
+		Args:
+			name (str): (Required) The name of AWS account in Dome9
+			credentials (AwsCloudAccountCredentials): (Required) The information needed for Dome9 System in order to connect to the AWS cloud account
+			organizationalUnitID (str): (Optional) The Organizational Unit that this cloud account will be attached to
+
+	"""
+
 	name: str
 	credentials: AwsCloudAccountCredentials
-	FullProtection: bool = None
-	allowReadOnly: bool = None
 	organizationalUnitID: str = None
-	organizationalUnitPath: str = None
-	organizationalUnitName: str = None
-	lambdaScanner: bool = None
 
 
 @dataclass
 class AwsCloudAccountNetSecRegion:
+	"""AWS cloud account net sec region
+
+		Args:
+			region (str): (Required) AWS region, in AWS format (e.g., "us-east-1")
+			newGroupBehavior (str): (Required) The network security configuration. Select "ReadOnly", "FullManage", or "Reset".
+
+	"""
 	region: str
 	newGroupBehavior: str
-	name: str = None
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
@@ -67,24 +86,50 @@ class AwsCloudAccountNetSecRegion:
 
 @dataclass
 class AwsCloudAccountUpdateName(BaseDataclassRequest):
+	"""AWS cloud account update name
+
+		Args:
+			cloudAccountID (str): (Required) AWS cloud account id
+			data (str): (Required) The desired name for aws cloud account
+
+	"""
 	cloudAccountID: str
-	# data is the name of the aws cloud account
 	data: str
 
 
 @dataclass
 class AwsCloudAccountUpdateConfig(BaseDataclassRequest):
+	"""AWS cloud account update config
+
+		Args:
+			cloudAccountID (str): (Required) AWS cloud account id
+			data (AwsCloudAccountNetSecRegion): (Required) AWS cloud account net sec region
+
+	"""
 	cloudAccountID: str
 	data: AwsCloudAccountNetSecRegion
 
 
 @dataclass
 class AwsCloudAccountUpdateOrganizationalUnitID(BaseDataclassRequest):
+	"""AWS cloud account update organizational unit id
+
+		Args:
+			organizationalUnitID (str): (Required) The desired organizational unit id to attach to
+
+	"""
 	organizationalUnitID: str
 
 
 @dataclass
 class AwsCloudAccountUpdateCredentials(BaseDataclassRequest):
+	"""AWS cloud account update credentials
+
+		Args:
+			cloudAccountId (str): (Required) (Required) AWS cloud account id
+			AwsCloudAccountCredentials (str): (Required) AWS cloud account credentials
+
+	"""
 	cloudAccountId: str
 	data: AwsCloudAccountCredentials
 
