@@ -1,5 +1,5 @@
 from resources.aws_cloud_account import AwsCloudAccount as BaseAwsCloudAccount, AwsCloudAccountUpdateCredentials, AwsCloudAccountUpdateOrganizationalUnitID, \
- AwsCloudAccountUpdateConfig, AwsCloudAccountUpdateName, AwsCloudAccountRequest
+ AwsCloudAccountUpdateConfig, AwsCloudAccountUpdateName, AwsCloudAccountRequest, AttachIamSafe
 
 
 class aws_cloud_account(BaseAwsCloudAccount):
