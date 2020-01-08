@@ -1,14 +1,15 @@
-from resources.aws_cloud_account import AwsCloudAccount as BaseAwsCloudAccount
+from resources.aws_cloud_account import AwsCloudAccount as BaseAwsCloudAccount, AwsCloudAccountUpdateCredentials, AwsCloudAccountUpdateOrganizationalUnitID, \
+ AwsCloudAccountUpdateConfig, AwsCloudAccountUpdateName, AwsCloudAccountRequest
 
 
 class aws_cloud_account(BaseAwsCloudAccount):
 
 	@classmethod
-	def create(cls, body):
+	def create(cls, body: AwsCloudAccountRequest):
 		pass
 
 	@classmethod
-	def get(cls, awsCloudAccountID):
+	def get(cls, awsCloudAccountID: str):
 		pass
 
 	@classmethod
@@ -16,21 +17,21 @@ class aws_cloud_account(BaseAwsCloudAccount):
 		pass
 
 	@classmethod
-	def updateName(cls, body):
+	def updateName(cls, body: AwsCloudAccountUpdateName):
 		pass
 
 	@classmethod
-	def updateRegionConfig(cls, body):
+	def updateRegionConfig(cls, body: AwsCloudAccountUpdateConfig):
 		pass
 
 	@classmethod
-	def updateOrganizationalID(cls, awsCloudAccountID, body):
+	def updateOrganizationalID(cls, awsCloudAccountID: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
 		pass
 
 	@classmethod
-	def updateCredentials(cls, body):
+	def updateCredentials(cls, body: AwsCloudAccountUpdateCredentials):
 		pass
 
 	@classmethod
-	def delete(cls, awsCloudAccountID):
+	def delete(cls, awsCloudAccountID: str):
 		pass

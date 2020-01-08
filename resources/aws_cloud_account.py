@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from enum import Enum
 
 from loguru import logger
 from dome9.client import Client
@@ -6,13 +7,12 @@ from dome9.consts import AwsRegions, NewGroupBehaviors
 from dome9.dome9_base_dataclass import BaseDataclassRequest
 
 from dome9.dome9_resource import Dome9Resource
-from dome9.generics import Enum
 
 
 class AwsCloudAccountConsts(Enum):
 	MAIN_ROUTE = 'CloudAccounts'
 	REGION_CONFIG_ROUTE = 'region-conf'
-	ORGANIZATIONAL_UNIT_ROUTE = "organizationalUnit"
+	ORGANIZATIONAL_UNIT_ROUTE = 'organizationalUnit'
 	NAME_ROUTE = 'name'
 	CREDENTIALS_ROUTE = 'credentials'
 
@@ -26,12 +26,12 @@ class AwsCloudAccountCredentialsConsts(Enum):
 class AwsCloudAccountCredentials:
 	arn: str
 	secret: str
-	type: str = AwsCloudAccountCredentialsConsts.ROLE_BASED_TYPE
+	type: str = AwsCloudAccountCredentialsConsts.ROLE_BASED_TYPE.value
 	apiKey: str = None
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
-		typeOptions = AwsCloudAccountCredentialsConsts.values()
+		typeOptions = [typeOption.value for typeOption in AwsCloudAccountCredentialsConsts]
 		if self.type not in typeOptions:
 			raise ValueError(f'type must be one of the following {typeOptions}')
 
@@ -95,31 +95,31 @@ class AwsCloudAccount(Dome9Resource):
 		super().__init__(client)
 
 	def create(self, body: AwsCloudAccountRequest):
-		return self._post(route=AwsCloudAccountConsts.MAIN_ROUTE, body=body)
+		return self._post(route=AwsCloudAccountConsts.MAIN_ROUTE.value, body=body)
 
 	def get(self, awsCloudAccountID: str):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE}/{awsCloudAccountID}'
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}'
 		return self._get(route=route)
 
 	def getAll(self):
-		return self._get(route=AwsCloudAccountConsts.MAIN_ROUTE)
+		return self._get(route=AwsCloudAccountConsts.MAIN_ROUTE.value)
 
 	def updateName(self, body: AwsCloudAccountUpdateName):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE}/{AwsCloudAccountConsts.NAME_ROUTE}'
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.NAME_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def updateRegionConfig(self, body: AwsCloudAccountUpdateConfig):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE}/{AwsCloudAccountConsts.REGION_CONFIG_ROUTE}'
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.REGION_CONFIG_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def updateOrganizationalID(self, awsCloudAccountID: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE}/{awsCloudAccountID}/{AwsCloudAccountConsts.ORGANIZATIONAL_UNIT_ROUTE}'
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}/{AwsCloudAccountConsts.ORGANIZATIONAL_UNIT_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def updateCredentials(self, body: AwsCloudAccountUpdateCredentials):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE}/{AwsCloudAccountConsts.CREDENTIALS_ROUTE}'
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.CREDENTIALS_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def delete(self, awsCloudAccountID: str):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE}/{awsCloudAccountID}'
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}'
 		return self._delete(route=route)

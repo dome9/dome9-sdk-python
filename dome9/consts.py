@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from dome9.generics import Enum
+from enum import Enum
 
 
 class ConfigConsts(Enum):

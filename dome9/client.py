@@ -20,10 +20,10 @@ class Client:
 	def __init__(self,
 		accessID: str = None,
 		secretKey: str = None,
-		baseURL: str = ConfigConsts.DEFAULT_BASE_URL,
+		baseURL: str = ConfigConsts.DEFAULT_BASE_URL.value,
 		loggerPath: str = None,
-		loggerLevel: str = ConfigConsts.DEFAULT_LOG_LEVEL,
-		loggerRotation: str = ConfigConsts.DEFAULT_LOGGER_ROTATION):
+		loggerLevel: str = ConfigConsts.DEFAULT_LOG_LEVEL.value,
+		loggerRotation: str = ConfigConsts.DEFAULT_LOGGER_ROTATION.value):
 		"""initializes a d9 SDK object.
 
 		Args:
@@ -39,12 +39,12 @@ class Client:
 			loggerRotation=loggerRotation)
 
 		# set all resources as client's attributes
-		for file in listdir(ClientConsts.RESOURCES):
-			if file.endswith(ClientConsts.PY_EXTENSION) and isfile(f'{ClientConsts.RESOURCES}/{file}'):
+		for file in listdir(ClientConsts.RESOURCES.value):
+			if file.endswith(ClientConsts.PY_EXTENSION.value) and isfile(f'{ClientConsts.RESOURCES.value}/{file}'):
 				moduleName, _ = path.splitext(file)
-				className = ''.join(x.title() for x in moduleName.split('_'))
+				className = ''.join(word.title() for word in moduleName.split('_'))
 				try:
-					classObject = getattr(import_module(f'{ClientConsts.RESOURCES}.{moduleName}'), className)
+					classObject = getattr(import_module(f'{ClientConsts.RESOURCES.value}.{moduleName}'), className)
 				except AttributeError as e:
 					logger.warning(e)
 					continue
@@ -52,10 +52,11 @@ class Client:
 				classInstance = classObject(client=self)
 				setattr(self, moduleName, classInstance)
 
-	# Prevent to update client's attributes (resources)
+	# prevent to update client's attributes (resources)
 	def __setattr__(self, name, value):
 		if hasattr(self, name):
-			raise Exception('can not update client attributes (resources)')
+			raise Exception(f'can not update client attributes {name}')
+
 		super().__setattr__(name, value)
 
 
@@ -66,8 +67,8 @@ class Config:
 		secretKey: str,
 		baseURL: str = None,
 		loggerPath: str = None,
-		loggerLevel: str = ConfigConsts.DEFAULT_LOG_LEVEL,
-		loggerRotation: str = ConfigConsts.DEFAULT_LOGGER_ROTATION):
+		loggerLevel: str = ConfigConsts.DEFAULT_LOG_LEVEL.value,
+		loggerRotation: str = ConfigConsts.DEFAULT_LOGGER_ROTATION.value):
 		"""d9 client configuration.
 
 		Args:
@@ -79,20 +80,23 @@ class Config:
 			loggerRotation (str): Logger rotation. Defaults to 100 MB
 		"""
 		if not accessID:
-			accessID = environ[ConfigConsts.DOME9_ACCESS_ID]
+			accessID = environ[ConfigConsts.DOME9_ACCESS_ID.value]
 
 		if not secretKey:
-			secretKey = environ[ConfigConsts.DOME9_SECRET_KEY]
+			secretKey = environ[ConfigConsts.DOME9_SECRET_KEY.value]
 
 		Statics.checkIsUUID(arg=accessID)
 		Statics.checkOnlyContainsLowercaseAlphanumeric(arg=secretKey)
 		Statics.checkIsHTTPURL(arg=baseURL)
 
-		self.loggerLevel = getenv(LoggerConsts.LOG_LEVEL, loggerLevel)
-		self.loggerFilePath = getenv(LoggerConsts.LOG_FILE_PATH, loggerPath)
+		self.loggerLevel = getenv(LoggerConsts.LOG_LEVEL.value, loggerLevel)
+		self.loggerFilePath = getenv(LoggerConsts.LOG_FILE_PATH.value, loggerPath)
 		self.loggerRotation = loggerRotation
 
-		self.headers = {ConfigConsts.ACCEPT: ConfigConsts.DEFAULT_FORMAT, ConfigConsts.CONTENT_TYPE: ConfigConsts.DEFAULT_FORMAT}
+		self.headers = {
+			ConfigConsts.ACCEPT.value: ConfigConsts.DEFAULT_FORMAT.value,
+			ConfigConsts.CONTENT_TYPE.value: ConfigConsts.DEFAULT_FORMAT.value
+		}
 
-		self.baseURL = baseURL if baseURL else ConfigConsts.DEFAULT_BASE_URL
+		self.baseURL = baseURL if baseURL else ConfigConsts.DEFAULT_BASE_URL.value
 		self.clientAuth = HTTPBasicAuth(username=accessID, password=secretKey)

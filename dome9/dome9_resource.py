@@ -23,24 +23,24 @@ class Dome9Resource:
 
 	# crud methods
 	def _get(self, route: str, body=None):
-		return self.__request(method=RequestMethods.GET, route=route, body=body)
+		return self.__request(method=RequestMethods.GET.value, route=route, body=body)
 
 	def _post(self, route: str, body=None):
-		return self.__request(method=RequestMethods.POST, route=route, body=body)
+		return self.__request(method=RequestMethods.POST.value, route=route, body=body)
 
 	def _patch(self, route: str, body=None):
-		return self.__request(method=RequestMethods.PATCH, route=route, body=body)
+		return self.__request(method=RequestMethods.PATCH.value, route=route, body=body)
 
 	def _put(self, route: str, body=None):
-		return self.__request(method=RequestMethods.PUT, route=route, body=body)
+		return self.__request(method=RequestMethods.PUT.value, route=route, body=body)
 
 	def _delete(self, route: str, body=None):
-		return self.__request(method=RequestMethods.DELETE, route=route, body=body)
+		return self.__request(method=RequestMethods.DELETE.value, route=route, body=body)
 
 	@logger.catch(reraise=True)
 	def __request(self, method: str, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
 		url = urljoin(self._client._config.baseURL, route)
-
+		body = body if not body else body.load()
 		try:
 			logger.debug(f'performing request: {method}, url: {url}, params: {params}, body: {body}')
 			response = getattr(requests, method)(url=url,
@@ -53,7 +53,7 @@ class Dome9Resource:
 
 		logger.debug(f'response received: {response}')
 
-		if response.status_code not in range(SuccessCodes.MIN, SuccessCodes.MAX):
+		if response.status_code not in range(SuccessCodes.MIN.value, SuccessCodes.MAX.value):
 			raise Dome9APIException(message=response.reason, code=response.status_code, content=response.content)
 
 		if response.content:
