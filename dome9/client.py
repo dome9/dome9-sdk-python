@@ -7,7 +7,6 @@ from requests.auth import HTTPBasicAuth
 from loguru import logger
 
 from dome9.consts import ConfigConsts, LoggerConsts, ClientConsts
-
 from dome9.statics import Statics
 
 
@@ -16,6 +15,13 @@ class Client:
 	@lru_cache()
 	def __new__(cls, **kwargs):
 		return super().__new__(cls)
+
+	# prevent to update client's attributes (resources)
+	def __setattr__(self, name, value):
+		if hasattr(self, name):
+			raise Exception(f'can not update client attributes {name}')
+
+		super().__setattr__(name, value)
 
 	def __init__(self,
 		accessID: str = None,
@@ -54,13 +60,6 @@ class Client:
 
 				classInstance = classObject(client=self)
 				setattr(self, moduleName, classInstance)
-
-	# prevent to update client's attributes (resources)
-	def __setattr__(self, name, value):
-		if hasattr(self, name):
-			raise Exception(f'can not update client attributes {name}')
-
-		super().__setattr__(name, value)
 
 
 class Config:

@@ -4,9 +4,9 @@ from enum import Enum
 from loguru import logger
 from dome9.client import Client
 from dome9.consts import AwsRegions, NewGroupBehaviors
-from dome9.dome9_base_dataclass import BaseDataclassRequest
+from dome9.base_dataclass import BaseDataclassRequest
 
-from dome9.dome9_resource import Dome9Resource
+from dome9.resource import Dome9Resource
 
 
 class AwsCloudAccountConsts(Enum):
