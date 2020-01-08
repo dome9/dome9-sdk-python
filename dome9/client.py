@@ -1,6 +1,6 @@
 from functools import lru_cache
 from importlib import import_module
-from os import listdir, getenv, path, environ
+from os import listdir, getenv, path, environ, chdir
 from os.path import isfile
 
 from requests.auth import HTTPBasicAuth
@@ -37,6 +37,9 @@ class Client:
 			loggerPath=loggerPath,
 			loggerLevel=loggerLevel,
 			loggerRotation=loggerRotation)
+
+		# change working directory to root project
+		chdir(f'{path.dirname(path.realpath(__file__))}/../')
 
 		# set all resources as client's attributes
 		for file in listdir(ClientConsts.RESOURCES.value):
