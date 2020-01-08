@@ -17,7 +17,7 @@ setup(name='dome9',
 	url='git+https://github.com/Dome9/dome9-sdk-python',
 	packages=find_packages(),
 	include_package_data=True,
-	install_requires=['requests', 'loguru'],
+	install_requires=['requests', 'loguru', 'dataclasses-json'],
 	zip_safe=False)
 project_urls = {
 	"Repository": "https://github.com/Dome9/dome9-sdk-python",
