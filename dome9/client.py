@@ -66,6 +66,7 @@ class Client:
 
 class Config:
 
+	@logger.catch(reraise=True)
 	def __init__(self,
 		accessID: str,
 		secretKey: str,
@@ -87,17 +88,13 @@ class Config:
 			try:
 				accessID = environ[ConfigConsts.DOME9_ACCESS_ID.value]
 			except KeyError:
-				errorMsg = '\"DOME9_ACCESS_ID\" environment variable not found'
-				logger.error(errorMsg)
-				raise Dome9AccessIDNotFoundException(errorMsg)
+				raise Dome9AccessIDNotFoundException(f'{ConfigConsts.DOME9_ACCESS_ID.value} was not provided')
 
 		if not secretKey:
 			try:
 				secretKey = environ[ConfigConsts.DOME9_SECRET_KEY.value]
 			except KeyError:
-				errorMsg = '\"DOME9_SECRET_KEY\" environment variable not found'
-				logger.error(errorMsg)
-				raise Dome9SecretKeyNotFoundException(errorMsg)
+				raise Dome9SecretKeyNotFoundException(f'{ConfigConsts.DOME9_SECRET_KEY.value} was not provided')
 
 		Statics.checkIsUUID(arg=accessID)
 		Statics.checkOnlyContainsLowercaseAlphanumeric(arg=secretKey)
