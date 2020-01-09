@@ -7,6 +7,8 @@ from requests.auth import HTTPBasicAuth
 from loguru import logger
 
 from dome9.consts import ConfigConsts, LoggerConsts, ClientConsts
+from dome9.exceptions import Dome9AccessIDNotFoundException, Dome9SecretKeyNotFoundException
+
 from dome9.statics import Statics
 
 
@@ -64,6 +66,7 @@ class Client:
 
 class Config:
 
+	@logger.catch(reraise=True)
 	def __init__(self,
 		accessID: str,
 		secretKey: str,
@@ -82,10 +85,16 @@ class Config:
 			loggerRotation (str): Logger rotation. Defaults to 100 MB
 		"""
 		if not accessID:
-			accessID = environ[ConfigConsts.DOME9_ACCESS_ID.value]
+			try:
+				accessID = environ[ConfigConsts.DOME9_ACCESS_ID.value]
+			except KeyError:
+				raise Dome9AccessIDNotFoundException(f'{ConfigConsts.DOME9_ACCESS_ID.value} was not provided')
 
 		if not secretKey:
-			secretKey = environ[ConfigConsts.DOME9_SECRET_KEY.value]
+			try:
+				secretKey = environ[ConfigConsts.DOME9_SECRET_KEY.value]
+			except KeyError:
+				raise Dome9SecretKeyNotFoundException(f'{ConfigConsts.DOME9_SECRET_KEY.value} was not provided')
 
 		Statics.checkIsUUID(arg=accessID)
 		Statics.checkOnlyContainsLowercaseAlphanumeric(arg=secretKey)
