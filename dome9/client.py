@@ -7,6 +7,8 @@ from requests.auth import HTTPBasicAuth
 from loguru import logger
 
 from dome9.consts import ConfigConsts, LoggerConsts, ClientConsts
+from dome9.exceptions import Dome9AccessIDNotFoundException, Dome9SecretKeyNotFoundException
+
 from dome9.statics import Statics
 
 
@@ -82,10 +84,20 @@ class Config:
 			loggerRotation (str): Logger rotation. Defaults to 100 MB
 		"""
 		if not accessID:
-			accessID = environ[ConfigConsts.DOME9_ACCESS_ID.value]
+			try:
+				accessID = environ[ConfigConsts.DOME9_ACCESS_ID.value]
+			except KeyError:
+				errorMsg = '\"DOME9_ACCESS_ID\" environment variable not found'
+				logger.error(errorMsg)
+				raise Dome9AccessIDNotFoundException(errorMsg)
 
 		if not secretKey:
-			secretKey = environ[ConfigConsts.DOME9_SECRET_KEY.value]
+			try:
+				secretKey = environ[ConfigConsts.DOME9_SECRET_KEY.value]
+			except KeyError:
+				errorMsg = '\"DOME9_SECRET_KEY\" environment variable not found'
+				logger.error(errorMsg)
+				raise Dome9SecretKeyNotFoundException(errorMsg)
 
 		Statics.checkIsUUID(arg=accessID)
 		Statics.checkOnlyContainsLowercaseAlphanumeric(arg=secretKey)

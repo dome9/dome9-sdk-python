@@ -14,3 +14,11 @@ class Dome9APIException(Exception):
 		super().__init__(message)
 		self.code = code
 		self.content = content
+
+
+class Dome9AccessIDNotFoundException(Exception):
+	pass
+
+
+class Dome9SecretKeyNotFoundException(Exception):
+	pass
