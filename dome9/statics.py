@@ -9,7 +9,7 @@ class Statics:
 		raise BaseException(f'cannot instantiate {cls.__name__} class')
 
 	@staticmethod
-	def checkIsUUID(arg: str, optional: bool = False) -> None:
+	def check_is_uuid(arg: str, optional: bool = False) -> None:
 		if optional:
 			return
 
@@ -17,7 +17,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkOnlyContainsLowercaseAlphanumeric(arg: str, optional: bool = False) -> None:
+	def check_only_contains_lowercase_alphanumeric(arg: str, optional: bool = False) -> None:
 		if optional:
 			return
 
@@ -25,7 +25,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsHTTPURL(arg: str, optional: bool = False) -> None:
+	def check_is_http_url(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -35,7 +35,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def _checkIsARN(arg: str, optional: bool = False) -> None:
+	def _check_is_arn(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -43,7 +43,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsIP(arg: str, optional: bool = False) -> None:
+	def check_is_ip(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -51,7 +51,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsDuration(arg: str, optional: bool = False) -> None:
+	def check_is_duration(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -59,7 +59,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsEmail(arg: str, optional: bool = False) -> None:
+	def check_is_email(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -67,7 +67,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsUUIDOr12Digits(arg: str, optional: bool = False) -> None:
+	def check_is_uuid_or_12_digits(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -75,7 +75,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsNotNegative(arg: int, optional: bool = False) -> None:
+	def check_is_not_negative(arg: int, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -83,7 +83,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsNotEmpty(arg: str, optional: bool = False) -> None:
+	def check_is_not_empty(arg: str, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
@@ -91,7 +91,7 @@ class Statics:
 			raise ValueError
 
 	@staticmethod
-	def checkIsPort(arg: int, optional: bool = False) -> None:
+	def check_is_port(arg: int, optional: bool = False) -> None:
 		if optional and arg is None:
 			return
 
