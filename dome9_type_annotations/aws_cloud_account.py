@@ -9,37 +9,37 @@ class aws_cloud_account(BaseAwsCloudAccount):
 		pass
 
 	@classmethod
-	def get(cls, awsCloudAccountID: str):
+	def get(cls, aws_cloud_account_id: str):
 		pass
 
 	@classmethod
-	def getAll(cls):
+	def get_all(cls):
 		pass
 
 	@classmethod
-	def updateName(cls, body: AwsCloudAccountUpdateName):
+	def update_name(cls, body: AwsCloudAccountUpdateName):
 		pass
 
 	@classmethod
-	def updateRegionConfig(cls, body: AwsCloudAccountUpdateConfig):
+	def update_region_config(cls, body: AwsCloudAccountUpdateConfig):
 		pass
 
 	@classmethod
-	def updateOrganizationalID(cls, awsCloudAccountID: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
+	def update_organizational_id(cls, aws_cloud_account_id: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
 		pass
 
 	@classmethod
-	def updateCredentials(cls, body: AwsCloudAccountUpdateCredentials):
+	def update_credentials(cls, body: AwsCloudAccountUpdateCredentials):
 		pass
 
 	@classmethod
-	def delete(cls, awsCloudAccountID: str):
+	def delete(cls, aws_cloud_account_id: str):
 		pass
 
 	@classmethod
-	def attachIAMSafeToAWSCloudAccount(cls, body: AttachIamSafe):
+	def attach_iam_safe_to_aws_cloud_account(cls, body: AttachIamSafe):
 		pass
 
 	@classmethod
-	def detachIAMSafeToAWSCloudAccount(cls, awsCloudAccountID: str):
+	def detach_iam_safe_to_aws_cloud_account(cls, aws_cloud_account_id: str):
 		pass

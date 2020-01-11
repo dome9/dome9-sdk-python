@@ -19,7 +19,7 @@ class Dome9Resource:
 			client (Client): D9 client
 		"""
 		self._client = client
-		self.loggerController = LoggerController(config=client._config)
+		self.logger_controller = LoggerController(config=client._config)
 
 	# crud methods
 	def _get(self, route: str, body=None):
@@ -39,7 +39,7 @@ class Dome9Resource:
 
 	@logger.catch(reraise=True)
 	def __request(self, method: str, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:
-		url = urljoin(self._client._config.baseURL, route)
+		url = urljoin(self._client._config.base_url, route)
 		body = body if not body else body.load()
 		try:
 			logger.debug(f'performing request: {method}, url: {url}, params: {params}, body: {body}')
@@ -47,7 +47,7 @@ class Dome9Resource:
 				json=body,
 				params=params,
 				headers=self._client._config.headers,
-				auth=self._client._config.clientAuth)
+				auth=self._client._config.client_auth)
 		except requests.ConnectionError as connectionError:
 			raise Dome9APIException(f'{url} {connectionError}')
 
@@ -60,9 +60,9 @@ class Dome9Resource:
 
 		if response.content:
 			try:
-				jsonResponse = response.json()
+				json_response = response.json()
 
-				return jsonResponse
+				return json_response
 
 			except ValueError as valueError:
 				exception = Dome9APIException(message=str(valueError), code=response.status_code, content=response.content)

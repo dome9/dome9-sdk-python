@@ -1,5 +1,5 @@
 from resources.azure_cloud_account import AzureCloudAccount as BaseAzureCloudAccount, AzureCloudAccountUpdateOrganizationalUnitID, AzureCloudAccountUpdateCredentials, \
-	AzureCloudAccountUpdateOperationMode, AzureCloudAccountUpdateName, AzureCloudAccountRequest
+ AzureCloudAccountUpdateOperationMode, AzureCloudAccountUpdateName, AzureCloudAccountRequest
 
 
 class azure_cloud_account(BaseAzureCloudAccount):
@@ -35,4 +35,3 @@ class azure_cloud_account(BaseAzureCloudAccount):
 	@classmethod
 	def delete(cls, azure_cloud_account_id: str):
 		pass
-

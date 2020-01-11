@@ -49,7 +49,7 @@ def getCloudAccountId(self, cloudAccountId: str) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUIDOr12Digits(cloudAccountId)
+	Statics.check_is_uuid_or_12_digits(cloudAccountId)
 
 	route = f'CloudAccounts/{cloudAccountId}'
 
@@ -112,8 +112,8 @@ def onBoardingAwsAccount(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsARN(arn)
-	Statics.checkOnlyContainsLowercaseAlphanumeric(secret)
+	Statics._check_is_arn(arn)
+	Statics.check_only_contains_lowercase_alphanumeric(secret)
 
 	route = 'CloudAccounts'
 	body = {
@@ -151,9 +151,9 @@ def onBoardingAzureAccount(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(subscriptionId)
-	Statics.checkIsUUID(tenantId)
-	Statics.checkIsUUID(clientId)
+	Statics.check_is_uuid(subscriptionId)
+	Statics.check_is_uuid(tenantId)
+	Statics.check_is_uuid(clientId)
 
 	route = 'AzureCloudAccount'
 	body = {
@@ -187,10 +187,10 @@ def updateAwsAccountCredentials(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsARN(arn)
-	Statics.checkOnlyContainsLowercaseAlphanumeric(secret)
+	Statics._check_is_arn(arn)
+	Statics.check_only_contains_lowercase_alphanumeric(secret)
 	# check externalAccountNumber format
-	Statics.checkIsUUID(cloudAccountId, optional=True)
+	Statics.check_is_uuid(cloudAccountId, optional=True)
 
 	route = 'CloudAccounts/credentials'
 	body = {
@@ -220,8 +220,8 @@ def updateOrganizationalUnitForAWSCloudAccount(self, cloudAccountId: str, organi
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
-	Statics.checkIsUUID(organizationalUnitId, optional=True)
+	Statics.check_is_uuid(cloudAccountId)
+	Statics.check_is_uuid(organizationalUnitId, optional=True)
 
 	route = 'cloudaccounts/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
@@ -244,8 +244,8 @@ def updateOrganizationalUnitForAzureCloudAccount(self, cloudAccountId: str, orga
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
-	Statics.checkIsUUID(organizationalUnitId, optional=True)
+	Statics.check_is_uuid(cloudAccountId)
+	Statics.check_is_uuid(organizationalUnitId, optional=True)
 
 	route = 'AzureCloudAccount/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
@@ -346,12 +346,12 @@ def updateCloudAccountID(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
-	Statics.checkIsUUID(organizationalUnitId, optional=True)
+	Statics.check_is_uuid(cloudAccountId)
+	Statics.check_is_uuid(organizationalUnitId, optional=True)
 	# validate organizationalUnitPath
 	# validate organizationalUnitName
-	Statics._checkIsARN(arn)
-	Statics.checkOnlyContainsLowercaseAlphanumeric(secret)
+	Statics._check_is_arn(arn)
+	Statics.check_only_contains_lowercase_alphanumeric(secret)
 
 	route = 'CloudAccounts/{}'.format(cloudAccountId)
 	body = {
@@ -430,7 +430,7 @@ def getCloudSecurityGroup(self, cloudAccountId: str, regionId: AwsRegions) -> Li
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
+	Statics.check_is_uuid(cloudAccountId)
 
 	route = 'cloudsecuritygroup/{}'.format(cloudAccountId)
 	params = {'cloudAccountId': cloudAccountId, 'regionId': regionId.value}
@@ -452,7 +452,7 @@ def getAllEntityFetchStatus(self, cloudAccountId: str) -> List[Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
+	Statics.check_is_uuid(cloudAccountId)
 
 	route = 'EntityFetchStatus'
 	params = {'cloudAccountId': cloudAccountId}
@@ -474,7 +474,7 @@ def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
+	Statics.check_is_uuid(cloudAccountId)
 
 	route = 'cloudaccounts/{}/SyncNow'.format(cloudAccountId)
 
@@ -631,7 +631,7 @@ def acquireAwsLease(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.checkIsUUID(cloudAccountId)
+	Statics.check_is_uuid(cloudAccountId)
 	Statics._checkIsNotNegative(securityGroupId)  # doc says is string
 	Statics._checkIsIP(ip)
 	Statics._checkIsPort(portFrom)

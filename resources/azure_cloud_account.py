@@ -15,6 +15,7 @@ class AzureCloudAccountConsts(Enum):
 	NAME_ROUTE = 'AccountName'
 	CREDENTIALS_ROUTE = 'credentials'
 
+
 class AzureCloudAccountOperationModeConsts(Enum):
 	READ_ONLY = 'Read'
 	MANAGED = 'Manage'
