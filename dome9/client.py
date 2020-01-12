@@ -9,7 +9,7 @@ from loguru import logger
 from dome9.consts import ConfigConsts, LoggerConsts, ClientConsts
 from dome9.exceptions import Dome9AccessIDNotFoundException, Dome9SecretKeyNotFoundException
 
-from dome9.statics import Statics
+from dome9.api_utils import APIUtils
 
 
 class Client:
@@ -96,9 +96,9 @@ class Config:
 			except KeyError:
 				raise Dome9SecretKeyNotFoundException(f'{ConfigConsts.DOME9_SECRET_KEY.value} was not provided')
 
-		Statics.check_is_uuid(arg=access_id)
-		Statics.check_only_contains_lowercase_alphanumeric(arg=secret_key)
-		Statics.check_is_http_url(arg=base_url)
+		APIUtils.check_is_uuid(arg=access_id)
+		APIUtils.check_only_contains_lowercase_alphanumeric(arg=secret_key)
+		APIUtils.check_is_http_url(arg=base_url)
 
 		self.logger_level = getenv(LoggerConsts.LOG_LEVEL.value, logger_level)
 		self.logger_file_path = getenv(LoggerConsts.LOG_FILE_PATH.value, logger_path)

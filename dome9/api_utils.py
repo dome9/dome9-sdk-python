@@ -2,10 +2,11 @@ from typing import Callable
 
 from re import match
 
-from dome9.consts import AwsRegions
+from dome9.consts import AwsRegions, Protocols
+from dome9.exceptions import UnsupportedRegionException
 
 
-class Statics:
+class APIUtils:
 
 	def __new__(cls: Callable):
 		raise BaseException(f'cannot instantiate {cls.__name__} class')
@@ -107,4 +108,13 @@ class Statics:
 
 		regions = [region.value for region in AwsRegions]
 		if region not in regions:
-			raise ValueError(f'region must be one of the following {regions}')
+			raise UnsupportedRegionException(f'region must be one of the following {regions}')
+
+	@staticmethod
+	def check_is_valid_protocol(protocol: str, optional: bool = False) -> None:
+		if optional and protocol is None:
+			return
+
+		protocols = [protocol.value for protocol in Protocols]
+		if protocol not in protocols:
+			raise UnsupportedRegionException(f'protocol must be one of the following {Protocols}')
