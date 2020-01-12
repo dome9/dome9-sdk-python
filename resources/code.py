@@ -1,6 +1,6 @@
 from typing import Any, List, Dict, Set, Optional
 
-from dome9.consts import OperationModes, AwsRegions, ProtectionModes, CloudAccountTypes, Protocols
+from dome9.consts import OperationModes, AwsRegions, CloudAccountTypes, Protocols
 from dome9.client import Client
 from dome9.statics import Statics
 
@@ -480,24 +480,6 @@ def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
 
 	return self._request(method=Client.RequestMethods.POST, route=route)
 
-
-def setCloudSecurityGroupProtectionMode(self, securityGroupId: str, protectionMode: ProtectionModes) -> None:
-	"""Change the protection mode for an AWS security group.
-
-	Args:
-		securityGroupId (str): AWS security group id (Dome9 internal ID / AWS security group ID).
-		protectionMode (ProtectionModes): Details for the security group, including the protection mode. Only 'ProtectionMode' is required in this call (FullManage or ReadOnly).
-
-	Raises:
-		ValueError: Invalid input.
-		Dome9APIException: API command failed.
-	"""
-
-	# validate securityGroupId
-
-	route = 'cloudsecuritygroup/{}/protection-mode'.format(securityGroupId)
-	body = {'protectionMode': protectionMode}
-	self._request(method=Client.RequestMethods.POST, route=route, body=body)
 
 
 def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountType: CloudAccountTypes, name: Optional[str],

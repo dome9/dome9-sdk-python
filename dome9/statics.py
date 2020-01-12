@@ -2,6 +2,8 @@ from typing import Callable
 
 from re import match
 
+from dome9.consts import AwsRegions
+
 
 class Statics:
 
@@ -97,3 +99,12 @@ class Statics:
 
 		if arg < 0 or arg > 65535:
 			raise ValueError
+
+	@staticmethod
+	def check_is_valid_aws_region_id(region: str, optional: bool = False) -> None:
+		if optional and region is None:
+			return
+
+		regions = [region.value for region in AwsRegions]
+		if region not in regions:
+			raise ValueError(f'region must be one of the following {regions}')
