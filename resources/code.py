@@ -1,8 +1,8 @@
 from typing import Any, List, Dict, Set, Optional
 
-from dome9.consts import OperationModes, AwsRegions, ProtectionModes, CloudAccountTypes, Protocols
+from dome9.consts import OperationModes, AwsRegions, CloudAccountTypes, Protocols
 from dome9.client import Client
-from dome9.statics import Statics
+from dome9.api_utils import APIUtils
 
 
 def getAllUsers(self) -> List[Any]:
@@ -49,7 +49,7 @@ def getCloudAccountId(self, cloudAccountId: str) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid_or_12_digits(cloudAccountId)
+	APIUtils.check_is_uuid_or_12_digits(cloudAccountId)
 
 	route = f'CloudAccounts/{cloudAccountId}'
 
@@ -70,7 +70,7 @@ def getCloudAccountRegions(self, cloudAccountId: str) -> Set[str]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsUUIDOr12Digits(cloudAccountId)
+	APIUtils._checkIsUUIDOr12Digits(cloudAccountId)
 
 	cloudAccountId = self.getCloudAccountId(cloudAccountId=cloudAccountId)
 
@@ -112,8 +112,8 @@ def onBoardingAwsAccount(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._check_is_arn(arn)
-	Statics.check_only_contains_lowercase_alphanumeric(secret)
+	APIUtils._check_is_arn(arn)
+	APIUtils.check_only_contains_lowercase_alphanumeric(secret)
 
 	route = 'CloudAccounts'
 	body = {
@@ -151,9 +151,9 @@ def onBoardingAzureAccount(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(subscriptionId)
-	Statics.check_is_uuid(tenantId)
-	Statics.check_is_uuid(clientId)
+	APIUtils.check_is_uuid(subscriptionId)
+	APIUtils.check_is_uuid(tenantId)
+	APIUtils.check_is_uuid(clientId)
 
 	route = 'AzureCloudAccount'
 	body = {
@@ -187,10 +187,10 @@ def updateAwsAccountCredentials(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._check_is_arn(arn)
-	Statics.check_only_contains_lowercase_alphanumeric(secret)
+	APIUtils._check_is_arn(arn)
+	APIUtils.check_only_contains_lowercase_alphanumeric(secret)
 	# check externalAccountNumber format
-	Statics.check_is_uuid(cloudAccountId, optional=True)
+	APIUtils.check_is_uuid(cloudAccountId, optional=True)
 
 	route = 'CloudAccounts/credentials'
 	body = {
@@ -220,8 +220,8 @@ def updateOrganizationalUnitForAWSCloudAccount(self, cloudAccountId: str, organi
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
-	Statics.check_is_uuid(organizationalUnitId, optional=True)
+	APIUtils.check_is_uuid(cloudAccountId)
+	APIUtils.check_is_uuid(organizationalUnitId, optional=True)
 
 	route = 'cloudaccounts/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
@@ -244,8 +244,8 @@ def updateOrganizationalUnitForAzureCloudAccount(self, cloudAccountId: str, orga
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
-	Statics.check_is_uuid(organizationalUnitId, optional=True)
+	APIUtils.check_is_uuid(cloudAccountId)
+	APIUtils.check_is_uuid(organizationalUnitId, optional=True)
 
 	route = 'AzureCloudAccount/{}/organizationalUnit'.format(cloudAccountId)
 	body = {'organizationalUnitId': organizationalUnitId}
@@ -277,8 +277,8 @@ def updateRoleById(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsNotNegative(roleId)
-	Statics._checkIsNotEmpty(roleName)
+	APIUtils._checkIsNotNegative(roleId)
+	APIUtils._checkIsNotEmpty(roleName)
 
 	body = {
 		'name': roleName,
@@ -308,7 +308,7 @@ def getRoleById(self, roleId: int) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsNotNegative(roleId)
+	APIUtils._checkIsNotNegative(roleId)
 
 	route = 'Role/{}'.format(roleId)
 
@@ -346,12 +346,12 @@ def updateCloudAccountID(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
-	Statics.check_is_uuid(organizationalUnitId, optional=True)
+	APIUtils.check_is_uuid(cloudAccountId)
+	APIUtils.check_is_uuid(organizationalUnitId, optional=True)
 	# validate organizationalUnitPath
 	# validate organizationalUnitName
-	Statics._check_is_arn(arn)
-	Statics.check_only_contains_lowercase_alphanumeric(secret)
+	APIUtils._check_is_arn(arn)
+	APIUtils.check_only_contains_lowercase_alphanumeric(secret)
 
 	route = 'CloudAccounts/{}'.format(cloudAccountId)
 	body = {
@@ -430,7 +430,7 @@ def getCloudSecurityGroup(self, cloudAccountId: str, regionId: AwsRegions) -> Li
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
+	APIUtils.check_is_uuid(cloudAccountId)
 
 	route = 'cloudsecuritygroup/{}'.format(cloudAccountId)
 	params = {'cloudAccountId': cloudAccountId, 'regionId': regionId.value}
@@ -452,7 +452,7 @@ def getAllEntityFetchStatus(self, cloudAccountId: str) -> List[Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
+	APIUtils.check_is_uuid(cloudAccountId)
 
 	route = 'EntityFetchStatus'
 	params = {'cloudAccountId': cloudAccountId}
@@ -474,30 +474,12 @@ def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
+	APIUtils.check_is_uuid(cloudAccountId)
 
 	route = 'cloudaccounts/{}/SyncNow'.format(cloudAccountId)
 
 	return self._request(method=Client.RequestMethods.POST, route=route)
 
-
-def setCloudSecurityGroupProtectionMode(self, securityGroupId: str, protectionMode: ProtectionModes) -> None:
-	"""Change the protection mode for an AWS security group.
-
-	Args:
-		securityGroupId (str): AWS security group id (Dome9 internal ID / AWS security group ID).
-		protectionMode (ProtectionModes): Details for the security group, including the protection mode. Only 'ProtectionMode' is required in this call (FullManage or ReadOnly).
-
-	Raises:
-		ValueError: Invalid input.
-		Dome9APIException: API command failed.
-	"""
-
-	# validate securityGroupId
-
-	route = 'cloudsecuritygroup/{}/protection-mode'.format(securityGroupId)
-	body = {'protectionMode': protectionMode}
-	self._request(method=Client.RequestMethods.POST, route=route, body=body)
 
 
 def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountType: CloudAccountTypes, name: Optional[str],
@@ -529,7 +511,7 @@ def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountTy
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsNotNegative(bundleId)
+	APIUtils._checkIsNotNegative(bundleId)
 	# validate cloudAccountId
 	# validate dome9CloudAccountId
 	# validate externalCloudAccountId
@@ -590,7 +572,7 @@ def updateRuleBundleById(self, bundleId: int, rules: List[Dict[str, Any]]) -> Di
 		Dome9APIException: API command failed.
 	"""
 
-	Statics._checkIsNotNegative(bundleId)
+	APIUtils._checkIsNotNegative(bundleId)
 	# validate rules
 
 	route = 'CompliancePolicy'
@@ -631,14 +613,14 @@ def acquireAwsLease(self,
 		Dome9APIException: API command failed.
 	"""
 
-	Statics.check_is_uuid(cloudAccountId)
-	Statics._checkIsNotNegative(securityGroupId)  # doc says is string
-	Statics._checkIsIP(ip)
-	Statics._checkIsPort(portFrom)
-	Statics._checkIsPort(portTo, optional=True)
-	Statics._checkIsDuration(duration, optional=True)
-	Statics._checkIsNotNegative(accountId, optional=True)
-	Statics._checkIsEmail(user, optional=True)
+	APIUtils.check_is_uuid(cloudAccountId)
+	APIUtils._checkIsNotNegative(securityGroupId)  # doc says is string
+	APIUtils._checkIsIP(ip)
+	APIUtils._checkIsPort(portFrom)
+	APIUtils._checkIsPort(portTo, optional=True)
+	APIUtils._checkIsDuration(duration, optional=True)
+	APIUtils._checkIsNotNegative(accountId, optional=True)
+	APIUtils._checkIsEmail(user, optional=True)
 
 	route = 'accesslease/aws'
 	body = {

@@ -22,3 +22,15 @@ class Dome9AccessIDNotFoundException(Exception):
 
 class Dome9SecretKeyNotFoundException(Exception):
 	pass
+
+
+class UnsupportedRegionException(Exception):
+	pass
+
+
+class UnsupportedProtectionMode(Exception):
+	pass
+
+
+class UnsupportedPolicyType(Exception):
+	pass

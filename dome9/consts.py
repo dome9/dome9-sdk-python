@@ -61,11 +61,6 @@ class OperationModes(Enum):
 	MANAGED = 'Managed'
 
 
-class ProtectionModes(Enum):
-	FULL_MANAGE = 'FullManage'
-	READ_ONLY = 'ReadOnly'
-
-
 class CloudAccountTypes(Enum):
 	AWS = 'Aws'
 	AZURE = 'Azure'
