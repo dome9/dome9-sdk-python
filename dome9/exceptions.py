@@ -34,3 +34,7 @@ class UnsupportedProtectionMode(Exception):
 
 class UnsupportedPolicyType(Exception):
 	pass
+
+
+class UnsupportedEntityType(Exception):
+	pass
