@@ -22,20 +22,20 @@ class Dome9Resource:
 		self.logger_controller = LoggerController(config=client._config)
 
 	# crud methods
-	def _get(self, route: str, body=None):
-		return self.__request(method=RequestMethods.GET.value, route=route, body=body)
+	def _get(self, route: str, body=None, params=None):
+		return self.__request(method=RequestMethods.GET.value, route=route, body=body, params=params)
 
-	def _post(self, route: str, body=None):
-		return self.__request(method=RequestMethods.POST.value, route=route, body=body)
+	def _post(self, route: str, body=None, params=None):
+		return self.__request(method=RequestMethods.POST.value, route=route, body=body, params=params)
 
-	def _patch(self, route: str, body=None):
-		return self.__request(method=RequestMethods.PATCH.value, route=route, body=body)
+	def _patch(self, route: str, body=None, params=None):
+		return self.__request(method=RequestMethods.PATCH.value, route=route, body=body, params=params)
 
-	def _put(self, route: str, body=None):
-		return self.__request(method=RequestMethods.PUT.value, route=route, body=body)
+	def _put(self, route: str, body=None, params=None):
+		return self.__request(method=RequestMethods.PUT.value, route=route, body=body, params=params)
 
-	def _delete(self, route: str, body=None):
-		return self.__request(method=RequestMethods.DELETE.value, route=route, body=body)
+	def _delete(self, route: str, body=None, params=None):
+		return self.__request(method=RequestMethods.DELETE.value, route=route, body=body, params=params)
 
 	@logger.catch(reraise=True)
 	def __request(self, method: str, route: str, body: Any = None, params: Optional[Dict[str, Union[str, int]]] = None) -> Any:

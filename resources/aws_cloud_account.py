@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Dict
 
 from loguru import logger
 from dome9.client import Client
 from dome9.consts import AwsRegions, NewGroupBehaviors
 from dome9.base_dataclass import BaseDataclassRequest
+from dome9.exceptions import UnsupportedEntityType
 
 from dome9.resource import Dome9Resource
 
@@ -16,11 +18,19 @@ class AwsCloudAccountConsts(Enum):
 	NAME_ROUTE = 'name'
 	CREDENTIALS_ROUTE = 'credentials'
 	IAM_SAFE_ROUTE = 'iam-safe'
+	RESTRICTED_IAM_ROUTE = 'restrictedIamEntities'
+	IAM_ENTITIES_ROUTE = 'iam'
+	ENTITY_NAME = 'entityName'
 
 
 class AwsCloudAccountCredentialsConsts(Enum):
 	USER_BASED_TYPE = 'UserBased'
 	ROLE_BASED_TYPE = 'RoleBased'
+
+
+class EntityType(Enum):
+	ROLE = 'Role'
+	USER = 'User'
 
 
 @dataclass
@@ -127,7 +137,7 @@ class AwsCloudAccountUpdateCredentials(BaseDataclassRequest):
 	"""AWS cloud account update credentials
 
 		Args:
-			cloud_account_id (str): (Required) (Required) AWS cloud account id
+			organizational_unit_id (str): (Required) (Required) AWS cloud account id
 			data (str): (Required) AWS cloud account credentials
 
 	"""
@@ -161,6 +171,25 @@ class AttachIamSafe(BaseDataclassRequest):
 	data: IAMSafeData
 
 
+@dataclass
+class RestrictedIamEntitiesRequest(BaseDataclassRequest):
+	"""Restricted iam entities request
+
+		Args:
+			entity_name (str): Aws iam user name or aws role
+			entity_type (str): Entity type, must be one of the following Role or User
+
+	"""
+	entity_name: str
+	entity_type: str
+
+	@logger.catch(reraise=True)
+	def __post_init__(self):
+		entityTypes = [entityType.value for entityType in EntityType]
+		if self.entity_type not in entityTypes:
+			raise UnsupportedEntityType(f'entity type must be one of the following {entityTypes}')
+
+
 class AwsCloudAccount(Dome9Resource):
 
 	def __init__(self, client: Client):
@@ -169,8 +198,8 @@ class AwsCloudAccount(Dome9Resource):
 	def create(self, body: AwsCloudAccountRequest):
 		return self._post(route=AwsCloudAccountConsts.MAIN_ROUTE.value, body=body)
 
-	def get(self, awsCloudAccountID: str):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}'
+	def get(self, aws_cloud_account_id: str):
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}'
 		return self._get(route=route)
 
 	def get_all(self):
@@ -184,23 +213,67 @@ class AwsCloudAccount(Dome9Resource):
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.REGION_CONFIG_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def update_organizational_id(self, awsCloudAccountID: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}/{AwsCloudAccountConsts.ORGANIZATIONAL_UNIT_ROUTE.value}'
+	def update_organizational_id(self, aws_cloud_account_id: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.ORGANIZATIONAL_UNIT_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def update_credentials(self, body: AwsCloudAccountUpdateCredentials):
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.CREDENTIALS_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def delete(self, awsCloudAccountID: str):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}'
+	def delete(self, aws_cloud_account_id: str):
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}'
 		return self._delete(route=route)
 
 	# attach iam safe to cloud account
-	def attach_iam_safe_to_aws_cloud_account(self, body: AttachIamSafe):
+	def attach_iam_safe(self, body: AttachIamSafe):
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def detach_iam_safe_to_aws_cloud_account(self, awsCloudAccountID: str):
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{awsCloudAccountID}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
+	def detach_iam_safe(self, aws_cloud_account_id: str):
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
 		return self._delete(route=route)
+
+	# iam protect (restrict) entity
+	def protect_iam_safe_entity(self, aws_cloud_account_id: str, body: RestrictedIamEntitiesRequest) -> str:
+		"""Protect iam safe entity where the entity can be User or Role
+
+		:param aws_cloud_account_id: Aws security group id.
+		:type aws_cloud_account_id: str
+		:param body: Details restricted iam entities request
+		:type body: RestrictedIamEntitiesRequest
+		:returns: Aws User or Role arn that protected
+
+		"""
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.RESTRICTED_IAM_ROUTE.value}'
+		return self._post(route=route, body=body)
+
+	def get_all_protected_iam_safe_entity(self, aws_cloud_account_id: str) -> Dict:
+		"""Get data for all the users and roles
+
+		:param aws_cloud_account_id: Aws security group id.
+		:type aws_cloud_account_id: str
+		:returns: Dict that has two key, roles and users
+
+		"""
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.IAM_ENTITIES_ROUTE.value}'
+		return self._get(route=route)
+
+	def unprotect_iam_safe_entity(self, aws_cloud_account_id: str, entity_type: str, entity_name: str) -> None:
+		"""Unprotect specific iam safe entity
+
+		:param aws_cloud_account_id: Aws security group id.
+		:type aws_cloud_account_id: str
+		:param entity_type: entity type, must be User or Role
+		:type entity_type: str
+		:param entity_name: Entity name
+		:type entity_name: str
+		:returns: None
+
+		"""
+		entityTypes = [entityType.value for entityType in EntityType]
+		if self.entityType not in entityTypes:
+			raise UnsupportedEntityType(f'entity type must be one of the following {entityTypes}')
+
+		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.RESTRICTED_IAM_ROUTE.value}/{entity_type}'
+		return self._delete(route=route, params={AwsCloudAccountConsts.ENTITY_NAME.value: entity_name})
