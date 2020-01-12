@@ -41,13 +41,13 @@ class AwsCloudAccountCredentials:
 			arn (str): (Required) AWS Role ARN (to be assumed by Dome9)
 			secret (str): (Required) The AWS role External ID (Dome9 will have to use this secret in order to assume the role)
 			type (str): (Required) The cloud account onboarding method. Set to "RoleBased".
-			apiKey (str): (Optional) aws cloud account apiKey.
+			api_key (str): (Optional) aws cloud account apiKey.
 
 	"""
 	arn: str
 	secret: str
 	type: str = AwsCloudAccountCredentialsConsts.ROLE_BASED_TYPE.value
-	apiKey: str = None
+	api_key: str = None
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
@@ -63,13 +63,13 @@ class AwsCloudAccountRequest(BaseDataclassRequest):
 		Args:
 			name (str): (Required) The name of AWS account in Dome9
 			credentials (AwsCloudAccountCredentials): (Required) The information needed for Dome9 System in order to connect to the AWS cloud account
-			organizationalUnitId (str): (Optional) The Organizational Unit that this cloud account will be attached to
+			organizational_unit_id (str): (Optional) The Organizational Unit that this cloud account will be attached to
 
 	"""
 
 	name: str
 	credentials: AwsCloudAccountCredentials
-	organizationalUnitId: str = None
+	organizational_unit_id: str = None
 
 
 @dataclass
@@ -78,11 +78,11 @@ class AwsCloudAccountNetSecRegion:
 
 		Args:
 			region (str): (Required) AWS region, in AWS format (e.g., "us-east-1")
-			newGroupBehavior (str): (Required) The network security configuration. Select "ReadOnly", "FullManage", or "Reset".
+			new_group_behavior (str): (Required) The network security configuration. Select "ReadOnly", "FullManage", or "Reset".
 
 	"""
 	region: str
-	newGroupBehavior: str
+	new_group_behavior: str
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
@@ -91,7 +91,7 @@ class AwsCloudAccountNetSecRegion:
 			raise ValueError(f'region must be one of the following {regions}')
 
 		new_group_behaviors = [new_group_behavior.value for new_group_behavior in NewGroupBehaviors]
-		if self.newGroupBehavior not in new_group_behaviors:
+		if self.new_group_behavior not in new_group_behaviors:
 			raise ValueError(f'new group behaviors must be one of the following {new_group_behaviors}')
 
 
@@ -100,11 +100,11 @@ class AwsCloudAccountUpdateName(BaseDataclassRequest):
 	"""AWS cloud account update name
 
 		Args:
-			cloudAccountId (str): (Required) AWS cloud account id
+			cloud_account_id (str): (Required) AWS cloud account id
 			data (str): (Required) The desired name for aws cloud account
 
 	"""
-	cloudAccountId: str
+	cloud_account_id: str
 	data: str
 
 
@@ -113,11 +113,11 @@ class AwsCloudAccountUpdateConfig(BaseDataclassRequest):
 	"""AWS cloud account update config
 
 		Args:
-			cloudAccountId (str): (Required) AWS cloud account id
+			cloud_account_id (str): (Required) AWS cloud account id
 			data (AwsCloudAccountNetSecRegion): (Required) AWS cloud account net sec region
 
 	"""
-	cloudAccountId: str
+	cloud_account_id: str
 	data: AwsCloudAccountNetSecRegion
 
 
@@ -126,10 +126,10 @@ class AwsCloudAccountUpdateOrganizationalUnitID(BaseDataclassRequest):
 	"""AWS cloud account update organizational unit id
 
 		Args:
-			organizationalUnitId (str): (Required) The desired organizational unit id to attach to
+			organizational_unit_id (str): (Required) The desired organizational unit id to attach to
 
 	"""
-	organizationalUnitId: str
+	organizational_unit_id: str
 
 
 @dataclass
@@ -137,11 +137,11 @@ class AwsCloudAccountUpdateCredentials(BaseDataclassRequest):
 	"""AWS cloud account update credentials
 
 		Args:
-			cloudAccountId (str): (Required) (Required) AWS cloud account id
+			organizational_unit_id (str): (Required) (Required) AWS cloud account id
 			data (str): (Required) AWS cloud account credentials
 
 	"""
-	cloudAccountId: str
+	cloud_account_id: str
 	data: AwsCloudAccountCredentials
 
 
@@ -150,12 +150,12 @@ class IAMSafeData:
 	"""IAM safe data
 
 		Args:
-			awsGroupArn(str): (Required) AWS group arn.
-			awsPolicyArn(str): (Required) AWS policy arn.
+			aws_group_arn(str): (Required) AWS group arn.
+			aws_policy_arn(str): (Required) AWS policy arn.
 
 	"""
-	awsGroupArn: str
-	awsPolicyArn: str
+	aws_group_arn: str
+	aws_policy_arn: str
 
 
 @dataclass
@@ -163,11 +163,11 @@ class AttachIamSafe(BaseDataclassRequest):
 	"""IAMSafeData
 
 		Args:
-			cloudAccountId(str): (Required) AWS cloud account to attach IAM safe to it.
+			cloud_account_id(str): (Required) AWS cloud account to attach IAM safe to it.
 			data(str): (Required) IAM safe data
 
 	"""
-	cloudAccountId: str
+	cloud_account_id: str
 	data: IAMSafeData
 
 
@@ -176,17 +176,17 @@ class RestrictedIamEntitiesRequest(BaseDataclassRequest):
 	"""Restricted iam entities request
 
 		Args:
-			entityName (str): Aws iam user name or aws role
-			entityType (str): Entity type, must be one of the following Role or User
+			entity_name (str): Aws iam user name or aws role
+			entity_type (str): Entity type, must be one of the following Role or User
 
 	"""
-	entityName: str
-	entityType: str
+	entity_name: str
+	entity_type: str
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
 		entityTypes = [entityType.value for entityType in EntityType]
-		if self.entityType not in entityTypes:
+		if self.entity_type not in entityTypes:
 			raise UnsupportedEntityType(f'entity type must be one of the following {entityTypes}')
 
 
