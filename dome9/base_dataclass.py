@@ -10,5 +10,5 @@ from dome9.utils import Utils
 class BaseDataclassRequest:
 
 	def load(self, skip_empty=True):
-		return Utils.convert_keys_to_camel_case(dict_to_convert=self.to_dict(), skip_empty=skip_empty)
+		return Utils.convert_keys_to_camel_case(obj=self.to_dict(), skip_empty=skip_empty)
 
