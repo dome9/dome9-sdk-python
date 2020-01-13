@@ -118,3 +118,21 @@ class APIUtils:
 		protocols = [protocol.value for protocol in Protocols]
 		if protocol not in protocols:
 			raise UnsupportedRegionException(f'protocol must be one of the following {Protocols}')
+
+
+class Utils:
+	@staticmethod
+	def convert_to_camel_case(str_in_snake_case: str):
+		return ''.join(word.title() for word in str_in_snake_case.split('_'))
+
+	@staticmethod
+	def convert_keys_to_camel_case(dict_to_convert: dict, skip_empty: bool):
+		payload = {}
+		for key, value in dict_to_convert.items():
+			if isinstance(value, dict):
+				value = Utils.convert_keys_to_camel_case(dict_to_convert=value, skip_empty=skip_empty)
+			# discard unset variables (None) recursively
+			if not (skip_empty and value is None):
+				payload[Utils.convert_to_camel_case(key)] = value
+
+		return payload

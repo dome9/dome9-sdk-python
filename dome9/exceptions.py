@@ -28,6 +28,14 @@ class UnsupportedRegionException(Exception):
 	pass
 
 
+class UnsupportedCloudAccountCredentialsBasedType(Exception):
+	pass
+
+
+class UnsupportedCloudAccountGroupBehaviors(Exception):
+	pass
+
+
 class UnsupportedProtectionMode(Exception):
 	pass
 
@@ -36,5 +44,5 @@ class UnsupportedPolicyType(Exception):
 	pass
 
 
-class UnsupportedEntityType(Exception):
+class UnsupportedCloudAccountEntityType(Exception):
 	pass
