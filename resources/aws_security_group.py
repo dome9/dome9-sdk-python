@@ -147,7 +147,7 @@ class AwsSecurityGroup(Dome9Resource):
 	def create(self, body: AwsSecurityGroupRequest) -> Dict:
 		"""Create aws security group
 
-		:param body: Details for the new AWS security group
+		:param body: Details for the new aws security group
 		:type body: AwsSecurityGroupRequest
 		:returns: Dict that has metadata for the created aws security group
 
@@ -166,9 +166,9 @@ class AwsSecurityGroup(Dome9Resource):
 		return self._get(route=route)
 
 	def get_all_in_region(self, body: GetSecurityGroupParameters) -> List[Dict]:
-		"""Get AWS security groups for a specific cloud account and region
+		"""Get aws security groups for a specific cloud account and region
 
-		:param body: Details for the getting all the security groups in a specific region
+		:param body: Details for getting all the security groups in a specific region
 		:type body: GetSecurityGroupParameters
 		:returns: List of dicts that has metadata for all the aws security groups in specific region
 

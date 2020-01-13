@@ -1,12 +1,14 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict
+from typing import Dict, List
 
 from loguru import logger
+
+from dome9 import APIUtils
 from dome9.client import Client
 from dome9.consts import AwsRegions, NewGroupBehaviors
 from dome9.base_dataclass import BaseDataclassRequest
-from dome9.exceptions import UnsupportedEntityType
+from dome9.exceptions import UnsupportedCloudAccountEntityType, UnsupportedCloudAccountCredentialsBasedType, UnsupportedCloudAccountGroupBehaviors
 
 from dome9.resource import Dome9Resource
 
@@ -23,7 +25,7 @@ class AwsCloudAccountConsts(Enum):
 	ENTITY_NAME = 'entityName'
 
 
-class AwsCloudAccountCredentialsConsts(Enum):
+class AwsCloudAccountCredentialsBasedType(Enum):
 	USER_BASED_TYPE = 'UserBased'
 	ROLE_BASED_TYPE = 'RoleBased'
 
@@ -46,14 +48,14 @@ class AwsCloudAccountCredentials:
 	"""
 	arn: str
 	secret: str
-	type: str = AwsCloudAccountCredentialsConsts.ROLE_BASED_TYPE.value
+	type: str = AwsCloudAccountCredentialsBasedType.ROLE_BASED_TYPE.value
 	api_key: str = None
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
-		type_options = [type_option.value for type_option in AwsCloudAccountCredentialsConsts]
+		type_options = [type_option.value for type_option in AwsCloudAccountCredentialsBasedType]
 		if self.type not in type_options:
-			raise ValueError(f'type must be one of the following {type_options}')
+			raise UnsupportedCloudAccountCredentialsBasedType(f'base type must be one of the following {type_options}')
 
 
 @dataclass
@@ -86,13 +88,11 @@ class AwsCloudAccountNetSecRegion:
 
 	@logger.catch(reraise=True)
 	def __post_init__(self):
-		regions = [region.value for region in AwsRegions]
-		if self.region not in regions:
-			raise ValueError(f'region must be one of the following {regions}')
+		APIUtils.check_is_valid_aws_region_id(self.region)
 
 		new_group_behaviors = [new_group_behavior.value for new_group_behavior in NewGroupBehaviors]
 		if self.new_group_behavior not in new_group_behaviors:
-			raise ValueError(f'new group behaviors must be one of the following {new_group_behaviors}')
+			raise UnsupportedCloudAccountGroupBehaviors(f'new group behaviors must be one of the following {new_group_behaviors}')
 
 
 @dataclass
@@ -187,7 +187,7 @@ class RestrictedIamEntitiesRequest(BaseDataclassRequest):
 	def __post_init__(self):
 		entityTypes = [entityType.value for entityType in EntityType]
 		if self.entity_type not in entityTypes:
-			raise UnsupportedEntityType(f'entity type must be one of the following {entityTypes}')
+			raise UnsupportedCloudAccountEntityType(f'entity type must be one of the following {entityTypes}')
 
 
 class AwsCloudAccount(Dome9Resource):
@@ -195,42 +195,116 @@ class AwsCloudAccount(Dome9Resource):
 	def __init__(self, client: Client):
 		super().__init__(client)
 
-	def create(self, body: AwsCloudAccountRequest):
+	def create(self, body: AwsCloudAccountRequest) -> Dict:
+		"""Create (onboard) aws cloud account
+
+		:param body: Details for the new aws cloud account
+		:type body: AwsCloudAccountRequest
+		:returns: Dict that has metadata for the created aws cloud account
+
+		"""
 		return self._post(route=AwsCloudAccountConsts.MAIN_ROUTE.value, body=body)
 
-	def get(self, aws_cloud_account_id: str):
+	def get(self, aws_cloud_account_id: str) -> Dict:
+		"""Get aws cloud account that onboarded to dome9
+
+		:param aws_cloud_account_id: Dome9 aws cloud account id
+		:type aws_cloud_account_id: str
+		:returns: Dict that has metadata for aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}'
 		return self._get(route=route)
 
-	def get_all(self):
+	def get_all(self) -> List[Dict]:
+		"""Get all aws cloud accounts that already onboarded to dome9
+
+		:returns: List of dicts that has metadata for all the aws cloud accounts
+
+		"""
 		return self._get(route=AwsCloudAccountConsts.MAIN_ROUTE.value)
 
-	def update_name(self, body: AwsCloudAccountUpdateName):
+	def update_name(self, body: AwsCloudAccountUpdateName) -> Dict:
+		"""Update the name for aws cloud accounts that already onboarded to dome9
+
+		:param body: Details for dome9 aws cloud account
+		:type body: AwsCloudAccountUpdateName
+
+		:returns: Dict that has metadata for aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.NAME_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def update_region_config(self, body: AwsCloudAccountUpdateConfig):
+	def update_region_config(self, body: AwsCloudAccountUpdateConfig) -> Dict:
+		"""Update the region config for aws cloud accounts that already onboarded to dome9
+
+		:param body: Details for updating the region config of the dome9 aws cloud account
+		:type body: AwsCloudAccountUpdateConfig
+
+		:returns: Dict that has metadata for aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.REGION_CONFIG_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def update_organizational_id(self, aws_cloud_account_id: str, body: AwsCloudAccountUpdateOrganizationalUnitID):
+	def update_organizational_id(self, aws_cloud_account_id: str, body: AwsCloudAccountUpdateOrganizationalUnitID) -> Dict:
+		"""Update the organizational unit id for aws cloud accounts that already onboarded to dome9
+
+		:param aws_cloud_account_id: Dome9 aws cloud account id
+		:type aws_cloud_account_id: str
+		:param body: Details for aws cloud account in order to update organizational unit id.
+		:type body: AwsCloudAccountUpdateOrganizationalUnitID
+
+		:returns: Dict that has metadata for aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.ORGANIZATIONAL_UNIT_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def update_credentials(self, body: AwsCloudAccountUpdateCredentials):
+	def update_credentials(self, body: AwsCloudAccountUpdateCredentials) -> Dict:
+		"""Update the credentials for aws cloud accounts that already onboarded to dome9
+
+		:param body: Details for aws cloud account in order to update the credentials.
+		:type body: AwsCloudAccountUpdateCredentials
+
+		:returns: Dict that has metadata for aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.CREDENTIALS_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def delete(self, aws_cloud_account_id: str):
+		"""Delete aws cloud account
+
+		:param aws_cloud_account_id: Aws cloud account id
+		:type aws_cloud_account_id: str
+		:returns: None
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}'
 		return self._delete(route=route)
 
 	# attach iam safe to cloud account
-	def attach_iam_safe(self, body: AttachIamSafe):
+	def attach_iam_safe(self, body: AttachIamSafe) -> Dict:
+		"""Attach iam safe to aws cloud account
+
+		:param body: Details for aws cloud account in order to attach to iam safe
+		:type body: AttachIamSafe
+		:returns: Dict that has metadata for attached aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
 		return self._put(route=route, body=body)
 
-	def detach_iam_safe(self, aws_cloud_account_id: str):
+	def detach_iam_safe(self, aws_cloud_account_id: str) -> None:
+		"""Detach iam safe to aws cloud account
+
+		:param aws_cloud_account_id: Aws cloud account id
+		:type aws_cloud_account_id: str
+		:returns: Dict that has metadata for attached aws cloud account
+
+		"""
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.IAM_SAFE_ROUTE.value}'
 		return self._delete(route=route)
 
@@ -273,7 +347,7 @@ class AwsCloudAccount(Dome9Resource):
 		"""
 		entityTypes = [entityType.value for entityType in EntityType]
 		if self.entityType not in entityTypes:
-			raise UnsupportedEntityType(f'entity type must be one of the following {entityTypes}')
+			raise UnsupportedCloudAccountEntityType(f'entity type must be one of the following {entityTypes}')
 
 		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsCloudAccountConsts.RESTRICTED_IAM_ROUTE.value}/{entity_type}'
 		return self._delete(route=route, params={AwsCloudAccountConsts.ENTITY_NAME.value: entity_name})

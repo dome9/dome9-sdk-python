@@ -9,7 +9,7 @@ from loguru import logger
 from dome9.consts import ConfigConsts, LoggerConsts, ClientConsts
 from dome9.exceptions import Dome9AccessIDNotFoundException, Dome9SecretKeyNotFoundException
 
-from dome9.api_utils import APIUtils
+from dome9.utils import APIUtils, Utils
 
 
 class Client:
@@ -53,7 +53,7 @@ class Client:
 		for file in listdir(ClientConsts.RESOURCES.value):
 			if file.endswith(ClientConsts.PY_EXTENSION.value) and isfile(f'{ClientConsts.RESOURCES.value}/{file}'):
 				module_name, _ = path.splitext(file)
-				class_name = ''.join(word.title() for word in module_name.split('_'))
+				class_name = Utils.convert_to_camel_case(module_name)
 				try:
 					class_object = getattr(import_module(f'{ClientConsts.RESOURCES.value}.{module_name}'), class_name)
 				except AttributeError as e:

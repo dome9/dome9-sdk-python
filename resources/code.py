@@ -2,7 +2,7 @@ from typing import Any, List, Dict, Set, Optional
 
 from dome9.consts import OperationModes, AwsRegions, CloudAccountTypes, Protocols
 from dome9.client import Client
-from dome9.api_utils import APIUtils
+from dome9.utils import APIUtils
 
 
 def getAllUsers(self) -> List[Any]:
