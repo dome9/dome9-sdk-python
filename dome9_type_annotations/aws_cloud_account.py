@@ -11,7 +11,7 @@ class aws_cloud_account(BaseAwsCloudAccount):
 		pass
 
 	@classmethod
-	def get(cls, aws_cloud_account_id: str) ->Dict:
+	def get(cls, aws_cloud_account_id: str) -> Dict:
 		pass
 
 	@classmethod
