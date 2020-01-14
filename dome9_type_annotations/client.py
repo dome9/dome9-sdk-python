@@ -11,3 +11,4 @@ class Client(BaseClient):
 	azure_cloud_account: 'azure_cloud_account'
 	aws_security_group: 'aws_security_group'
 	rule_bundle: 'rule_bundle'
+	continuous_compliance_notification: 'continuous_compliance_notification'

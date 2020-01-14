@@ -1,9 +1,9 @@
-from typing import Callable, Optional, Dict, List, Union
+from typing import Callable, Dict, List, Union
 
 from re import match
 
-from dome9.consts import AwsRegions, Protocols
-from dome9.exceptions import UnsupportedRegionException
+from dome9.consts import AwsRegions, Protocols, NotificationOutputFormat, NotificationState
+from dome9.exceptions import UnsupportedRegionException, UnsupportedNotificationState, UnsupportedNotificationOutputFormat
 
 
 class APIUtils:
@@ -118,6 +118,19 @@ class APIUtils:
 		protocols = [protocol.value for protocol in Protocols]
 		if protocol not in protocols:
 			raise UnsupportedRegionException(f'protocol must be one of the following {Protocols}')
+
+	@staticmethod
+	def check_is_valid_state(state: str):
+		states = [state.value for state in NotificationState]
+		if state not in states:
+			raise UnsupportedNotificationState(f'state must be one of the following {states}')
+
+	@staticmethod
+	def check_is_valid_notification_output_format(notification_output_format: str):
+		notificationOutputFormats = [notificationOutputFormat.value for notificationOutputFormat in NotificationOutputFormat]
+		if notification_output_format not in notificationOutputFormats:
+			raise UnsupportedNotificationOutputFormat(
+				f'notification output format must be one of the following {notificationOutputFormats}')
 
 
 class Utils:
