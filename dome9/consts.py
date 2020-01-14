@@ -79,6 +79,17 @@ class CloudVendors(Enum):
 	AZURE_CHINA = 'azurechina'
 
 
+class NotificationState(Enum):
+	ENABLED = 'Enabled'
+	DISABLED = 'Disabled'
+
+
+class NotificationOutputFormat(Enum):
+	JSON_WITH_FULL_ENTITY = 'JsonWithFullEntity'
+	JSON_WITH_BASIC_ENTITY = 'JsonWithBasicEntity'
+	PLAIN_TEXT = 'PlainText'
+
+
 class Protocols(Enum):
 	ALL = 'ALL'
 	HOPOPT = 'HOPOPT'

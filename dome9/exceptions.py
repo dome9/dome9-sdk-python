@@ -54,3 +54,19 @@ class UnsupportedRuleEntitySeverity(Exception):
 
 class UnsupportedCloudVendor(Exception):
 	pass
+
+
+class UnsupportedScheduleDataReportType(Exception):
+	pass
+
+
+class UnsupportedNotificationState(Exception):
+	pass
+
+
+class UnsupportedNotificationOutputFormat(Exception):
+	pass
+
+
+class UnsupportedNotificationSystemType(Exception):
+	pass
