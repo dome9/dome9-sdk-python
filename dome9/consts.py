@@ -78,6 +78,7 @@ class CloudVendors(Enum):
 	AZURE_GOV = 'azuregov'
 	AZURE_CHINA = 'azurechina'
 
+
 class Protocols(Enum):
 	ALL = 'ALL'
 	HOPOPT = 'HOPOPT'

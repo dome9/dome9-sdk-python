@@ -481,7 +481,6 @@ def cloudAccountSyncNow(self, cloudAccountId: str) -> Dict[str, Any]:
 	return self._request(method=Client.RequestMethods.POST, route=route)
 
 
-
 def runAssessmentBundle(self, bundleId: int, cloudAccountId: str, cloudAccountType: CloudVendors, name: Optional[str],
 	description: Optional[str], isCft: Optional[bool], dome9CloudAccountId: Optional[str],
 	externalCloudAccountId: Optional[str], region: Optional[AwsRegions], cloudNetwork: Optional[str],
