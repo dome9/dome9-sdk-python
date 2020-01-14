@@ -133,7 +133,7 @@ class TicketingSystemData:
 			system_type (str): System type; can be "ServiceOne", "Jira", or "PagerDuty"
 			domain (str): serviceNow domain name (ServiceNow only)
 			user (str): User name (ServiceNow only)
-			_pass (str): Password (ServiceNow only)
+			pass_ (str): Password (ServiceNow only)
 			project_key (str): Project key (Jira) or API Key (PagerDuty)
 			issue_type (str): Issue type (Jira)
 			should_close_tickets (bool): Ticketing system should close tickets when resolved (bool)
@@ -142,7 +142,7 @@ class TicketingSystemData:
 	system_type: str
 	domain: str
 	user: str
-	_pass: str
+	pass_: str
 	project_key: str
 	issue_type: str
 	should_close_tickets: bool = True
