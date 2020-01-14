@@ -99,7 +99,7 @@ class RuleBundle(Dome9Resource):
 		route = f'{RuleBundleConsts.MAIN_ROUTE.value}/{rule_bundle_id}'
 		return self._get(route=route)
 
-	def get_all_rule_bundles(self) -> List:
+	def get_all(self) -> List:
 		"""Get all rule bundles
 
 		:returns: List of dicts that has metadata for all the rule bundles

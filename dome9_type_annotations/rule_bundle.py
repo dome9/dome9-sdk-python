@@ -15,7 +15,7 @@ class rule_bundle(BaseAwsCloudAccount):
 		pass
 
 	@classmethod
-	def get_all_rule_bundles(cls) -> List:
+	def get_all(cls) -> List:
 		pass
 
 	@classmethod
