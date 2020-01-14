@@ -46,3 +46,11 @@ class UnsupportedPolicyType(Exception):
 
 class UnsupportedCloudAccountEntityType(Exception):
 	pass
+
+
+class UnsupportedRuleEntitySeverity(Exception):
+	pass
+
+
+class UnsupportedCloudVendor(Exception):
+	pass

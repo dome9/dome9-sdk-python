@@ -61,13 +61,6 @@ class OperationModes(Enum):
 	MANAGED = 'Managed'
 
 
-class CloudAccountTypes(Enum):
-	AWS = 'Aws'
-	AZURE = 'Azure'
-	GOOGLE = 'Google'
-	KUBERNETES = 'Kubernetes'
-
-
 class NewGroupBehaviors(Enum):
 	READ_ONLY = 'ReadOnly'
 	FULL_MANAGE = 'FullManage'
@@ -79,6 +72,11 @@ class CloudVendors(Enum):
 	AZURE = 'azure'
 	GOOGLE = 'google'
 	KUBERNETES = 'kubernetes'
+	MELLANOX = 'mellanox'
+	AWS_GOV = 'awsgov'
+	AWS_CHINA = 'awschina'
+	AZURE_GOV = 'azuregov'
+	AZURE_CHINA = 'azurechina'
 
 
 class Protocols(Enum):

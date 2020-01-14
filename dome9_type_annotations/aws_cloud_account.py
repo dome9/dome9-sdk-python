@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from resources.aws_cloud_account import AwsCloudAccount as BaseAwsCloudAccount, AwsCloudAccountUpdateCredentials, AwsCloudAccountUpdateOrganizationalUnitID, \
-	AwsCloudAccountUpdateConfig, AwsCloudAccountUpdateName, AwsCloudAccountRequest, AttachIamSafe, RestrictedIamEntitiesRequest
+ AwsCloudAccountUpdateConfig, AwsCloudAccountUpdateName, AwsCloudAccountRequest, AttachIamSafe, RestrictedIamEntitiesRequest
 
 
 class aws_cloud_account(BaseAwsCloudAccount):
@@ -11,7 +11,7 @@ class aws_cloud_account(BaseAwsCloudAccount):
 		pass
 
 	@classmethod
-	def get(cls, aws_cloud_account_id: str) ->Dict:
+	def get(cls, aws_cloud_account_id: str) -> Dict:
 		pass
 
 	@classmethod
