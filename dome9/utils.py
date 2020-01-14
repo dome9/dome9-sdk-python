@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional, Dict, List, Union
 
 from re import match
 
@@ -126,13 +126,16 @@ class Utils:
 		return ''.join(word.title() for word in str_in_snake_case.split('_'))
 
 	@staticmethod
-	def convert_keys_to_camel_case(dict_to_convert: dict, skip_empty: bool):
-		payload = {}
-		for key, value in dict_to_convert.items():
-			if isinstance(value, dict):
-				value = Utils.convert_keys_to_camel_case(dict_to_convert=value, skip_empty=skip_empty)
-			# discard unset variables (None) recursively
-			if not (skip_empty and value is None):
-				payload[Utils.convert_to_camel_case(key)] = value
+	def convert_to_pascal_case(str_in_snake_case: str):
+		str_in_camel_case = Utils.convert_to_camel_case(str_in_snake_case=str_in_snake_case)
+		return str_in_camel_case[0].lower() + str_in_camel_case[1:]
 
-		return payload
+	@staticmethod
+	def convert_keys_to_pascal_case(obj: Union[Dict, List], skip_empty: bool):
+			if isinstance(obj, list):
+				return [Utils.convert_keys_to_pascal_case(obj=elem, skip_empty=skip_empty) for elem in obj]
+			elif isinstance(obj, dict):
+				return {Utils.convert_to_pascal_case(key): Utils.convert_keys_to_pascal_case(value, skip_empty=skip_empty) for key, value in obj.items() if
+				        not (skip_empty and value is None)}
+			else:
+				return obj
