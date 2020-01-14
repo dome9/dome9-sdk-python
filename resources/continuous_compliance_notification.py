@@ -61,9 +61,9 @@ class ScheduleData:
 	recipients: List[str]
 
 	def __post_init__(self):
-		reportTypes = [reportType.value for reportType in ScheduleDataReportType]
-		if self.type not in reportTypes:
-			raise UnsupportedScheduleDataReportType(f'report type must be one of the following {reportTypes}')
+		report_types = [report_type.value for report_type in ScheduleDataReportType]
+		if self.type not in report_types:
+			raise UnsupportedScheduleDataReportType(f'report type must be one of the following {report_types}')
 
 
 @dataclass
@@ -133,7 +133,7 @@ class TicketingSystemData:
 			system_type (str): System type; can be "ServiceOne", "Jira", or "PagerDuty"
 			domain (str): serviceNow domain name (ServiceNow only)
 			user (str): User name (ServiceNow only)
-			Pass (str): Password (ServiceNow only)
+			_pass (str): Password (ServiceNow only)
 			project_key (str): Project key (Jira) or API Key (PagerDuty)
 			issue_type (str): Issue type (Jira)
 			should_close_tickets (bool): Ticketing system should close tickets when resolved (bool)
@@ -142,7 +142,7 @@ class TicketingSystemData:
 	system_type: str
 	domain: str
 	user: str
-	Pass: str
+	_pass: str
 	project_key: str
 	issue_type: str
 	should_close_tickets: bool = True
@@ -243,9 +243,21 @@ class ChangeDetection:
 
 @dataclass
 class GCPSecurityCommandCenterIntegration:
+	"""Gcp security command center integration
+
+		Args:
+			state (str): Send findings to the GCP Security Command Center; can be "Enabled" or "Disabled"
+			if state is Enabled, the following must be included:
+			project_id (str): Gcp project id
+			source_id (str): Gcp source id
+
+	"""
 	state: str
-	project_id: str
-	source_id: str
+	project_id: str = None
+	source_id: str = None
+
+	def __post_init__(self):
+		APIUtils.check_is_valid_state(state=self.state)
 
 
 @dataclass
