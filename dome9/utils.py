@@ -4,6 +4,7 @@ from re import match
 
 from dome9.consts import AwsRegions, Protocols, NotificationOutputFormat, NotificationState
 from dome9.exceptions import UnsupportedRegionException, UnsupportedNotificationState, UnsupportedNotificationOutputFormat
+from dome9.consts import AwsRegions, Protocols, AzureRegions
 
 
 class APIUtils:
@@ -119,6 +120,11 @@ class APIUtils:
 		if protocol not in protocols:
 			raise UnsupportedRegionException(f'protocol must be one of the following {Protocols}')
 
+	@staticmethod
+	def check_is_valid_azure_region(region: str) -> None:
+		regions = [region.value for region in AzureRegions]
+		if region not in regions:
+			raise ValueError(f'region must be one of the following {regions}')
 	@staticmethod
 	def check_is_valid_state(state: str):
 		states = [state.value for state in NotificationState]
