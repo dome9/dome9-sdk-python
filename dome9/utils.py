@@ -126,10 +126,24 @@ class Utils:
 		return ''.join(word.title() for word in str_in_snake_case.split('_'))
 
 	@staticmethod
+	def convert_to_pascal_case(str_in_snake_case: str):
+		str_in_camel_case = Utils.convert_to_camel_case(str_in_snake_case=str_in_snake_case)
+		return str_in_camel_case[0].lower() + str_in_camel_case[1:]
+
+	@staticmethod
 	def convert_keys_to_camel_case(obj: Union[Dict, List], skip_empty: bool):
-		if isinstance(obj, list):
-			return [Utils.convert_keys_to_camel_case(obj=elem, skip_empty=skip_empty) for elem in obj]
-		elif isinstance(obj, dict):
-			return {Utils.convert_to_camel_case(key): Utils.convert_keys_to_camel_case(value, skip_empty=skip_empty) for key, value in obj.items() if not (skip_empty and value is None)}
-		else:
-			return obj
+		return Utils._convert_keys_to_desired_case(obj=obj, skip_empty=skip_empty, case_func=Utils.convert_to_camel_case)
+
+	@staticmethod
+	def convert_keys_to_pascal_case(obj: Union[Dict, List], skip_empty: bool):
+		return Utils._convert_keys_to_desired_case(obj=obj, skip_empty=skip_empty, case_func=Utils.convert_to_pascal_case)
+
+	@staticmethod
+	def _convert_keys_to_desired_case(obj: Union[Dict, List], skip_empty: bool, case_func: Callable):
+			if isinstance(obj, list):
+				return [Utils._convert_keys_to_desired_case(obj=elem, skip_empty=skip_empty, case_func=case_func) for elem in obj]
+			elif isinstance(obj, dict):
+				return {case_func(key): Utils._convert_keys_to_desired_case(value, skip_empty=skip_empty, case_func=case_func) for key, value in obj.items() if
+				        not (skip_empty and value is None)}
+			else:
+				return obj
