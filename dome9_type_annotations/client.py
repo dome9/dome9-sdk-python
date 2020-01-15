@@ -6,6 +6,7 @@ from dome9_type_annotations.rule_bundle import rule_bundle
 from dome9_type_annotations.continuous_compliance_policy import continuous_compliance_policy
 from dome9_type_annotations.aws_iam_safe import aws_iam_safe
 from dome9_type_annotations.access_lease import access_lease
+from dome9_type_annotations.user import user
 
 
 class Client(BaseClient):
@@ -18,3 +19,4 @@ class Client(BaseClient):
 	continuous_compliance_policy: 'continuous_compliance_policy'
 	aws_iam_safe: 'aws_iam_safe'
 	access_lease: 'access_lease'
+	user: 'user'
