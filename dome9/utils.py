@@ -2,7 +2,7 @@ from typing import Callable, Dict, List, Union
 
 from re import match
 
-from dome9.consts import AwsRegions, Protocols, NotificationOutputFormat, NotificationState
+from dome9.consts import AwsRegions, AzureRegions, Protocols, NotificationOutputFormat, NotificationState, SecurityGroupAccess, SecurityGroupDirection
 from dome9.exceptions import UnsupportedRegionException, UnsupportedNotificationState, UnsupportedNotificationOutputFormat
 
 
@@ -120,6 +120,12 @@ class APIUtils:
 			raise UnsupportedRegionException(f'protocol must be one of the following {Protocols}')
 
 	@staticmethod
+	def check_is_valid_azure_region(region: str) -> None:
+		regions = [region.value for region in AzureRegions]
+		if region not in regions:
+			raise ValueError(f'region must be one of the following {regions}')
+
+	@staticmethod
 	def check_is_valid_state(state: str):
 		states = [state.value for state in NotificationState]
 		if state not in states:
@@ -127,10 +133,30 @@ class APIUtils:
 
 	@staticmethod
 	def check_is_valid_notification_output_format(notification_output_format: str):
-		notificationOutputFormats = [notificationOutputFormat.value for notificationOutputFormat in NotificationOutputFormat]
-		if notification_output_format not in notificationOutputFormats:
+		notification_output_formats = [notification_output_format.value for notification_output_format in NotificationOutputFormat]
+		if notification_output_format not in notification_output_formats:
 			raise UnsupportedNotificationOutputFormat(
-				f'notification output format must be one of the following {notificationOutputFormats}')
+				f'notification output format must be one of the following {notification_output_formats}')
+
+	@staticmethod
+	def check_is_valid_priority(priority: int, optional: bool = False) -> None:
+		if optional and priority is None:
+			return
+
+		if priority < 100 or priority > 4096:
+			raise ValueError('priority must be between 100 and 400')
+
+	@staticmethod
+	def check_is_valid_access(access: str):
+		security_group_access = [access.value for access in SecurityGroupAccess]
+		if access not in security_group_access:
+			raise ValueError(f'access must be one of the following {security_group_access}')
+
+	@staticmethod
+	def check_is_valid_direction(direction: str):
+		security_group_direction = [direction.value for direction in SecurityGroupDirection]
+		if direction not in security_group_direction:
+			raise ValueError(f'direction must be one of the following {security_group_direction}')
 
 
 class Utils:

@@ -15,6 +15,9 @@ class Dome9APIException(Exception):
 		self.code = code
 		self.content = content
 
+	def __str__(self):
+		return f'code: {self.code}, content: {self.content}'
+
 
 class Dome9AccessIDNotFoundException(Exception):
 	pass

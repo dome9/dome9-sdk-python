@@ -56,6 +56,41 @@ class AwsRegions(Enum):
 	SAO_PAULO = 'sa_east_1'
 
 
+class AzureRegions(Enum):
+	CENTRALUS = 'centralus'
+	EASTUS = 'eastus'
+	EASTUS2 = 'eastus2'
+	USGOVLOWA = 'usgovlowa'
+	USGOVVIRGINIA = 'usgovvirginia'
+	NORTHCENTRALUS = 'northcentralus'
+	SOUTHCENTRALUS = 'southcentralus'
+	WESTUS = 'westus'
+	WESTUS2 = 'westus2'
+	WESTCENTRALUS = 'westcentralus'
+	NORTHEUROPE = 'northeurope'
+	WESTEUROPE = 'westeurope'
+	EASTASIA = 'eastasia'
+	SOUTHEASTASIA = 'southeastasia'
+	JAPANEAST = 'japaneast'
+	JAPANWEST = 'japanwest'
+	BRAZILSOUTH = 'brazilsouth'
+	AUSTRALIAEAST = 'australiaeast'
+	AUSTRALIASOUTHEAST = 'australiasoutheast'
+	CENTRALINDIA = 'centralindia'
+	SOUTHINDIA = 'southindia'
+	WESTINDIA = 'westindia'
+	CHINAEAST = 'chinaeast'
+	CHINANORTH = 'chinanorth'
+	CANADACENTRAL = 'canadacentral'
+	CANADAEAST = 'canadaeast'
+	GERMANYCENTRAL = 'germanycentral'
+	GERMANYNORTHEAST = 'germanynortheast'
+	KOREACENTRAL = 'koreacentral'
+	UKSOUTH = 'uksouth'
+	UKWEST = 'ukwest'
+	KOREASOU = 'koreasou'
+
+
 class OperationModes(Enum):
 	READ = 'Read'
 	MANAGED = 'Managed'
@@ -88,6 +123,16 @@ class NotificationOutputFormat(Enum):
 	JSON_WITH_FULL_ENTITY = 'JsonWithFullEntity'
 	JSON_WITH_BASIC_ENTITY = 'JsonWithBasicEntity'
 	PLAIN_TEXT = 'PlainText'
+
+
+class SecurityGroupAccess(Enum):
+	ALLOW = 'Allow'
+	DENY = 'Deny'
+
+
+class SecurityGroupDirection(Enum):
+	INBOUND = 'Inbound'
+	OUTBOUND = 'Outbound'
 
 
 class Protocols(Enum):
