@@ -53,6 +53,12 @@ class AzureSecurityGroupBoundService(BaseDataclassRequest):
 	direction: str
 	description: str = None
 
+	def __post_init__(self):
+		APIUtils.check_is_valid_priority(self.priority)
+		APIUtils.check_is_valid_protocol(self.protocol)
+		APIUtils.check_is_valid_access(self.access)
+		APIUtils.check_is_valid_direction(self.direction)
+
 
 @dataclass
 class AzureSecurityGroupRequest(BaseDataclassRequest):

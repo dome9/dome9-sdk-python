@@ -2,9 +2,8 @@ from typing import Callable, Dict, List, Union
 
 from re import match
 
-from dome9.consts import AwsRegions, Protocols, NotificationOutputFormat, NotificationState
+from dome9.consts import AwsRegions, AzureRegions, Protocols, NotificationOutputFormat, NotificationState
 from dome9.exceptions import UnsupportedRegionException, UnsupportedNotificationState, UnsupportedNotificationOutputFormat
-from dome9.consts import AwsRegions, Protocols, AzureRegions
 
 
 class APIUtils:
@@ -125,6 +124,7 @@ class APIUtils:
 		regions = [region.value for region in AzureRegions]
 		if region not in regions:
 			raise ValueError(f'region must be one of the following {regions}')
+
 	@staticmethod
 	def check_is_valid_state(state: str):
 		states = [state.value for state in NotificationState]
@@ -137,6 +137,24 @@ class APIUtils:
 		if notification_output_format not in notificationOutputFormats:
 			raise UnsupportedNotificationOutputFormat(
 				f'notification output format must be one of the following {notificationOutputFormats}')
+
+	@staticmethod
+	def check_is_valid_priority(priority: int, optional: bool = False) -> None:
+		if optional and priority is None:
+			return
+
+		if priority < 100 or priority > 4096:
+			raise ValueError
+
+	@staticmethod
+	def check_is_valid_access(access: str):
+		if access not in ['Allow', 'Deny']:
+			raise ValueError(f'access must be either Allow or Deny')
+
+	@staticmethod
+	def check_is_valid_direction(direction: str):
+		if direction not in ['Inbound', 'Outbound']:
+			raise ValueError(f'direction must be either Inbound or Outbound')
 
 
 class Utils:
