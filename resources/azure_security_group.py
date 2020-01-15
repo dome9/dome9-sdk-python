@@ -4,7 +4,7 @@ from typing import Dict, List
 
 from loguru import logger
 
-from dome9 import BaseDataclassRequest, Dome9Resource, Client, APIUtils, Utils
+from dome9 import BaseDataclassRequest, Dome9Resource, Client, APIUtils
 
 
 class AzureSecurityGroupConsts(Enum):
@@ -13,11 +13,12 @@ class AzureSecurityGroupConsts(Enum):
 
 @dataclass
 class AzureSecurityGroupScope(BaseDataclassRequest):
-	"""
+	"""Azure security group scope
 
 		Args:
 			type (str): (Required) scope type
 			data (Dict): (Required) scope data
+
 	"""
 	type: str
 	data: Dict
@@ -48,9 +49,9 @@ class AzureSecurityGroupBoundService(BaseDataclassRequest):
 	source_scopes: List[AzureSecurityGroupScope]
 	destination_port_ranges: List[str]
 	destination_scopes: List[AzureSecurityGroupScope]
-	is_default: bool
 	access: str
 	direction: str
+	is_default: bool = None
 	description: str = None
 
 	def __post_init__(self):
@@ -91,7 +92,6 @@ class AzureSecurityGroupRequest(BaseDataclassRequest):
 		APIUtils.check_is_valid_azure_region(region=self.region)
 
 
-
 class AzureSecurityGroup(Dome9Resource):
 
 	def __init__(self, client: Client):
@@ -102,6 +102,7 @@ class AzureSecurityGroup(Dome9Resource):
 
 		:param body: Azure Security Group request payload
 		:return: Response dict
+
 		"""
 		return self._post(route=AzureSecurityGroupConsts.MAIN_ROUTE.value, body=body)
 
@@ -110,6 +111,7 @@ class AzureSecurityGroup(Dome9Resource):
 
 		:param azure_security_group_id: Azure Security Group ID
 		:return: Response dict
+
 		"""
 		route = f'{AzureSecurityGroupConsts.MAIN_ROUTE.value}/{azure_security_group_id}'
 		return self._get(route=route)
@@ -118,6 +120,7 @@ class AzureSecurityGroup(Dome9Resource):
 		"""Get all Azure Security Groups
 
 		:return: List of response dicts
+
 		"""
 		return self._get(route=AzureSecurityGroupConsts.MAIN_ROUTE.value)
 
@@ -127,6 +130,7 @@ class AzureSecurityGroup(Dome9Resource):
 		:param azure_security_group_id: Azure Security Group ID
 		:param body: Azure Security Group request payload
 		:return: Response dict
+
 		"""
 		route = f'{AzureSecurityGroupConsts.MAIN_ROUTE.value}/{azure_security_group_id}'
 		return self._put(route=route, body=body)
@@ -136,8 +140,7 @@ class AzureSecurityGroup(Dome9Resource):
 
 		:param azure_security_group_id: Azure Security Group ID
 		:return: None
-		"""
 
+		"""
 		route = f'{AzureSecurityGroupConsts.MAIN_ROUTE.value}/{azure_security_group_id}'
 		return self._delete(route=route)
-

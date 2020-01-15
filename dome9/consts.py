@@ -125,6 +125,16 @@ class NotificationOutputFormat(Enum):
 	PLAIN_TEXT = 'PlainText'
 
 
+class SecurityGroupAccess(Enum):
+	ALLOW = 'Allow'
+	DENY = 'Deny'
+
+
+class SecurityGroupDirection(Enum):
+	INBOUND = 'Inbound'
+	OUTBOUND = 'Outbound'
+
+
 class Protocols(Enum):
 	ALL = 'ALL'
 	HOPOPT = 'HOPOPT'
