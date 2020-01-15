@@ -4,13 +4,9 @@ from typing import Dict, List
 
 from loguru import logger
 
-from dome9 import APIUtils
-from dome9.client import Client
+from dome9 import BaseDataclassRequest, APIUtils, Dome9Resource, Client
 from dome9.consts import NewGroupBehaviors
-from dome9.base_dataclass import BaseDataclassRequest
 from dome9.exceptions import UnsupportedCloudAccountCredentialsBasedType, UnsupportedCloudAccountGroupBehaviors
-
-from dome9.resource import Dome9Resource
 
 
 class AwsCloudAccountConsts(Enum):

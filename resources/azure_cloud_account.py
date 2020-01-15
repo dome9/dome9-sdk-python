@@ -2,10 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from loguru import logger
-from dome9.client import Client
-from dome9.base_dataclass import BaseDataclassRequest
-
-from dome9.resource import Dome9Resource
+from dome9 import Client, BaseDataclassRequest, Dome9Resource
 
 
 class AzureCloudAccountConsts(Enum):

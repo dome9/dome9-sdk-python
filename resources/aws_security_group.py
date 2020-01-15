@@ -2,8 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Dict
 from loguru import logger
-from dome9 import APIUtils
-from dome9 import BaseDataclassRequest, Dome9Resource, Client
+from dome9 import BaseDataclassRequest, Dome9Resource, Client, APIUtils
 from dome9.exceptions import UnsupportedProtectionMode, UnsupportedPolicyType
 
 
