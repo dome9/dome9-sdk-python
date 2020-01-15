@@ -25,7 +25,7 @@ class ContinuousCompliancePolicyRequest(BaseDataclassRequest):
 	external_account_id: str
 	cloud_account_type: str
 	bundle_id: str
-	notification_ids: [str]
+	notification_ids: List[str]
 
 
 class ContinuousCompliancePolicy(Dome9Resource):
