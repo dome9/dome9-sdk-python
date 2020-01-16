@@ -235,18 +235,8 @@ class AwsIamSafe(Dome9Resource):
 		self.protect_iam_safe(aws_cloud_account_id=aws_cloud_account_id, body=body)
 		self.unprotect_iam_safe(aws_cloud_account_id=aws_cloud_account_id, entity_type=entity_type, entity_name=entity_name)
 
+	# get details for iam entity
 	def _get_iam_entity_details(self, aws_cloud_account_id: str, entity_name: str, entity_type: str) -> Dict:
-		"""Get details for iam entity
-
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
-		:param entity_name: Aws iam user name or aws role
-		:type entity_name: str
-		:param entity_type: Entity type, must be one of the following Role or User
-		:type entity_type: str
-		:return: None
-
-		"""
 		iam_entities = self.get_all_protected_iam_safe(aws_cloud_account_id=aws_cloud_account_id)
 		iam_entities = iam_entities[AwsIamSafeConsts.ROLES_ARN.value] if entity_type == EntityType.ROLE.value else iam_entities[
 			AwsIamSafeConsts.USERS_ARN.value]
@@ -254,32 +244,18 @@ class AwsIamSafe(Dome9Resource):
 			if entity['name'] == entity_name:
 				return entity
 
+	# get list of ids according to received email
 	@staticmethod
 	def _get_users_ids_according_to_emails(emails: List[str]) -> List[str]:
-		"""Get list of ids according to received email
-
-		:param emails: List of emails
-		:type emails: str
-		:return: list of ids according to received email
-
-		"""
 		users_ids = []
 		for email in emails:
 			users_ids.append(User.user_email_id[email])
 
 		return users_ids
 
+	# get dic where key is users id and value is bool where true indicated to protect the user and false to unprotect it
 	@staticmethod
 	def _generate_protected_unprotected_map(curr_protected_users_ids: List[str], users_ids_to_protect: List[str]) -> Dict[str, bool]:
-		"""Get dic where key is users id and value is bool where true indicated to protect the user and false to unprotect it
-
-		:param curr_protected_users_ids: List of emails
-		:type curr_protected_users_ids: str
-		:param users_ids_to_protect: List of emails
-		:type users_ids_to_protect: str
-		:return: dic where key is users id and value is bool where true indicated to protect the user and false to unprotect it
-
-		"""
 		protected_unprotected = {}
 
 		for curr_protected_user_id in curr_protected_users_ids:

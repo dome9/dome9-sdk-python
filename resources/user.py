@@ -154,12 +154,8 @@ class User(Dome9Resource):
 		route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}'
 		return self._delete(route=route)
 
+	# update global dict where the key is users email and the value is users id
 	def _refresh_user_email_id_map(self) -> None:
-		"""Update global dict where the key is users email and the value is users id
-
-		:returns: None
-
-		"""
 		users = self.get_all()
 		for user in users:
 			User.user_email_id[user['name']] = user['id']
