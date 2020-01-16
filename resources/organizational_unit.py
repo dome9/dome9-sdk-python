@@ -20,11 +20,11 @@ class OrganizationalUnitRequest(BaseDataclassRequest):
 
 	Args:
 		name (str): (Required) Name of the organizational unit
-		parentId (str): (Optional) Path should be in the format of 'parent-id'.'parent-id'
+		parent_id (str): (Optional) Path should be in the format of 'parent-id'.'parent-id'
 
 	"""
 	name: str
-	parentId: str = None
+	parent_id: str = None
 
 
 class OrganizationalUnit(Dome9Resource):
@@ -39,8 +39,8 @@ class OrganizationalUnit(Dome9Resource):
 		:param body: The organizational unit data, requires name
 		:type body: OrganizationalUnitRequest
 		:return: Dict[Dict] with created ou item
-		"""
 
+		"""
 		return self._post(route=OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value, body=body)
 
 	def get(self, organizational_unit_id: str) -> Dict:
@@ -50,6 +50,7 @@ class OrganizationalUnit(Dome9Resource):
 		:param organizational_unit_id: Requested organizational unit id
 		:type organizational_unit_id: str[uuid]
 		:return: Dict with ou item
+
 		"""
 		route = f'{OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value}/{organizational_unit_id}'
 
@@ -73,8 +74,10 @@ class OrganizationalUnit(Dome9Resource):
 		:param organizational_unit_id: Requested organizational unit id if empty will return all OUs and their Cloud Accounts
 		:type organizational_unit_id: str[uuid]
 		:return: Dict with organizational unit cloud accounts metadata
+
 		"""
 		route = f'{OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value}/{OrganizationalUnitConsts.CLOUD_ACCOUNTS_ROUTE.value}'
+
 		return self._get(route=route, params={OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ID.value: organizational_unit_id })
 
 	def get_all_organizational_units(self) -> List[Dict]:
@@ -82,6 +85,7 @@ class OrganizationalUnit(Dome9Resource):
 
 		:link https://api-v2-docs.dome9.com/#organizationalunit_getflatorganizationalunitsasync
 		:return: List[Dict] with all OUs
+
 		"""
 		route = f'{OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value}/{OrganizationalUnitConsts.FLAT_ORGANIZATIONAL_UNIT_ROUTE.value}'
 
@@ -96,6 +100,7 @@ class OrganizationalUnit(Dome9Resource):
 		:param body: The organizational unit data, requires name
 		:type body: OrganizationalUnitRequest
 		:return: Dict with ou item properties, its parent and children
+
 		"""
 		route = f'{OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value}/{organizational_unit_id}'
 
@@ -108,6 +113,7 @@ class OrganizationalUnit(Dome9Resource):
 		:param organizational_unit_id: OU id to delete
 		:type organizational_unit_id: str[uuid]
 		:return: None
+
 		"""
 		route = f'{OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value}/{organizational_unit_id}'
 
@@ -119,6 +125,7 @@ class OrganizationalUnit(Dome9Resource):
 
 		:link https://api-v2-docs.dome9.com/#organizationalunit_deleteallorganizationalunitsasync
 		:return: None
+
 		"""
 		route = f'{OrganizationalUnitConsts.ORGANIZATIONAL_UNIT_ROUTE.value}/{OrganizationalUnitConsts.DELETE_ALL_ROUTE.value}'
 
