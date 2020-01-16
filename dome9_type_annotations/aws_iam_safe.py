@@ -1,6 +1,6 @@
-from typing import Dict
+from typing import Dict, List
 
-from resources.aws_iam_safe import AttachIamSafe as BaseAwsSecurityGroup, RestrictedIamEntitiesRequest, AttachIamSafe
+from resources.aws_iam_safe import AwsIamSafe as BaseAwsSecurityGroup, RestrictedIamEntitiesRequest, AttachIamSafe
 
 
 class aws_iam_safe(BaseAwsSecurityGroup):
@@ -22,5 +22,17 @@ class aws_iam_safe(BaseAwsSecurityGroup):
 		pass
 
 	@classmethod
-	def unprotect_iam_safe_entity(cls, aws_cloud_account_id, entity_name: str, entity_type: str) -> None:
+	def unprotect_iam_safe_entity(cls, aws_cloud_account_id: str, entity_name: str, entity_type: str) -> None:
+		pass
+
+	@classmethod
+	def protect_iam_safe_with_elevation(cls, aws_cloud_account_id: str, entity_name: str, entity_type: str, users_ids_to_protect: List[str]) -> None:
+		pass
+
+	@classmethod
+	def update_iam_safe_with_elevation(cls, aws_cloud_account_id: str, entity_name: str, entity_type: str, users_ids_to_protect: List[str]) -> None:
+		pass
+
+	@classmethod
+	def unprotect_iam_safe_with_elevation(cls, aws_cloud_account_id: str, entity_name: str, entity_type: str) -> None:
 		pass
