@@ -9,7 +9,7 @@ class AzureCloudAccountConsts(Enum):
 	MAIN_ROUTE = 'AzureCloudAccount'
 	OPERATION_MODE_ROUTE = 'OperationMode'
 	ORGANIZATIONAL_UNIT_ROUTE = 'organizationalUnit'
-	NAME_ROUTE = 'AccountName'
+	ACCOUNT_NAME_ROUTE = 'AccountName'
 	CREDENTIALS_ROUTE = 'credentials'
 
 
@@ -128,7 +128,7 @@ class AzureCloudAccount(Dome9Resource):
 		return self._get(route=AzureCloudAccountConsts.MAIN_ROUTE.value)
 
 	def update_name(self, azure_cloud_account_id: str, body: AzureCloudAccountUpdateName):
-		route = f'{AzureCloudAccountConsts.MAIN_ROUTE.value}/{azure_cloud_account_id}/{AzureCloudAccountConsts.NAME_ROUTE.value}'
+		route = f'{AzureCloudAccountConsts.MAIN_ROUTE.value}/{azure_cloud_account_id}/{AzureCloudAccountConsts.ACCOUNT_NAME_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def update_operation_mode(self, azure_cloud_account_id: str, body: AzureCloudAccountUpdateOperationMode):
