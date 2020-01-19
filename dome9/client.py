@@ -51,7 +51,7 @@ class Client:
 
 		# set all resources as client's attributes
 		for file in listdir(ClientConsts.RESOURCES.value):
-			if file.endswith(ClientConsts.PY_EXTENSION.value) and isfile(f'{ClientConsts.RESOURCES.value}/{file}'):
+			if file.endswith(ClientConsts.PY_EXTENSION.value) and isfile(f'{ClientConsts.RESOURCES.value}/{file}') and file != ClientConsts.INIT_FILE_NAME.value:
 				module_name, _ = path.splitext(file)
 				class_name = Utils.convert_to_camel_case(module_name)
 				try:

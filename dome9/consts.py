@@ -16,6 +16,7 @@ class ConfigConsts(Enum):
 class ClientConsts(Enum):
 	RESOURCES = 'resources'
 	PY_EXTENSION = '.py'
+	INIT_FILE_NAME = '__init__.py'
 
 
 class LoggerConsts(Enum):
