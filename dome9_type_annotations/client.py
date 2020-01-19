@@ -10,6 +10,7 @@ from dome9_type_annotations.aws_iam_safe import aws_iam_safe
 from dome9_type_annotations.access_lease import access_lease
 from dome9_type_annotations.user import user
 from dome9_type_annotations.assessment import assessment
+from dome9_type_annotations.role import role
 
 
 class Client(BaseClient):
@@ -26,3 +27,4 @@ class Client(BaseClient):
 	access_lease: 'access_lease'
 	user: 'user'
 	assessment: 'assessment'
+	role: 'role'
