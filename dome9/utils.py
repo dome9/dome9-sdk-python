@@ -50,7 +50,7 @@ class APIUtils:
 		if optional and arg is None:
 			return
 
-		if not match(r'^(((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d)|([1-9]\d)|(1\d{2})|(2[0-4]\d)|(25[0-5]))$', arg):
+		if not match(r'^((25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\.){3}(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(/(3[012]|[12]\d|\d))?$', arg):
 			raise ValueError
 
 	@staticmethod
