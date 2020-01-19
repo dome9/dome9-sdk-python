@@ -1,5 +1,6 @@
 from dome9.client import Client as BaseClient
 from dome9_type_annotations.aws_cloud_account import aws_cloud_account
+from dome9_type_annotations.google_cloud_account import google_cloud_account
 from dome9_type_annotations.azure_cloud_account import azure_cloud_account
 from dome9_type_annotations.aws_security_group import aws_security_group
 from dome9_type_annotations.organizational_unit import organizational_unit
@@ -16,6 +17,7 @@ from dome9_type_annotations.role import role
 class Client(BaseClient):
 
 	aws_cloud_account: 'aws_cloud_account'
+	google_cloud_account: 'google_cloud_account'
 	azure_cloud_account: 'azure_cloud_account'
 	aws_security_group: 'aws_security_group'
 	organizational_unit: 'organizational_unit'
