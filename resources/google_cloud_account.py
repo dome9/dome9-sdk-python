@@ -6,11 +6,8 @@ from dome9 import Client, BaseDataclassRequest, Dome9Resource
 
 
 class GoogleCloudAccountConsts(Enum):
-	"""
-	GoogleCloudAccountConsts
-	"""
 	GOOGLE_CLOUD_ACCOUNT = 'GoogleCloudAccount'
-	ACCOUNT_NAME_ROUTE = 'AccountName'
+	ACCOUNT_NAME = 'AccountName'
 	CREDENTIALS = 'Credentials'
 	GSUITE = 'Gsuite'
 	ORGANIZATIONAL_UNIT_MOVE = 'organizationalUnit/move'
@@ -67,7 +64,7 @@ class GoogleCloudAccountUpdate(BaseDataclassRequest):
 	
 	"""
 	name: str
-	service_account_credentials: object
+	service_account_credentials: Dict
 
 
 @dataclass
@@ -142,7 +139,7 @@ class GoogleCloudAccount(Dome9Resource):
 		:rtype  GoogleCloudAccountGet
 
 		"""
-		route = f'{GoogleCloudAccountConsts.GOOGLE_CLOUD_ACCOUNT.value}/{gcp_cloud_account_id}/{GoogleCloudAccountConsts.ACCOUNT_NAME_ROUTE}'
+		route = f'{GoogleCloudAccountConsts.GOOGLE_CLOUD_ACCOUNT.value}/{gcp_cloud_account_id}/{GoogleCloudAccountConsts.ACCOUNT_NAME}'
 		return self._put(route=route, body=body)
 
 	def delete(self, google_cloud_account_id: str) -> None:
@@ -195,7 +192,7 @@ class GoogleCloudAccount(Dome9Resource):
 		:link    https://api-v2-docs.dome9.com/index.html#googlecloudaccount_movecloudaccountstoorganizationalunit
 		:param   body: move organizational unit object
 		:type    body: MoveOrganizationalUnit
-		:return: None
+		:return  None
 		
 		"""
 		route = f'{GoogleCloudAccountConsts.GOOGLE_CLOUD_ACCOUNT.value}/{GoogleCloudAccountConsts.ORGANIZATIONAL_UNIT_MOVE.value}'
