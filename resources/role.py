@@ -54,8 +54,6 @@ class CreateRole(BaseDataclassRequest):
 	:type  name: str
 	:param description: description
 	:type  description: str
-	:param permissions: Permissions of the role
-	:type  permissions: Permissions
 
 	"""
 	name: str
