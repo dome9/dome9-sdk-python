@@ -135,6 +135,11 @@ class SecurityGroupDirection(Enum):
 	OUTBOUND = 'Outbound'
 
 
+class EntityType(Enum):
+	ROLE = 'Role'
+	USER = 'User'
+
+
 class Protocols(Enum):
 	ALL = 'ALL'
 	HOPOPT = 'HOPOPT'

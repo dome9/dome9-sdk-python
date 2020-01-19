@@ -2,8 +2,8 @@ from typing import Callable, Dict, List, Union
 
 from re import match
 
-from dome9.consts import AwsRegions, AzureRegions, Protocols, NotificationOutputFormat, NotificationState, SecurityGroupAccess, SecurityGroupDirection
-from dome9.exceptions import UnsupportedRegionException, UnsupportedNotificationState, UnsupportedNotificationOutputFormat
+from dome9.consts import AzureRegions, SecurityGroupAccess, SecurityGroupDirection, AwsRegions, Protocols, NotificationOutputFormat, NotificationState, EntityType
+from dome9.exceptions import UnsupportedRegionException, UnsupportedNotificationState, UnsupportedNotificationOutputFormat, UnsupportedCloudAccountEntityType
 
 
 class APIUtils:
@@ -145,6 +145,12 @@ class APIUtils:
 
 		if priority < 100 or priority > 4096:
 			raise ValueError('priority must be between 100 and 400')
+
+	@staticmethod
+	def check_is_valid_entity_type(entity_type: str):
+		entity_types = [entity_type.value for entity_type in EntityType]
+		if entity_type not in entity_types:
+			raise UnsupportedCloudAccountEntityType(f'entity type must be one of the following {entity_types}')
 
 	@staticmethod
 	def check_is_valid_access(access: str):

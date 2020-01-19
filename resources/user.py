@@ -82,6 +82,7 @@ class SetAsOwner(BaseDataclassRequest):
 
 
 class User(Dome9Resource):
+	user_email_id = {}
 
 	def __init__(self, client: Client):
 		super().__init__(client)
@@ -94,7 +95,9 @@ class User(Dome9Resource):
 		:returns: Dict that has metadata for the created user in dome9
 
 		"""
-		return self._post(route=UserConsts.MAIN_ROUTE.value, body=body)
+		resp = self._post(route=UserConsts.MAIN_ROUTE.value, body=body)
+		User.user_email_id[resp['name']] = resp['id']
+		return resp
 
 	def get(self, user_id: str) -> Dict:
 		"""Get user
@@ -149,4 +152,18 @@ class User(Dome9Resource):
 
 		"""
 		route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}'
-		return self._delete(route=route)
+		response = self._delete(route=route)
+		User._remove_key_by_value(value_to_delete=user_id)
+		return response
+
+	# update global dict where the key is users email and the value is users id
+	def _refresh_user_email_id_map(self) -> None:
+		users = self.get_all()
+		for user in users:
+			User.user_email_id[user['name']] = user['id']
+
+	@staticmethod
+	def _remove_key_by_value(value_to_delete):
+		for key, val in User.user_email_id.items():
+			if value_to_delete == val:
+				del User.user_email_id[key]
