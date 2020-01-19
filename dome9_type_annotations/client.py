@@ -9,6 +9,7 @@ from dome9_type_annotations.continuous_compliance_policy import continuous_compl
 from dome9_type_annotations.aws_iam_safe import aws_iam_safe
 from dome9_type_annotations.access_lease import access_lease
 from dome9_type_annotations.user import user
+from dome9_type_annotations.assessment import assessment
 
 
 class Client(BaseClient):
@@ -24,3 +25,4 @@ class Client(BaseClient):
 	aws_iam_safe: 'aws_iam_safe'
 	access_lease: 'access_lease'
 	user: 'user'
+	assessment: 'assessment'
