@@ -8,7 +8,8 @@ def readme():
 
 
 setup(name='dome9',
-	description='Dome9 sdk module',
+	description='dome9 py sdk module',
+        python_requires='>3.7'
 	version=__version__,
 	long_description=readme(),
 	author='dome9 sre team',
