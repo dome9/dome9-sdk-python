@@ -18,7 +18,7 @@ class Permissions:
 		:param    manage
 		:type     manage: List[str]
 		:param    rule_sets
-		:type     rule_sets: List[str]
+		:type     rulesets: List[str]
 		:param    notifications
 		:type     notifications: List[str]
 		:param    alert_actions
@@ -36,7 +36,7 @@ class Permissions:
 	"""
 	access: List[str]
 	manage: List[str]
-	rule_sets: List[str]
+	rulesets: List[str]
 	notifications: List[str]
 	policies: List[str]
 	alert_actions: List[str]
