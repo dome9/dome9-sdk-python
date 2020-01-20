@@ -1,34 +1,42 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from dome9 import BaseDataclassRequest, Dome9Resource, Client
 
 
 class UserConsts(Enum):
-	MAIN_ROUTE = 'user'
-	OWNER_ROUTE = 'account/owner'
+	USER = 'user'
+	ACCOUNT_OWNER = 'account/owner'
 
 
 @dataclass
 class Permissions:
 	"""Update users role_ids and permissions
+		:param    access
+		:type     access: List[str]
+		:param    manage
+		:type     manage: List[str]
+		:param    rule_sets
+		:type     rule_sets: List[str]
+		:param    notifications
+		:type     notifications: List[str]
+		:param    alert_actions
+		:type     alert_actions: List[str]
+		:param    create
+		:type     create: List[str]
+		:param    view
+		:type     view: List[str]
+		:param    on_boarding
+		:type     on_boarding: List[str]
+		:param    cross_account_access
+		:type     cross_account_access: List[str]
 
-		Args:
-			access (List[str]): access
-			manage (List[str]): manage
-			rulesets (List[str]): rulesets
-			notifications (List[str]): notifications
-			policies (List[str]): policies
-			alert_actions (List[str]): alert actions
-			create (List[str]): create
-			view (List[str]): view
-			on_boarding (List[str]): on boarding
-			cross_account_access (List[str]): cross account access
+
 	"""
 	access: List[str]
 	manage: List[str]
-	rulesets: List[str]
+	rule_sets: List[str]
 	notifications: List[str]
 	policies: List[str]
 	alert_actions: List[str]
@@ -41,12 +49,15 @@ class Permissions:
 @dataclass
 class UserRequest(BaseDataclassRequest):
 	"""User request
-
-		Args:
-			email (str): User email
-			first_name (str): First name
-			last_name (str): Last name
-			sso_enabled (bool): User has enabled SSO sign-on
+	
+	:param    email
+	:type     email: str
+	:param    first_name
+	:type     first_name: str
+	:param    last_name
+	:type     last_name: str
+	:param    sso_enabled: User has enabled SSO sign-on
+	:type     sso_enabled: bool
 
 	"""
 	email: str
@@ -59,11 +70,14 @@ class UserRequest(BaseDataclassRequest):
 class UpdateUser(BaseDataclassRequest):
 	"""Update users role_ids and permissions
 
-		Args:
-			email (str): User email
-			first_name (str): First name
-			last_name (str): Last name
-			sso_enabled (bool): User has enabled SSO sign-on
+	:param    email
+	:type     email: str
+	:param    first_name
+	:type     first_name: str
+	:param    last_name
+	:type     last_name: str
+	:param    sso_enabled: User has enabled SSO sign-on
+	:type     sso_enabled: bool
 
 	"""
 	permissions: Permissions
@@ -74,8 +88,8 @@ class UpdateUser(BaseDataclassRequest):
 class SetAsOwner(BaseDataclassRequest):
 	"""Set user as owner data
 
-		Args:
-			user_id (str): User id
+	:param    user_id
+	:type     user_id: str
 
 	"""
 	user_id: str
@@ -87,6 +101,18 @@ class User(Dome9Resource):
 	def __init__(self, client: Client):
 		super().__init__(client)
 
+	@staticmethod
+	def _remove_key_by_value(value_to_delete) -> None:
+		for key, val in User.user_email_id.items():
+			if value_to_delete == val:
+				del User.user_email_id[key]
+
+	# update global dict where the key is users email and the value is users id
+	def _refresh_user_email_id_map(self) -> None:
+		users = self.get()
+		for user in users:
+			User.user_email_id[user['name']] = user['id']
+
 	def create(self, body: UserRequest) -> Dict:
 		"""Create user in dome9
 
@@ -95,75 +121,60 @@ class User(Dome9Resource):
 		:returns: Dict that has metadata for the created user in dome9
 
 		"""
-		resp = self._post(route=UserConsts.MAIN_ROUTE.value, body=body)
+		resp = self._post(route=UserConsts.USER.value, body=body)
 		User.user_email_id[resp['name']] = resp['id']
 		return resp
 
-	def get(self, user_id: str) -> Dict:
-		"""Get user
+	def get(self, user_id: str = '') -> Union[Dict, List[Dict]]:
+		"""Get all Dome9 users for the Dome9 account.
 
-		:param user_id: Dome9 user id
-		:type user_id: str
-		:returns: Dict that has metadata for user
+		:link   https://api-v2-docs.dome9.com/index.html#user_get
+		:param  user_id: Dome9 user id
+		:type   user_id: str
+		:return https://api-v2-docs.dome9.com/index.html#schemadome9-web-api-user-userviewmodel
+		:rtype  Dict
 
 		"""
-		route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}'
+		route = f'{UserConsts.USER.value}/{user_id}'
 		return self._get(route=route)
 
-	def get_all(self) -> List[Dict]:
-		"""Get all users in dome9
-
-		:returns: List of dicts that has metadata for all users
-
-		"""
-		return self._get(route=UserConsts.MAIN_ROUTE.value)
-
 	def update(self, user_id: str, body: UpdateUser) -> Dict:
-		"""Update users Roles or permissions
+		"""Update the user with the specified id
 
-		:param user_id: Dome9 user id
-		:type user_id: str
-		:param body: Details for the user
-		:type body: UpdateUser
-
-		:returns: Dict that has metadata for the updated user
+		:link   https://api-v2-docs.dome9.com/index.html#user_put
+		:param  user_id: Dome9 user id
+		:type   user_id: str
+		:param  body: Details for the user
+		:type   body: UpdateUser
+		:return 200 OK
+		:rtype  Dict
 
 		"""
-		route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}'
+		route = f'{UserConsts.USER.value}/{user_id}'
 		return self._put(route=route, body=body)
 
 	def set_as_owner(self, body: SetAsOwner) -> None:
 		"""Update users Roles or permissions
 
+		:link
 		:param body: Set user as owner details
 		:type body: SetAsOwner
-
-		:returns: Dict that has metadata for user
+		:return: metadata for user object
+		:rtype: Dict
 
 		"""
-		return self._put(route=UserConsts.OWNER_ROUTE.value, body=body)
+		return self._put(route=UserConsts.ACCOUNT_OWNER.value, body=body)
 
 	def delete(self, user_id: str) -> None:
-		"""Delete dome9 user
+		"""Delete a user
 
-		:param user_id: Dome9 user id
-		:type user_id: str
-		:returns: None
+		:link    https://api-v2-docs.dome9.com/index.html#user_delete
+		:param   user_id: Dome9 user id
+		:type    user_id: str
+		:return: None
 
 		"""
-		route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}'
+		route = f'{UserConsts.USER.value}/{user_id}'
 		response = self._delete(route=route)
 		User._remove_key_by_value(value_to_delete=user_id)
 		return response
-
-	# update global dict where the key is users email and the value is users id
-	def _refresh_user_email_id_map(self) -> None:
-		users = self.get_all()
-		for user in users:
-			User.user_email_id[user['name']] = user['id']
-
-	@staticmethod
-	def _remove_key_by_value(value_to_delete):
-		for key, val in User.user_email_id.items():
-			if value_to_delete == val:
-				del User.user_email_id[key]

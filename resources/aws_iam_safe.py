@@ -170,7 +170,7 @@ class AwsIamSafe(Dome9Resource):
 		body = ProtectIamSafeWithElevation(iam_entities=[entity_details['arn']])
 
 		for user_id in users_ids_to_protect:
-			route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITY_ROUTE.value}'
+			route = f'{UserConsts.USER.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITY_ROUTE.value}'
 			resp = self._post(route=route, body=body)
 			if len(resp['failedIamEntities']) != 0:
 				entities_failed_to_protect.add(user_id)
@@ -204,7 +204,7 @@ class AwsIamSafe(Dome9Resource):
 		protect_body = ProtectIamSafeWithElevation(iam_entities=[entity_details['arn']])
 
 		for user_id, to_protect in protected_unprotected_dict.items():
-			route = f'{UserConsts.MAIN_ROUTE.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITY_ROUTE.value}'
+			route = f'{UserConsts.USER.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITY_ROUTE.value}'
 			if to_protect:
 				resp = self._put(route=route, body=protect_body)
 			else:
