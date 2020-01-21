@@ -90,7 +90,7 @@ class AwsIamSafe(Dome9Resource):
 		:returns: Dict that has metadata for attached aws cloud account
 
 		"""
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}'
 		return self._put(route=route, body=body)
 
 	def detach_iam_safe(self, aws_cloud_account_id: str) -> None:
@@ -101,7 +101,7 @@ class AwsIamSafe(Dome9Resource):
 		:returns: Dict that has metadata for attached aws cloud account
 
 		"""
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}'
 		return self._delete(route=route)
 
 	# iam protect (restrict) entity
@@ -115,7 +115,7 @@ class AwsIamSafe(Dome9Resource):
 		:returns: Aws User or Role arn that protected
 
 		"""
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ROUTE.value}'
 		return self._post(route=route, body=body)
 
 	def get_all_protected_iam_safe(self, aws_cloud_account_id: str) -> Dict:
@@ -126,7 +126,7 @@ class AwsIamSafe(Dome9Resource):
 		:returns: Dict that has two key, roles and users
 
 		"""
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITIES_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITIES_ROUTE.value}'
 		return self._get(route=route)
 
 	def unprotect_iam_safe(self, aws_cloud_account_id: str, entity_type: str, entity_name: str) -> None:
@@ -143,7 +143,7 @@ class AwsIamSafe(Dome9Resource):
 		"""
 		APIUtils.check_is_valid_entity_type(entity_type=entity_type)
 
-		route = f'{AwsCloudAccountConsts.MAIN_ROUTE.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ROUTE.value}/{entity_type}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ROUTE.value}/{entity_type}'
 		return self._delete(route=route, params={AwsIamSafeConsts.ENTITY_NAME.value: entity_name})
 
 	# iam protect with elevation
