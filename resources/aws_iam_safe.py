@@ -11,10 +11,10 @@ from resources.user import UserConsts, User
 
 
 class AwsIamSafeConsts(Enum):
-	IAM_SAFE_ROUTE = 'iam-safe'
-	IAM_ENTITY_ROUTE = 'iamEntities'
-	RESTRICTED_IAM_ROUTE = 'restrictedIamEntities'
-	IAM_ENTITIES_ROUTE = 'iam'
+	IAM_SAFE = 'iam-safe'
+	IAM_ENTITIES = 'iamEntities'
+	RESTRICTED_IAM_ENTITIES = 'restrictedIamEntities'
+	IAM = 'iam'
 	ENTITY_NAME = 'entityName'
 	ACCOUNTS = "accounts"
 	ROLES_ARN = "rolesArns"
@@ -25,9 +25,11 @@ class AwsIamSafeConsts(Enum):
 class IAMSafeData:
 	"""IAM safe data
 
-		Args:
-			aws_group_arn(str): (Required) AWS group arn.
-			aws_policy_arn(str): (Required) AWS policy arn.
+	:link
+	:param aws_group_arn:
+	:type  aws_group_arn: str
+	:param aws_policy_arn:
+	:type  aws_policy_arn: str
 
 	"""
 	aws_group_arn: str
@@ -38,9 +40,11 @@ class IAMSafeData:
 class AttachIamSafe(BaseDataclassRequest):
 	"""IAMSafeData
 
-		Args:
-			cloud_account_id(str): (Required) AWS cloud account to attach IAM safe to it.
-			data(str): (Required) IAM safe data
+	:link
+	:param cloud_account_id: AWS cloud account to attach IAM safe to it.
+	:type  cloud_account_id: str
+	:param data: IAM safe data
+	:type  data: IAMSafeData
 
 	"""
 	cloud_account_id: str
@@ -51,9 +55,11 @@ class AttachIamSafe(BaseDataclassRequest):
 class RestrictedIamEntitiesRequest(BaseDataclassRequest):
 	"""Restricted iam entities request
 
-		Args:
-			entity_type (str): Entity type, must be one of the following Role or User
-			entity_name (str): Aws iam user name or aws role
+		:link
+		:param entity_type: Entity type, must be one of the following Role or User
+		:type  entity_type: str
+		:param entity_name: Aws iam user name or aws role
+		:type  entity_name: str
 
 	"""
 	entity_type: str
@@ -68,8 +74,9 @@ class RestrictedIamEntitiesRequest(BaseDataclassRequest):
 class ProtectIamSafeWithElevation(BaseDataclassRequest):
 	"""Protect iam safe with elevation
 
-		Args:
-			iam_entities (List[str]): Iam entities
+	:link
+	:param iam_entities: Iam entities
+	:type  iam_entities: List[str]
 
 	"""
 	iam_entities: List[str]
@@ -85,79 +92,86 @@ class AwsIamSafe(Dome9Resource):
 	def attach_iam_safe(self, body: AttachIamSafe) -> Dict:
 		"""Attach iam safe to aws cloud account
 
-		:param body: Details for aws cloud account in order to attach to iam safe
-		:type body: AttachIamSafe
+		:link
+		:param    body: Details for aws cloud account in order to attach to iam safe
+		:type     body: AttachIamSafe
 		:returns: Dict that has metadata for attached aws cloud account
+		:rtype    Dict
 
 		"""
-		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{AwsIamSafeConsts.IAM_SAFE.value}'
 		return self._put(route=route, body=body)
 
 	def detach_iam_safe(self, aws_cloud_account_id: str) -> None:
 		"""Detach iam safe to aws cloud account
 
-		:param aws_cloud_account_id: Aws cloud account id
-		:type aws_cloud_account_id: str
-		:returns: Dict that has metadata for attached aws cloud account
+		:link
+		:param    aws_cloud_account_id: Aws cloud account id
+		:type     aws_cloud_account_id: str
+		:returns: None
 
 		"""
-		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_SAFE.value}'
 		return self._delete(route=route)
 
 	# iam protect (restrict) entity
 	def protect_iam_safe(self, aws_cloud_account_id: str, body: RestrictedIamEntitiesRequest) -> str:
 		"""Protect iam safe entity where the entity can be User or Role
 
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
-		:param body: Details restricted iam entities request
-		:type body: RestrictedIamEntitiesRequest
+		:param    aws_cloud_account_id: Aws security group id.
+		:type     aws_cloud_account_id: str
+		:param    body: Details restricted iam entities request
+		:type     body: RestrictedIamEntitiesRequest
 		:returns: Aws User or Role arn that protected
+		:rtype    str
 
 		"""
-		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ENTITIES.value}'
 		return self._post(route=route, body=body)
 
 	def get_all_protected_iam_safe(self, aws_cloud_account_id: str) -> Dict:
 		"""Get data for all the users and roles
 
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
+		:link
+		:param    aws_cloud_account_id: Aws security group id.
+		:type     aws_cloud_account_id: str
 		:returns: Dict that has two key, roles and users
 
 		"""
-		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITIES_ROUTE.value}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM.value}'
 		return self._get(route=route)
 
 	def unprotect_iam_safe(self, aws_cloud_account_id: str, entity_type: str, entity_name: str) -> None:
 		"""Unprotect specific iam safe entity
 
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
-		:param entity_type: entity type, must be User or Role
-		:type entity_type: str
-		:param entity_name: Entity name
-		:type entity_name: str
+		:link
+		:param    aws_cloud_account_id: Aws security group id.
+		:type     aws_cloud_account_id: str
+		:param    entity_type: entity type, must be User or Role
+		:type     entity_type: str
+		:param    entity_name: Entity name
+		:type     entity_name: str
 		:returns: None
 
 		"""
 		APIUtils.check_is_valid_entity_type(entity_type=entity_type)
 
-		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ROUTE.value}/{entity_type}'
+		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ENTITIES.value}/{entity_type}'
 		return self._delete(route=route, params={AwsIamSafeConsts.ENTITY_NAME.value: entity_name})
 
 	# iam protect with elevation
 	def protect_iam_safe_with_elevation(self, aws_cloud_account_id: str, entity_name: str, entity_type: str, users_ids_to_protect: List[str]) -> None:
 		"""Protect iam safe with elevation
 
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
-		:param entity_name: Aws iam user name or aws role
-		:type entity_name: str
-		:param entity_type: Entity type, must be one of the following Role or User
-		:type entity_type: str
-		:param users_ids_to_protect: List of users ids to protect
-		:type users_ids_to_protect: List[str]
+		:link
+		:param   aws_cloud_account_id: Aws security group id.
+		:type    aws_cloud_account_id: str
+		:param   entity_name: Aws iam user name or aws role
+		:type    entity_name: str
+		:param   entity_type: Entity type, must be one of the following Role or User
+		:type    entity_type: str
+		:param   users_ids_to_protect: List of users ids to protect
+		:type    users_ids_to_protect: List[str]
 		:return: None
 
 		"""
@@ -170,7 +184,7 @@ class AwsIamSafe(Dome9Resource):
 		body = ProtectIamSafeWithElevation(iam_entities=[entity_details['arn']])
 
 		for user_id in users_ids_to_protect:
-			route = f'{UserConsts.USER.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITY_ROUTE.value}'
+			route = f'{UserConsts.USER.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITIES.value}'
 			resp = self._post(route=route, body=body)
 			if len(resp['failedIamEntities']) != 0:
 				entities_failed_to_protect.add(user_id)
@@ -181,14 +195,15 @@ class AwsIamSafe(Dome9Resource):
 	def update_iam_safe_with_elevation(self, aws_cloud_account_id: str, entity_name: str, entity_type: str,  users_ids_to_protect: List[str]) -> None:
 		"""Protect iam safe with elevation
 
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
-		:param entity_name: Aws iam user name or aws role
-		:type entity_name: str
-		:param entity_type: Entity type, must be one of the following Role or User
-		:type entity_type: str
-		:param users_ids_to_protect: List of users ids to protect
-		:type users_ids_to_protect: List[str]
+		:link
+		:param   aws_cloud_account_id: Aws security group id.
+		:type    aws_cloud_account_id: str
+		:param   entity_name: Aws iam user name or aws role
+		:type    entity_name: str
+		:param   entity_type: Entity type, must be one of the following Role or User
+		:type    entity_type: str
+		:param   users_ids_to_protect: List of users ids to protect
+		:type    users_ids_to_protect: List[str]
 		:return: None
 
 		"""
@@ -204,7 +219,7 @@ class AwsIamSafe(Dome9Resource):
 		protect_body = ProtectIamSafeWithElevation(iam_entities=[entity_details['arn']])
 
 		for user_id, to_protect in protected_unprotected_dict.items():
-			route = f'{UserConsts.USER.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE_ROUTE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITY_ROUTE.value}'
+			route = f'{UserConsts.USER.value}/{user_id}/{AwsIamSafeConsts.IAM_SAFE.value}/{AwsIamSafeConsts.ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_ENTITIES.value}'
 			if to_protect:
 				resp = self._put(route=route, body=protect_body)
 			else:
@@ -219,12 +234,13 @@ class AwsIamSafe(Dome9Resource):
 	def unprotect_iam_safe_with_elevation(self, aws_cloud_account_id: str, entity_name: str, entity_type: str) -> None:
 		"""Protect iam safe with elevation
 
-		:param aws_cloud_account_id: Aws security group id.
-		:type aws_cloud_account_id: str
-		:param entity_name: Aws iam user name or aws role
-		:type entity_name: str
-		:param entity_type: Entity type, must be one of the following Role or User
-		:type entity_type: str
+		:link
+		:param   aws_cloud_account_id: Aws security group id.
+		:type    aws_cloud_account_id: str
+		:param   entity_name: Aws iam user name or aws role
+		:type    entity_name: str
+		:param   entity_type: Entity type, must be one of the following Role or User
+		:type    entity_type: str
 		:return: None
 
 		"""
