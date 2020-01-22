@@ -5,18 +5,20 @@ from dome9 import Dome9Resource, Client, BaseDataclassRequest
 
 
 class AssessmentConsts(Enum):
-	MAIN_ROUTE = 'assessment/bundleV2'
+	ASSESSMENT_BUNDLE_V2 = 'assessment/bundleV2'
 
 
 @dataclass
-class RunBundleRequest(BaseDataclassRequest):
-	"""AWS cloud account credentials
+class AssessmentBundleRequest(BaseDataclassRequest):
+	"""AssessmentBundleRequest
 
-		Args:
-			id (str): Bundle id
-			cloud_account_id (str): cloud account id
-			region (str): aws region, by default all regions
-
+	:link   https://api-v2-docs.dome9.com/index.html#schemadome9-web-api-models-assessmentbundlerequestviewmodel
+	:param  id: the bundle id
+	:type   id: str
+	:param  cloud_account_id: account id on cloud provider (AWS, Azure, GCP)
+	:type   cloud_account_id: str
+	:param  region: cloud region for the account
+	:type   region: str
 	"""
 	id: str
 	cloud_account_id: str
@@ -24,16 +26,20 @@ class RunBundleRequest(BaseDataclassRequest):
 
 
 class Assessment(Dome9Resource):
+	"""Assessment
 
+	"""
 	def __init__(self, client: Client):
 		super().__init__(client)
 
-	def run_bundle(self, body: RunBundleRequest):
-		"""Create (onboard) aws cloud account
+	def run_bundle(self, body: AssessmentBundleRequest):
+		"""Run an assessment on a cloud environment using a bundle (V2)
 
-		:param body: Details for the bundle that we want to run
-		:type body: RunBundleRequest
-		:returns: Dict the running bundle
+		:link   https://api-v2-docs.dome9.com/index.html#Dome9-API-Assessment
+		:param  body: The assessment request block
+		:type   body: AssessmentBundleRequest
+		:return https://api-v2-docs.dome9.com/index.html#schemadome9-web-api-models-assessmentresultviewmodel
+		:rtype  AssessmentResult
 
 		"""
-		return self._post(route=AssessmentConsts.MAIN_ROUTE.value, body=body)
+		return self._post(route=AssessmentConsts.ASSESSMENT_BUNDLE_V2.value, body=body)
