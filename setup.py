@@ -9,7 +9,7 @@ def readme():
 
 setup(name='dome9',
 	description='dome9 py sdk module',
-        python_requires='>3.7'
+	python_requires='>3.7',
 	version=__version__,
 	long_description=readme(),
 	author='dome9 sre team',
@@ -24,4 +24,4 @@ project_urls = {
 	"Repository": "https://github.com/Dome9/dome9-sdk-python",
 	"Bug Reports": "https://github.com/Dome9/dome9-sdk-python/issues",
 	"Documentation": "https://github.com/Dome9/dome9-sdk-python",
-},
+}
