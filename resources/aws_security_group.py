@@ -148,10 +148,10 @@ class AwsSecurityGroup(Dome9Resource):
 	def create(self, body: CloudSecurityGroup) -> Dict:
 		"""Create aws security group
 
-		:link    https://api-v2-docs.dome9.com/#cloudsecuritygroup_createcloudsecuritygroup
-		:param   body: Details for the new aws security group
-		:type    body: CloudSecurityGroup
-		:returns Dict that has metadata for the created aws security group
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_createcloudsecuritygroup
+		:param  body: Details for the new aws security group
+		:type   body: CloudSecurityGroup
+		:return Dict that has metadata for the created aws security group
 
 		"""
 		return self._post(route=AWSSecurityGroupConsts.CLOUD_SECURITY_GROUP.value, body=body)
@@ -215,14 +215,14 @@ class AwsSecurityGroup(Dome9Resource):
 	def update_security_group_service(self, security_group_id: str, policy_type: str, body: CloudSecurityGroupService) -> Dict:
 		"""Update a service (rule) for an AWS security group
 
-		:link    https://api-v2-docs.dome9.com/#cloudsecuritygroup_updateserviceforcloudtosecuritygroup
-		:param   security_group_id: Aws security group id.
-		:type    security_group_id: str
-		:param   policy_type: The service type (Inbound / Outbound)
-		:type    policy_type: str
-		:param   body: Updated details for the service
-		:type    body: CloudSecurityGroupService
-		:returns Dict that has metadata for the updated security group
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_updateserviceforcloudtosecuritygroup
+		:param  security_group_id: Aws security group id.
+		:type   security_group_id: str
+		:param  policy_type: The service type (Inbound / Outbound)
+		:type   policy_type: str
+		:param  body: Updated details for the service
+		:type   body: CloudSecurityGroupService
+		:return Dict that has metadata for the updated security group
 
 		"""
 		policy_types = [policy_type.value for policy_type in PolicyTypeConsts]
@@ -235,10 +235,10 @@ class AwsSecurityGroup(Dome9Resource):
 	def delete(self, security_group_id: str) -> None:
 		"""Delete aws security group
 
-		:link    https://api-v2-docs.dome9.com/#cloudsecuritygroup_deletecloudsecuritygroup
-		:param   security_group_id: Aws security group id.
-		:type    security_group_id: str
-		:returns None
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_deletecloudsecuritygroup
+		:param  security_group_id: Aws security group id.
+		:type   security_group_id: str
+		:return None
 
 		"""
 		route = f'{AWSSecurityGroupConsts.CLOUD_SECURITY_GROUP.value}/{security_group_id}'

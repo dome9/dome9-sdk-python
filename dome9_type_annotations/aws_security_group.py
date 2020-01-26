@@ -10,10 +10,10 @@ class aws_security_group(BaseAwsSecurityGroup):
 	def create(cls, body: CloudSecurityGroup) -> Dict:
 		"""Create aws security group
 
-		:link https://api-v2-docs.dome9.com/#cloudsecuritygroup_createcloudsecuritygroup
-		:param body: Details for the new aws security group
-		:type body: CloudSecurityGroup
-		:returns: Dict that has metadata for the created aws security group
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_createcloudsecuritygroup
+		:param  body: Details for the new aws security group
+		:type   body: CloudSecurityGroup
+		:return Dict that has metadata for the created aws security group
 
 		"""
 		pass
@@ -63,13 +63,13 @@ class aws_security_group(BaseAwsSecurityGroup):
 	def change_protection_mode(cls, security_group_id: str, body: CloudSecurityGroupProtectionModeChange) -> Dict:
 		"""Change the protection mode for an AWS security group
 
-		:link https://api-v2-docs.dome9.com/#cloudsecuritygroup_changeprotectionmode
-		:param security_group_id: the AWS security group id (Dome9 internal ID / AWS security group ID)
-		:type security_group_id: str
-		:param body: details for the security group, including the protection mode. Only 'ProtectionMode' is required in this call (FullManage or ReadOnly).
-		:type body: CloudSecurityGroupProtectionModeChange
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_changeprotectionmode
+		:param  security_group_id: the AWS security group id (Dome9 internal ID / AWS security group ID)
+		:type   security_group_id: str
+		:param  body: details for the security group, including the protection mode. Only 'ProtectionMode' is required in this call (FullManage or ReadOnly).
+		:type   body: CloudSecurityGroupProtectionModeChange
 		:return metadata
-		:rtype Dict
+		:rtype  Dict
 
 		"""
 		pass
@@ -78,14 +78,14 @@ class aws_security_group(BaseAwsSecurityGroup):
 	def update_security_group_service(cls, security_group_id: str, policy_type: str, body: CloudSecurityGroupService) -> Dict:
 		"""Update a service (rule) for an AWS security group
 
-		:link https://api-v2-docs.dome9.com/#cloudsecuritygroup_updateserviceforcloudtosecuritygroup
-		:param security_group_id: Aws security group id.
-		:type security_group_id: str
-		:param policy_type: The service type (Inbound / Outbound)
-		:type policy_type: str
-		:param body: Updated details for the service
-		:type body: CloudSecurityGroupService
-		:returns: Dict that has metadata for the updated security group
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_updateserviceforcloudtosecuritygroup
+		:param  security_group_id: Aws security group id.
+		:type   security_group_id: str
+		:param  policy_type: The service type (Inbound / Outbound)
+		:type   policy_type: str
+		:param  body: Updated details for the service
+		:type   body: CloudSecurityGroupService
+		:return Dict that has metadata for the updated security group
 
 		"""
 		pass
@@ -94,10 +94,10 @@ class aws_security_group(BaseAwsSecurityGroup):
 	def delete(cls, security_group_id: str) -> None:
 		"""Delete aws security group
 
-		:link https://api-v2-docs.dome9.com/#cloudsecuritygroup_deletecloudsecuritygroup
-		:param security_group_id: Aws security group id.
-		:type security_group_id: str
-		:returns: None
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_deletecloudsecuritygroup
+		:param  security_group_id: Aws security group id.
+		:type   security_group_id: str
+		:return None
 
 		"""
 		pass
