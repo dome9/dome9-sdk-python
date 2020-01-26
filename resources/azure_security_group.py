@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from loguru import logger
 
@@ -8,17 +8,18 @@ from dome9 import BaseDataclassRequest, Dome9Resource, Client, APIUtils
 
 
 class AzureSecurityGroupConsts(Enum):
-	MAIN_ROUTE = 'AzureSecurityGroupPolicy'
+	AZURE_SECURITY_GROUP_POLICY = 'AzureSecurityGroupPolicy'
 
 
 @dataclass
 class AzureSecurityGroupScope(BaseDataclassRequest):
 	"""Azure security group scope
 
-		Args:
-			type (str): (Required) scope type
-			data (Dict): (Required) scope data
-
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemafalconetix-webapi-models-scopeelementviewmodel
+	:param type: Scope type
+	:type  type: str
+	:param data: Scope data
+	:type  data: Dict
 	"""
 	type: str
 	data: Dict
@@ -26,21 +27,31 @@ class AzureSecurityGroupScope(BaseDataclassRequest):
 
 @dataclass
 class AzureSecurityGroupBoundService(BaseDataclassRequest):
-	"""Azure Security Group create request
+	"""
 
-			Args:
-				name (str): (Required) Service name
-				priority (int): (Required) Service priority (a number between 100 and 4096)
-				protocol (str): (Required) Service protocol (UDP / TCP / ANY)
-				source_port_ranges (List[str]): (Required) Source port ranges
-				source_scopes (List[AzureSecurityGroupScope]): (Required) List of source scopes for the service (CIDR / IP List / Tag)
-				destination_port_ranges (List[str]): (Required) Destination port ranges
-				destination_scopes (List[AzureSecurityGroupScope]): (Required) List of destination scopes for the service (CIDR / IP List / Tag)
-				is_default (bool): Gets or sets the default security rules of network security group
-				access (str): (Required) Service access (Allow / Deny)
-				direction (str): (Required) Inbound/Outbound
-				description (str): (Optional) Service description
-
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-azure-securitygrouppolicy-viewmodels-azuresgpolicyserviceviewmodel
+	:param name: Service name
+	:type  name: str
+	:param priority: Service priority (a number between 100 and 4096)
+	:type  priority: int
+	:param protocol: Service protocol (UDP / TCP / ANY)
+	:type  protocol: str
+	:param source_port_ranges: Source port ranges
+	:type  source_port_ranges: List[str]
+	:param source_scopes: List of source scopes for the service (CIDR / IP List / Tag)
+	:type  source_scopes: List[AzureSecurityGroupScope]
+	:param destination_port_ranges: Destination port ranges
+	:type  destination_port_ranges: List[str]
+	:param destination_scopes: List of destination scopes for the service (CIDR / IP List / Tag)
+	:type  destination_scopes:List[AzureSecurityGroupScope]
+	:param is_default
+	:type  is_default: bool
+	:param access: Service access (Allow / Deny)
+	:type  access: str
+	:param direction: Inbound/Outbound
+	:type  direction: str
+	:param description: Service description
+	:type  description: str
 	"""
 	name: str
 	priority: int
@@ -63,18 +74,27 @@ class AzureSecurityGroupBoundService(BaseDataclassRequest):
 
 @dataclass
 class AzureSecurityGroupRequest(BaseDataclassRequest):
-	"""Azure Security Group create request
+	"""Create a security group policy
 
-			Args:
-				name (str): (Required) Name of the security group
-				region (str): (Required) Azure region can be one of the following: centralus, eastus, eastus2, usgovlowa, usgovvirginia, northcentralus, southcentralus, westus, westus2, westcentralus, northeurope, westeurope, eastasia, southeastasia, japaneast, japanwest, brazilsouth, australiaeast, australiasoutheast, centralindia, southindia, westindia, chinaeast, chinanorth, canadacentral, canadaeast, germanycentral, germanynortheast, koreacentral, uksouth, ukwest, koreasout
-				resource_group (str): (Required) Azure resource group name
-				cloud_account_id (str): (Required) Cloud account id in Dome9
-				inbound_services (List[AzureSecurityGroupBoundService]): (Optional) Security group services
-				outbound_services (List[AzureSecurityGroupBoundService]): (Optional) Security group services
-				is_tamper_protected (bool): (Optional) Is security group tamper protected
-				description (str): (Optional) Security group description
-				tags (Dict): (Optional) Security group tags
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-azure-securitygrouppolicy-viewmodels-azuresgpolicypostviewmodel
+	:param name: Policy name
+	:type  name: str
+	:param region: Policy region
+	:type  region: str
+	:param resource_group: Azure resource group name
+	:type  resource_group: str
+	:param cloud_account_id: Cloud account id in Dome9
+	:type  cloud_account_id: str
+	:param inbound_services: Security group services
+	:type  inbound_services: List[AzureSecurityGroupBoundService]
+	:param outbound_services: Security group services
+	:type  outbound_services: List[AzureSecurityGroupBoundService]
+	:param is_tamper_protected: Policy is tamper protected
+	:type  is_tamper_protected: bool
+	:param description: Policy description
+	:type  description: str
+	:param tags: Security group tags
+	:type  tags: Dict
 
 	"""
 	name: str
@@ -100,47 +120,51 @@ class AzureSecurityGroup(Dome9Resource):
 	def create(self, body: AzureSecurityGroupRequest) -> Dict:
 		"""Creates Azure Security Group
 
-		:param body: Azure Security Group request payload
-		:return: Response dict
+		:link   https://api-v2-docs.dome9.com/index.html?python#azuresecuritygrouppolicy_post
+		:param  body: Azure Security Group request payload
+		:type   body: AzureSecurityGroupRequest
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-azure-securitygrouppolicy-viewmodels-azuresgpolicygetviewmodel
+		:rtype  AzureSgPolicyGet
 
 		"""
-		return self._post(route=AzureSecurityGroupConsts.MAIN_ROUTE.value, body=body)
+		return self._post(route=AzureSecurityGroupConsts.AZURE_SECURITY_GROUP_POLICY.value, body=body)
 
-	def get(self, azure_security_group_id: str) -> Dict:
-		"""Get Azure Security Group by ID
+	def get(self, azure_security_group_id: str = '') -> Union[Dict, List[Dict]]:
+		"""Get Network Security Group Policies for the Azure accounts in the Dome9 account
 
-		:param azure_security_group_id: Azure Security Group ID
-		:return: Response dict
+		:link   https://api-v2-docs.dome9.com/index.html?python#azuresecuritygrouppolicy_get
+		:param  azure_security_group_id: Dome9 azure security Group ID
+		:param  azure_security_group_id: str
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-azure-securitygrouppolicy-viewmodels-azuresgpolicygetviewmodel
+		:rtype  AzureSgPolicyGet
 
 		"""
-		route = f'{AzureSecurityGroupConsts.MAIN_ROUTE.value}/{azure_security_group_id}'
+		route = f'{AzureSecurityGroupConsts.AZURE_SECURITY_GROUP_POLICY.value}/{azure_security_group_id}'
 		return self._get(route=route)
-
-	def get_all(self) -> List[Dict]:
-		"""Get all Azure Security Groups
-
-		:return: List of response dicts
-
-		"""
-		return self._get(route=AzureSecurityGroupConsts.MAIN_ROUTE.value)
 
 	def update(self, azure_security_group_id: str, body: AzureSecurityGroupRequest) -> Dict:
 		"""Updates existing Azure Security Group
 
-		:param azure_security_group_id: Azure Security Group ID
-		:param body: Azure Security Group request payload
-		:return: Response dict
+		:link   https://api-v2-docs.dome9.com/index.html?python#azuresecuritygrouppolicy_put
+		:param  azure_security_group_id: Azure Security Group ID
+		:param  azure_security_group_id: str
+		:type   body: Details for the policy, including the changes
+		:type   body: AzureSecurityGroupRequest
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-azure-securitygrouppolicy-viewmodels-azuresgpolicypostviewmodel
+		:rtype  AzureSgPolicyPost
 
 		"""
-		route = f'{AzureSecurityGroupConsts.MAIN_ROUTE.value}/{azure_security_group_id}'
+		route = f'{AzureSecurityGroupConsts.AZURE_SECURITY_GROUP_POLICY.value}/{azure_security_group_id}'
 		return self._put(route=route, body=body)
 
 	def delete(self, azure_security_group_id: str) -> None:
 		"""Deletes Azure Security Group
 
-		:param azure_security_group_id: Azure Security Group ID
-		:return: None
+		:link    https://api-v2-docs.dome9.com/index.html?python#azuresecuritygrouppolicy_delete
+		:param   azure_security_group_id: Azure security group id.
+		:type    azure_security_group_id: str
+		:returns None
 
 		"""
-		route = f'{AzureSecurityGroupConsts.MAIN_ROUTE.value}/{azure_security_group_id}'
+		route = f'{AzureSecurityGroupConsts.AZURE_SECURITY_GROUP_POLICY.value}/{azure_security_group_id}'
 		return self._delete(route=route)
