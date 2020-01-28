@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Dict
+from typing import List, Dict, Union
 
 from loguru import logger
 
@@ -16,20 +16,25 @@ class RuleEntitySeverity(Enum):
 
 
 class RuleBundleConsts(Enum):
-	MAIN_ROUTE = 'CompliancePolicy'
+	COMPLIANCE_POLICY = 'CompliancePolicy'
 
 
 @dataclass
 class Rule:
 	"""Restricted iam entities request
 
-		Args:
-			name (str): Rule name
-			logic (str): The GSL statement for the rule
-			severity (str): Rule severity (High/Medium/Low)
-			description (str): Description of the rule
-			remediation (str): Remediation text for the rule
-			compliance_tag (str): Compliance section for the rule
+	:param name: Rule name
+	:type  name: str
+	:param logic: The GSL statement for the rule
+	:type  logic: str
+	:param severity: Rule severity (High/Medium/Low)
+	:type  severity: str
+	:param description: Description of the rule
+	:type  description: str
+	:param remediation: Remediation text for the rule
+	:type  remediation: str
+	:param compliance_tag: Compliance section for the rule
+	:type  compliance_tag: str
 
 	"""
 	name: str
@@ -50,13 +55,18 @@ class Rule:
 class RuleBundleRequest(BaseDataclassRequest):
 	"""Restricted iam entities request
 
-		Args:
-			name (str): Rule bundle name
-			cloud_vendor (str): Cloud provider on which the rule will be run
-			description (str): Description of the bundle
-			rules (List[Rule]): List of rules in the bundle
-			language (str): Language of the text (default, 'en' - English)
-			id (str): Rule bundle id, relevant in update
+	:param name: Rule bundle name
+	:type  name: str
+	:param cloud_vendor: Cloud provider on which the rule will be run
+	:type  cloud_vendor: str
+	:param description: Description of the bundle
+	:type  description: str
+	:param rules: List of rules in the bundle
+	:type  rules: List
+	:param language: Language of the text (default, 'en' - English)
+	:type  language: str
+	:param id: Rule bundle id, relevant in update
+	:type  id: str
 
 	"""
 	name: str
@@ -81,50 +91,43 @@ class RuleBundle(Dome9Resource):
 	def create(self, body: RuleBundleRequest) -> Dict:
 		"""Create rule bundle
 
-		:param body: Details for the new rule bundle
-		:type body: RuleBundleRequest
-		:returns: Dict that has metadata for the created rule bundle
+		:param  body: Details for the new rule bundle
+		:type   body: RuleBundleRequest
+		:return Metadata for the created rule bundle
+		:rtype  Dict
 
 		"""
-		return self._post(route=RuleBundleConsts.MAIN_ROUTE.value, body=body)
+		return self._post(route=RuleBundleConsts.COMPLIANCE_POLICY.value, body=body)
 
-	def get(self, rule_bundle_id: str) -> Dict:
+	def get(self, rule_bundle_id: str = '') -> Union[Dict, List[Dict]]:
 		"""Get information for rule bundle
 
-		:param rule_bundle_id: Rule bundle id
-		:type rule_bundle_id: str
-		:returns: Dict that has metadata for the rule bundle
+		:param  rule_bundle_id: Rule bundle id
+		:type   rule_bundle_id: str
+		:return Metadata for the rule bundle
+		:rtype  Dict or List[Dict]
 
 		"""
-		route = f'{RuleBundleConsts.MAIN_ROUTE.value}/{rule_bundle_id}'
+		route = f'{RuleBundleConsts.COMPLIANCE_POLICY.value}/{rule_bundle_id}'
 		return self._get(route=route)
-
-	def get_all(self) -> List:
-		"""Get all rule bundles
-
-		:returns: List of dicts that has metadata for all the rule bundles
-
-		"""
-		return self._get(route=RuleBundleConsts.MAIN_ROUTE.value)
 
 	def update(self, body: RuleBundleRequest):
 		"""Update rule bundle
 
-		:param body: Details for rule bundle
-		:type body: RuleBundleRequest
-
-		:returns: Dict that has metadata for updated rule bundle
+		:param  body: Details for rule bundle
+		:type   body: RuleBundleRequest
+		:return Metadata for updated rule bundle
+		:rtype  Dict
 
 		"""
-		return self._put(route=RuleBundleConsts.MAIN_ROUTE.value, body=body)
+		return self._put(route=RuleBundleConsts.COMPLIANCE_POLICY.value, body=body)
 
 	def delete(self, rule_bundle_id: str) -> None:
 		"""Delete aws cloud account
 
 		:param rule_bundle_id: Rule bundle id
-		:type rule_bundle_id: str
-		:returns: None
+		:type  rule_bundle_id: str
 
 		"""
-		route = f'{RuleBundleConsts.MAIN_ROUTE.value}/{rule_bundle_id}'
+		route = f'{RuleBundleConsts.COMPLIANCE_POLICY.value}/{rule_bundle_id}'
 		return self._delete(route=route)

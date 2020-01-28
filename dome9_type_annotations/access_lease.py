@@ -1,10 +1,9 @@
 from typing import Dict
 
-from resources.access_lease import AccessLeaseRequest
-from resources.access_lease import AccessLease
+from resources.access_lease import AccessLease as BaseAccessLease, AccessLeaseRequest
 
 
-class access_lease(AccessLease):
+class access_lease(BaseAccessLease):
 
 	@classmethod
 	def active_lease(cls, body: AccessLeaseRequest) -> Dict:

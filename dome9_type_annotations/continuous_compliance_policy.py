@@ -1,10 +1,9 @@
 from typing import Dict, List, Union
 
-from resources.continuous_compliance_policy import ContinuousCompliancePolicyRequest
-from resources.continuous_compliance_policy import ContinuousCompliancePolicy
+from resources.continuous_compliance_policy import ContinuousCompliancePolicy as BaseContinuousCompliancePolicy, ContinuousCompliancePolicyRequest
 
 
-class continuous_compliance_policy(ContinuousCompliancePolicy):
+class continuous_compliance_policy(BaseContinuousCompliancePolicy):
 
 	@classmethod
 	def create(cls, body: ContinuousCompliancePolicyRequest) -> Dict:

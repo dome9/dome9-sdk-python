@@ -1,9 +1,9 @@
 from typing import Dict
 
-from resources.assessment import Assessment as BaseAwsCloudAccount, AssessmentBundleRequest
+from resources.assessment import Assessment as BaseAssessment, AssessmentBundleRequest
 
 
-class assessment(BaseAwsCloudAccount):
+class assessment(BaseAssessment):
 
 	@classmethod
 	def run_bundle(cls, body: AssessmentBundleRequest) -> Dict:
