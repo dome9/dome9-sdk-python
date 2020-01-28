@@ -1,9 +1,9 @@
 from typing import Dict, List, Union
 
-from resources.continuous_compliance_notification import ContinuousComplianceNotification, ContinuousComplianceNotificationRequest
+from resources.continuous_compliance_notification import ContinuousComplianceNotification as BaseContinuousComplianceNotification, ContinuousComplianceNotificationRequest
 
 
-class continuous_compliance_notification(ContinuousComplianceNotification):
+class continuous_compliance_notification(BaseContinuousComplianceNotification):
 
 	@classmethod
 	def create(cls, body: ContinuousComplianceNotificationRequest) -> Dict:

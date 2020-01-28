@@ -1,9 +1,9 @@
 from typing import Dict, List, Union
 
-from resources.user import User as BaseAwsCloudAccount, UserRequest, UpdateUser, SetAsOwner
+from resources.user import User as BaseUser, UserRequest, UpdateUser, SetAsOwner
 
 
-class user(BaseAwsCloudAccount):
+class user(BaseUser):
 
 	@classmethod
 	def create(cls, body: UserRequest) -> Dict:
