@@ -151,7 +151,8 @@ class AwsSecurityGroup(Dome9Resource):
 		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_createcloudsecuritygroup
 		:param  body: Details for the new aws security group
 		:type   body: CloudSecurityGroup
-		:return Dict that has metadata for the created aws security group
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-models-cloudsecuritygroupviewmodel
+		:rtype  CloudSecurityGroup
 
 		"""
 		return self._post(route=AWSSecurityGroupConsts.CLOUD_SECURITY_GROUP.value, body=body)
@@ -187,11 +188,13 @@ class AwsSecurityGroup(Dome9Resource):
 	def update(self, security_group_id: str, body: CloudSecurityGroup) -> None:
 		"""Updates an AWS security group protection mode
 
-		:link  https://api-v2-docs.dome9.com/#cloudsecuritygroup_updatesecgroup
-		:param security_group_id: the AWS security group id
-		:type  security_group_id: str
-		:param body: updated details for the security group. only 'IsProtected' is used in this call which defines whether to protect or unprotect the security group.
-		:type  body: CloudSecurityGroup
+		:link   https://api-v2-docs.dome9.com/#cloudsecuritygroup_updatesecgroup
+		:param  security_group_id: the AWS security group id
+		:type   security_group_id: str
+		:param  body: updated details for the security group. only 'IsProtected' is used in this call which defines whether to protect or unprotect the security group.
+		:type   body: CloudSecurityGroup
+		:return https://api-v2-docs.dome9.com/#schemadome9-web-api-models-cloudsecuritygroupviewmodel
+		:rtype  CloudSecurityGroup
 
 		"""
 		route = f'{AWSSecurityGroupConsts.CLOUD_SECURITY_GROUP.value}/{security_group_id}'
