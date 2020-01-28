@@ -25,10 +25,9 @@ class AwsIamSafeConsts(Enum):
 class IAMSafeData:
 	"""IAM safe data
 
-	:link
-	:param aws_group_arn:
+	:param aws_group_arn: aws group arn
 	:type  aws_group_arn: str
-	:param aws_policy_arn:
+	:param aws_policy_arn: aws policy arn
 	:type  aws_policy_arn: str
 
 	"""
@@ -40,7 +39,6 @@ class IAMSafeData:
 class AttachIamSafe(BaseDataclassRequest):
 	"""IAMSafeData
 
-	:link
 	:param cloud_account_id: AWS cloud account to attach IAM safe to it.
 	:type  cloud_account_id: str
 	:param data: IAM safe data
@@ -55,11 +53,11 @@ class AttachIamSafe(BaseDataclassRequest):
 class RestrictedIamEntitiesRequest(BaseDataclassRequest):
 	"""Restricted iam entities request
 
-		:link
-		:param entity_type: Entity type, must be one of the following Role or User
-		:type  entity_type: str
-		:param entity_name: Aws iam user name or aws role
-		:type  entity_name: str
+	:link
+	:param entity_type: Entity type, must be one of the following Role or User
+	:type  entity_type: str
+	:param entity_name: Aws iam user name or aws role
+	:type  entity_name: str
 
 	"""
 	entity_type: str
@@ -74,7 +72,6 @@ class RestrictedIamEntitiesRequest(BaseDataclassRequest):
 class ProtectIamSafeWithElevation(BaseDataclassRequest):
 	"""Protect iam safe with elevation
 
-	:link
 	:param iam_entities: Iam entities
 	:type  iam_entities: List[str]
 
@@ -88,15 +85,13 @@ class AwsIamSafe(Dome9Resource):
 		User(client=client)._refresh_user_email_id_map()
 		super().__init__(client)
 
-	# attach iam safe to cloud account
 	def attach_iam_safe(self, body: AttachIamSafe) -> Dict:
 		"""Attach iam safe to aws cloud account
 
-		:link
-		:param    body: Details for aws cloud account in order to attach to iam safe
-		:type     body: AttachIamSafe
-		:returns: Dict that has metadata for attached aws cloud account
-		:rtype    Dict
+		:param  body: Details for aws cloud account in order to attach to iam safe
+		:type   body: AttachIamSafe
+		:return Dict that has metadata for attached aws cloud account
+		:rtype  Dict
 
 		"""
 		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{AwsIamSafeConsts.IAM_SAFE.value}'
@@ -105,25 +100,23 @@ class AwsIamSafe(Dome9Resource):
 	def detach_iam_safe(self, aws_cloud_account_id: str) -> None:
 		"""Detach iam safe to aws cloud account
 
-		:link
-		:param    aws_cloud_account_id: Aws cloud account id
-		:type     aws_cloud_account_id: str
-		:returns: None
+		:param  aws_cloud_account_id: Aws cloud account id
+		:type   aws_cloud_account_id: str
+		:return None
 
 		"""
 		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM_SAFE.value}'
 		return self._delete(route=route)
 
-	# iam protect (restrict) entity
 	def protect_iam_safe(self, aws_cloud_account_id: str, body: RestrictedIamEntitiesRequest) -> str:
-		"""Protect iam safe entity where the entity can be User or Role
+		"""Protect iam safe entity where the entity can be User or Role (restrict entity)
 
-		:param    aws_cloud_account_id: Aws security group id.
-		:type     aws_cloud_account_id: str
-		:param    body: Details restricted iam entities request
-		:type     body: RestrictedIamEntitiesRequest
-		:returns: Aws User or Role arn that protected
-		:rtype    str
+		:param  aws_cloud_account_id: Aws security group id.
+		:type   aws_cloud_account_id: str
+		:param  body: Details restricted iam entities request
+		:type   body: RestrictedIamEntitiesRequest
+		:return Aws User or Role arn that protected
+		:rtype  str
 
 		"""
 		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ENTITIES.value}'
@@ -132,10 +125,9 @@ class AwsIamSafe(Dome9Resource):
 	def get_all_protected_iam_safe(self, aws_cloud_account_id: str) -> Dict:
 		"""Get data for all the users and roles
 
-		:link
-		:param    aws_cloud_account_id: Aws security group id.
-		:type     aws_cloud_account_id: str
-		:returns: Dict that has two key, roles and users
+		:param  aws_cloud_account_id: Aws security group id.
+		:type   aws_cloud_account_id: str
+		:return Dict that has two key, roles and users
 
 		"""
 		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.IAM.value}'
@@ -144,14 +136,13 @@ class AwsIamSafe(Dome9Resource):
 	def unprotect_iam_safe(self, aws_cloud_account_id: str, entity_type: str, entity_name: str) -> None:
 		"""Unprotect specific iam safe entity
 
-		:link
-		:param    aws_cloud_account_id: Aws security group id.
-		:type     aws_cloud_account_id: str
-		:param    entity_type: entity type, must be User or Role
-		:type     entity_type: str
-		:param    entity_name: Entity name
-		:type     entity_name: str
-		:returns: None
+		:param  aws_cloud_account_id: Aws security group id.
+		:type   aws_cloud_account_id: str
+		:param  entity_type: entity type, must be User or Role
+		:type   entity_type: str
+		:param  entity_name: Entity name
+		:type   entity_name: str
+		:return None
 
 		"""
 		APIUtils.check_is_valid_entity_type(entity_type=entity_type)
@@ -159,20 +150,20 @@ class AwsIamSafe(Dome9Resource):
 		route = f'{AwsCloudAccountConsts.CLOUD_ACCOUNTS.value}/{aws_cloud_account_id}/{AwsIamSafeConsts.RESTRICTED_IAM_ENTITIES.value}/{entity_type}'
 		return self._delete(route=route, params={AwsIamSafeConsts.ENTITY_NAME.value: entity_name})
 
-	# iam protect with elevation
 	def protect_iam_safe_with_elevation(self, aws_cloud_account_id: str, entity_name: str, entity_type: str, users_ids_to_protect: List[str]) -> None:
 		"""Protect iam safe with elevation
 
-		:link
-		:param   aws_cloud_account_id: Aws security group id.
-		:type    aws_cloud_account_id: str
-		:param   entity_name: Aws iam user name or aws role
-		:type    entity_name: str
-		:param   entity_type: Entity type, must be one of the following Role or User
-		:type    entity_type: str
-		:param   users_ids_to_protect: List of users ids to protect
-		:type    users_ids_to_protect: List[str]
-		:return: None
+		:link   https://api-v2-docs.dome9.com/index.html?python#user_postiamsafeaccountiamentities
+		:param  aws_cloud_account_id: Aws security group id.
+		:type   aws_cloud_account_id: str
+		:param  entity_name: Aws iam user name or aws role
+		:type   entity_name: str
+		:param  entity_type: Entity type, must be one of the following Role or User
+		:type   entity_type: str
+		:param  users_ids_to_protect: List of users ids to protect
+		:type   users_ids_to_protect: List[str]
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-userandrole-iamsafe-useriamsafeaccountputviewmodel
+		:rtype  UserIamSafeAccountPut
 
 		"""
 		APIUtils.check_is_valid_entity_type(entity_type=entity_type)
@@ -195,19 +186,19 @@ class AwsIamSafe(Dome9Resource):
 	def update_iam_safe_with_elevation(self, aws_cloud_account_id: str, entity_name: str, entity_type: str,  users_ids_to_protect: List[str]) -> None:
 		"""Protect iam safe with elevation
 
-		:link
-		:param   aws_cloud_account_id: Aws security group id.
-		:type    aws_cloud_account_id: str
-		:param   entity_name: Aws iam user name or aws role
-		:type    entity_name: str
-		:param   entity_type: Entity type, must be one of the following Role or User
-		:type    entity_type: str
-		:param   users_ids_to_protect: List of users ids to protect
-		:type    users_ids_to_protect: List[str]
-		:return: None
+		:link   https://api-v2-docs.dome9.com/index.html?python#user_putiamsafeaccountiamentities
+		:param  aws_cloud_account_id: Aws security group id.
+		:type   aws_cloud_account_id: str
+		:param  entity_name: Aws iam user name or aws role
+		:type   entity_name: str
+		:param  entity_type: Entity type, must be one of the following Role or User
+		:type   entity_type: str
+		:param  users_ids_to_protect: List of users ids to protect
+		:type   users_ids_to_protect: List[str]
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-userandrole-iamsafe-useriamsafeaccountputviewmodel
+		:rtype  UserIamSafeAccountPut
 
 		"""
-
 		APIUtils.check_is_valid_entity_type(entity_type=entity_type)
 		entities_failed_to_protect = set()
 
@@ -234,14 +225,14 @@ class AwsIamSafe(Dome9Resource):
 	def unprotect_iam_safe_with_elevation(self, aws_cloud_account_id: str, entity_name: str, entity_type: str) -> None:
 		"""Protect iam safe with elevation
 
-		:link
-		:param   aws_cloud_account_id: Aws security group id.
-		:type    aws_cloud_account_id: str
-		:param   entity_name: Aws iam user name or aws role
-		:type    entity_name: str
-		:param   entity_type: Entity type, must be one of the following Role or User
-		:type    entity_type: str
-		:return: None
+		:link   https://api-v2-docs.dome9.com/index.html?python#user_deleteiamsafeentitiesforuser
+		:param  aws_cloud_account_id: Aws security group id.
+		:type   aws_cloud_account_id: str
+		:param  entity_name: Aws iam user name or aws role
+		:type   entity_name: str
+		:param  entity_type: Entity type, must be one of the following Role or User
+		:type   entity_type: str
+		:return None
 
 		"""
 		APIUtils.check_is_valid_entity_type(entity_type=entity_type)
