@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from dome9 import APIUtils
 from dome9.client import Client
@@ -43,17 +43,20 @@ class WebhookNotificationDataFormatType(Enum):
 
 
 class ContinuousComplianceNotificationConsts(Enum):
-	MAIN_ROUTE = 'Compliance/ContinuousComplianceNotification'
+	CONTINUOUS_COMPLIANCE_NOTIFICATION = 'Compliance/ContinuousComplianceNotification'
 
 
 @dataclass
 class ScheduleData:
 	"""Scheduled email report notification
 
-		Args:
-			cron_expression (str): the schedule to issue the email report (in cron expression format)
-			type (str): type of report; can be "Detailed", "Summary", "FullCsv" or "FullCsvZip"
-			recipients (List[str]): comma-separated list of email recipients
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemafalconetix-model-ruleengine-entities-continuouscompliancenotificationentity-reportscheduledata
+	:param cron_expression: the schedule to issue the email report (in cron expression format)
+	:type  cron_expression: str
+	:param type: type of report; can be "Detailed", "Summary", "FullCsv" or "FullCsvZip"
+	:type  type: str
+	:param recipients: comma-separated list of email recipients
+	:type  recipients: List[str]
 
 	"""
 	cron_expression: str
@@ -70,9 +73,11 @@ class ScheduleData:
 class ScheduledReport:
 	"""Scheduled email report notification
 
-		Args:
-			email_sending_state (str): send schedule report of findings by email; can be "Enabled" or "Disabled"
-			schedule_data (ScheduleData): if email_sending_state is Enabled, then schedule_data must be included
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-scheduledreportnotificationviewmodel
+	:param email_sending_state: send schedule report of findings by email; can be "Enabled" or "Disabled"
+	:type  email_sending_state: str
+	:param schedule_data: Schedule data, if email_sending_state is Enabled, then schedule_data must be included
+	:type  schedule_data: ScheduleData
 
 	"""
 	email_sending_state: str
@@ -86,8 +91,9 @@ class ScheduledReport:
 class EmailData:
 	"""Email recipients
 
-		Args:
-			recipients (List[str]): comma-separated list of email recipients
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemafalconetix-model-ruleengine-entities-continuouscompliancenotificationentity-emailnotificationdata
+	:param recipients: comma-separated list of email recipients
+	:type  1recipients: List[str]
 
 	"""
 	recipients: List[str]
@@ -97,9 +103,11 @@ class EmailData:
 class EmailPerFindingData:
 	"""Email per finding notification
 
-		Args:
-			recipients (List[str]): comma-separated list of email recipients
-			notification_output_format (str): format of JSON block for finding; can be "JsonWithFullEntity", "JsonWithBasicEntity", or "PlainText".
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemafalconetix-model-ruleengine-entities-continuouscompliancenotificationentity-emailperfindingnotificationdata
+	:param recipients: comma-separated list of email recipients
+	:type  recipients: List[str]
+	:param notification_output_format: format of JSON block for finding; can be "JsonWithFullEntity", "JsonWithBasicEntity", or "PlainText".
+	:type  notification_output_format: str
 
 	"""
 	recipients: List[str]
@@ -113,9 +121,11 @@ class EmailPerFindingData:
 class SNSData:
 	"""Email per finding notification
 
-		Args:
-			sns_topic_arn (str): SNS topic ARN
-			sns_output_format (str): SNS output format; can be "JsonWithFullEntity", "JsonWithBasicEntity", or "PlainText"
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-snsdatanotificationviewmodel
+	:param sns_topic_arn: SNS topic ARN
+	:type  sns_topic_arn: str
+	:param sns_output_format: SNS output format; can be "JsonWithFullEntity", "JsonWithBasicEntity", or "PlainText"
+	:type  sns_output_format: str
 
 	"""
 	sns_topic_arn: str
@@ -129,14 +139,21 @@ class SNSData:
 class TicketingSystemData:
 	"""Ticketing system
 
-		Args:
-			system_type (str): System type; can be "ServiceOne", "Jira", or "PagerDuty"
-			domain (str): serviceNow domain name (ServiceNow only)
-			user (str): User name (ServiceNow only)
-			pass_ (str): Password (ServiceNow only)
-			project_key (str): Project key (Jira) or API Key (PagerDuty)
-			issue_type (str): Issue type (Jira)
-			should_close_tickets (bool): Ticketing system should close tickets when resolved (bool)
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-ticketingsystemnotificationdataviewmodel
+	:param system_type: System type; can be "ServiceOne", "Jira", or "PagerDuty"
+	:type  system_type: str
+	:param domain: serviceNow domain name (ServiceNow only)
+	:type  domain: str
+	:param user: User name (ServiceNow only)
+	:type  user: str
+	:param pass_: Password (ServiceNow only)
+	:type  pass_: str
+	:param project_key: Project key (Jira) or API Key (PagerDuty)
+	:type  project_key: str
+	:param issue_type: Issue type (Jira)
+	:type  issue_type: str
+	:param should_close_tickets: Ticketing system should close tickets when resolved (bool)
+	:type  should_close_tickets: bool
 
 	"""
 	system_type: str
@@ -157,9 +174,11 @@ class TicketingSystemData:
 class AWSSecurityHubIntegration:
 	"""Ticketing system
 
-		Args:
-			external_account_id (str): External account id
-			region (str): AWS region
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-awssecurityhubintegrationnotificationviewmodel
+	:param external_account_id (str): External account id
+	:type  external_account_id: str
+	:param region (str): AWS region
+	:type  region: str
 
 	"""
 	external_account_id: str
@@ -170,13 +189,19 @@ class AWSSecurityHubIntegration:
 class WebhookData:
 	"""Ticketing system
 
-		Args:
-			url (str): HTTP endpoint URL
-			http_method (str): HTTP method, "Post" by default.
-			auth_method (str): Authentication method; "NoAuth" by default
-			username (str): Username in endpoint system
-			password (str): Password in endpoint system
-			format_type (str): Format for JSON block for finding; can be "Basic" or "ServiceNow"
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-webhooknotificationdataviewmodel
+	:param url: HTTP endpoint URL
+	:type  url: str
+	:param http_method: HTTP method, "Post" by default.
+	:type  http_method: str
+	:param auth_method: Authentication method; "NoAuth" by default
+	:type  auth_method: str
+	:param username: Username in endpoint system
+	:type  username: str
+	:param password: Password in endpoint system
+	:type  password: str
+	:param format_type: Format for JSON block for finding; can be "Basic" or "ServiceNow"
+	:type  format_type: str
 
 	"""
 	url: str
@@ -204,19 +229,31 @@ class WebhookData:
 class ChangeDetection:
 	"""Send changes in findings
 
-		Args:
-			email_sending_state (str): Send email report of changes in findings; can be "Enabled" or "Disabled"
-			email_per_finding_sending_state (str): send separate email notification for each finding; can be "Enabled" or "Disabled"
-			sns_sending_state (str): send by AWS SNS for each new finding; can be "Enabled" or "Disabled"
-			external_ticket_creating_state (str): Send each finding to an external ticketing system; can be "Enabled" or "Disabled"
-			aws_security_hub_integration_state (str): send findings to AWS Secure Hub; can be "Enabled" or "Disabled"
-			webhook_integration_state (str): Send findings to an HTTP endpoint (webhook); can be "Enabled" or "Disabled".
-			email_data (EmailData): If email_sending_stat is Enabled, email_data must be included
-			email_per_finding_data (EmailPerFindingData): If email_per_finding_sending_state is Enabled, email_per_finding_data must be included
-			sns_data (SNSData): If sns_sending_state is Enabled, sns_data must be included:
-			ticketing_system_data (TicketingSystemData): if external_ticket_creating_state is Enabled, ticketing_system_data must be included
-			aws_security_hub_integration (AWSSecurityHubIntegration): If aws_security_hub_integration_state is Enabled, aws_security_hub_integration must be included
-			webhook_data (WebhookData): If webhook_integration_state is Enabled, webhook_data must be included:
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-changedetectionnotificationviewmodel
+	:param email_sending_state: Send email report of changes in findings; can be "Enabled" or "Disabled"
+	:type  email_sending_state: str
+	:param email_per_finding_sending_state: send separate email notification for each finding; can be "Enabled" or "Disabled"
+	:type  email_per_finding_sending_state: str
+	:param sns_sending_state: send by AWS SNS for each new finding; can be "Enabled" or "Disabled"
+	:type  sns_sending_state: str
+	:param external_ticket_creating_state: Send each finding to an external ticketing system; can be "Enabled" or "Disabled"
+	:type  external_ticket_creating_state: str
+	:param aws_security_hub_integration_state: send findings to AWS Secure Hub; can be "Enabled" or "Disabled"
+	:type  aws_security_hub_integration_state: str
+	:param webhook_integration_state: Send findings to an HTTP endpoint (webhook); can be "Enabled" or "Disabled".
+	:type  webhook_integration_state: str
+	:param email_data: If email_sending_stat is Enabled, email_data must be included
+	:type  email_data: EmailData
+	:param email_per_finding_data: If email_per_finding_sending_state is Enabled, email_per_finding_data must be included
+	:type  email_per_finding_data: EmailPerFindingData
+	:param sns_data: If sns_sending_state is Enabled, sns_data must be included:
+	:type  sns_data: SNSData
+	:param ticketing_system_data: if external_ticket_creating_state is Enabled, ticketing_system_data must be included
+	:type  ticketing_system_data: TicketingSystemData
+	:param aws_security_hub_integration: If aws_security_hub_integration_state is Enabled, aws_security_hub_integration must be included
+	:type  aws_security_hub_integration: AWSSecurityHubIntegration
+	:param webhook_data: If webhook_integration_state is Enabled, webhook_data must be included:
+	:type  webhook_data: WebhookData
 
 	"""
 	email_sending_state: str
@@ -245,11 +282,14 @@ class ChangeDetection:
 class GCPSecurityCommandCenterIntegration:
 	"""Gcp security command center integration
 
-		Args:
-			state (str): Send findings to the GCP Security Command Center; can be "Enabled" or "Disabled"
-			if state is Enabled, the following must be included:
-			project_id (str): Gcp project id
-			source_id (str): Gcp source id
+	:link https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-gcpsecuritycommandcenterintegrationviewmodel
+	:param state: Send findings to the GCP Security Command Center; can be "Enabled" or "Disabled"
+	:type  state: str
+	if state is Enabled, the following must be included:
+		:param project_id: Gcp project id
+		:type  project_id: str
+		:param source_id: Gcp source id
+		:type  source_id: str
 
 	"""
 	state: str
@@ -264,13 +304,19 @@ class GCPSecurityCommandCenterIntegration:
 class ContinuousComplianceNotificationRequest(BaseDataclassRequest):
 	"""Continuous compliance notification request
 
-		Args:
-			name (str): Notification name
-			description (str): Description of the notification.
-			change_detection (ChangeDetection): Send changes in findings
-			alerts_console (bool): Send findings (also) to the Dome9 web app alerts console (Boolean); default is False.
-			scheduled_report (ScheduledReport): Scheduled email report notification
-			gcp_Security_command_center_integration (GCPSecurityCommandCenterIntegration): GCP security command center details
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-continuouscompliancenotificationgetviewmodel
+	:param name: Notification name
+	:type  name: str
+	:param description: Description of the notification.
+	:type  description: str
+	:param change_detection: Send changes in findings
+	:type  change_detection: ChangeDetection
+	:param alerts_console: Send findings (also) to the Dome9 web app alerts console (Boolean); default is False.
+	:type  alerts_console: bool
+	:param scheduled_report: Scheduled email report notification
+	:type  scheduled_report: ScheduledReport
+	:param gcp_Security_command_center_integration: GCP security command center details
+	:type  gcp_Security_command_center_integration: GCPSecurityCommandCenterIntegration
 
 	"""
 	name: str
@@ -289,53 +335,49 @@ class ContinuousComplianceNotification(Dome9Resource):
 	def create(self, body: ContinuousComplianceNotificationRequest) -> Dict:
 		"""Create continuous compliance notification
 
-		:param body: Details for the new continuous compliance notification
-		:type body: ContinuousComplianceNotificationRequest
-		:returns: Dict that has metadata for the created continuous compliance notification
+		:link   https://api-v2-docs.dome9.com/index.html?python#continuouscompliancenotification_post
+		:param  body: Details for the new continuous compliance notification
+		:type   body: ContinuousComplianceNotificationRequest
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-continuouscompliancenotificationgetviewmodel
+		:rtype  ContinuousComplianceNotificationGet
 
 		"""
-		return self._post(route=ContinuousComplianceNotificationConsts.MAIN_ROUTE.value, body=body)
+		return self._post(route=ContinuousComplianceNotificationConsts.CONTINUOUS_COMPLIANCE_NOTIFICATION.value, body=body)
 
-	def get(self, continuous_compliance_notification_id: str) -> Dict:
+	def get(self, continuous_compliance_notification_id: str = '') -> Union[Dict, List[Dict]]:
 		"""Get continuous compliance notification according to id
 
-		:param continuous_compliance_notification_id: Continuous compliance notification id
-		:type continuous_compliance_notification_id: str
-		:returns: Dict that has metadata for continuous compliance notification
+		:link    https://api-v2-docs.dome9.com/index.html?python#continuouscompliancenotification_get
+		:param   continuous_compliance_notification_id: Continuous compliance notification id
+		:type    continuous_compliance_notification_id: str
+		:returns https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-continuouscompliancenotificationgetviewmodel
+		:rtype   ContinuousComplianceNotificationGet
 
 		"""
-		route = f'{ContinuousComplianceNotificationConsts.MAIN_ROUTE.value}/{continuous_compliance_notification_id}'
+		route = f'{ContinuousComplianceNotificationConsts.CONTINUOUS_COMPLIANCE_NOTIFICATION.value}/{continuous_compliance_notification_id}'
 		return self._get(route=route)
-
-	def get_all(self) -> List[Dict]:
-		"""Get all continuous compliance notifications in dome9
-
-		:returns: List of dicts that has metadata for all continuous compliance notifications
-
-		"""
-		return self._get(route=ContinuousComplianceNotificationConsts.MAIN_ROUTE.value)
 
 	def update(self, continuous_compliance_notification_id: str, body: ContinuousComplianceNotificationRequest) -> Dict:
 		"""Update continuous compliance notifications
 
-		:param continuous_compliance_notification_id: Continuous compliance notification id
-		:type continuous_compliance_notification_id: str
-		:param body: Details for continuous compliance notifications
-		:type body: ContinuousComplianceNotificationRequest
-
-		:returns: Dict that has metadata for continuous compliance notifications
+		:link   https://api-v2-docs.dome9.com/index.html?python#continuouscompliancenotification_put
+		:param  continuous_compliance_notification_id: Continuous compliance notification id
+		:type   continuous_compliance_notification_id: str
+		:param  body: Details for continuous compliance notifications
+		:type   body: ContinuousComplianceNotificationRequest
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-compliance-continuouscompliance-continuouscompliancenotificationgetviewmodel
+		:rtype  ContinuousComplianceNotificationGet
 
 		"""
-		route = f'{ContinuousComplianceNotificationConsts.MAIN_ROUTE.value}/{continuous_compliance_notification_id}'
+		route = f'{ContinuousComplianceNotificationConsts.CONTINUOUS_COMPLIANCE_NOTIFICATION.value}/{continuous_compliance_notification_id}'
 		return self._put(route=route, body=body)
 
 	def delete(self, continuous_compliance_notification_id: str) -> None:
 		"""Delete continuous compliance notifications
 
 		:param continuous_compliance_notification_id: Continuous compliance notifications
-		:type continuous_compliance_notification_id: str
-		:returns: None
+		:type  continuous_compliance_notification_id: str
 
 		"""
-		route = f'{ContinuousComplianceNotificationConsts.MAIN_ROUTE.value}/{continuous_compliance_notification_id}'
+		route = f'{ContinuousComplianceNotificationConsts.CONTINUOUS_COMPLIANCE_NOTIFICATION.value}/{continuous_compliance_notification_id}'
 		return self._delete(route=route)

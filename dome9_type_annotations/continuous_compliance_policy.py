@@ -1,7 +1,7 @@
 from typing import Dict, List, Union
 
 from resources.continuous_compliance_policy import ContinuousCompliancePolicyRequest
-from resources.continuous_compliance_policy import ContinuousCompliancePolicy as ContinuousCompliancePolicy
+from resources.continuous_compliance_policy import ContinuousCompliancePolicy
 
 
 class continuous_compliance_policy(ContinuousCompliancePolicy):
