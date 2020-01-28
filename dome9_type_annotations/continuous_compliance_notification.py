@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from resources.continuous_compliance_notification import ContinuousComplianceNotification, ContinuousComplianceNotificationRequest
 
@@ -19,7 +19,7 @@ class continuous_compliance_notification(ContinuousComplianceNotification):
 		pass
 
 	@classmethod
-	def get(cls, continuous_compliance_notification_id: str = '') -> Dict:
+	def get(cls, continuous_compliance_notification_id: str = '') -> Union[Dict, List[Dict]]:
 		"""Get continuous compliance notification according to id
 
 		:link    https://api-v2-docs.dome9.com/index.html?python#continuouscompliancenotification_get
