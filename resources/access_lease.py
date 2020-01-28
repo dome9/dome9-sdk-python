@@ -8,7 +8,7 @@ from dome9 import Dome9Resource, Client, APIUtils, BaseDataclassRequest
 
 
 class AccessLeaseConsts(Enum):
-	MAIN_ROUTE = 'accessLease'
+	ACCESS_LEASE = 'accessLease'
 	AWS_CLOUD_ACCOUNT = 'aws'
 
 
@@ -16,13 +16,19 @@ class AccessLeaseConsts(Enum):
 class AccessLeaseRequest(BaseDataclassRequest):
 	"""Restricted iam entities request
 
-		Args:
-			cloud_account_id (str): Cloud account id
-			region (str): Aws region
-			security_group_id (str): Security group id
-			protocol (str): Protocol type
-			port_from (str): From port
-			port_to (str): To port
+	:link  https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-models-awsaccessleasepostviewmodel
+	:param cloud_account_id: Cloud account id
+	:type  cloud_account_id: str
+	:param region: Aws region
+	:type  region: str
+	:param security_group_id: Security group id
+	:type  security_group_id: str
+	:param protocol: Protocol type
+	:type  protocol: str
+	:param port_from: From port
+	:type  port_from: str
+	:param port_to: To port
+	:type  port_to: str
 
 	"""
 	cloud_account_id: str
@@ -46,29 +52,33 @@ class AccessLease(Dome9Resource):
 	def active_lease(self, body: AccessLeaseRequest) -> Dict:
 		"""Active lease access lease
 
-		:param body: Details for the access lease
-		:type body: AccessLeaseRequest
-		:returns: Dict that has metadata for the activated lease
+		:link   https://api-v2-docs.dome9.com/index.html?python#accesslease_acquireawslease
+		:param  body: Details for the access lease
+		:type   body: AccessLeaseRequest
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-models-awsaccessleasepostviewmodel
+		:rtype  AwsAccessLeasePost
 
 		"""
-		route = f'{AccessLeaseConsts.MAIN_ROUTE.value}/{AccessLeaseConsts.AWS_CLOUD_ACCOUNT.value}'
+		route = f'{AccessLeaseConsts.ACCESS_Lease.value}/{AccessLeaseConsts.AWS_CLOUD_ACCOUNT.value}'
 		return self._post(route=route, body=body)
 
 	def get_all(self) -> Dict:
 		"""Get information for all the activated leases
 
-		:returns: Dict that has metadata for all the activated leases
+		:link   https://api-v2-docs.dome9.com/index.html?python#accesslease_get
+		:return https://api-v2-docs.dome9.com/index.html?python#schemadome9-web-api-models-accessleasesgroupedviewmodel
+		:rtype  AccessLeasesGrouped
 
 		"""
-		return self._get(route=AccessLeaseConsts.MAIN_ROUTE.value)
+		return self._get(route=AccessLeaseConsts.ACCESS_Lease.value)
 
 	def terminate_lease(self, lease_id: str) -> None:
 		"""Terminate lease
 
+		:link https://api-v2-docs.dome9.com/index.html?python#accesslease_delete
 		:param lease_id: Lease id
 		:type lease_id: str
-		:returns: None
 
 		"""
-		route = f'{AccessLeaseConsts.MAIN_ROUTE.value}/{lease_id}'
+		route = f'{AccessLeaseConsts.ACCESS_Lease.value}/{lease_id}'
 		return self._delete(route=route)
