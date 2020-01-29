@@ -60,22 +60,11 @@ class OrganizationalUnit(Dome9Resource):
 
 		return self._get(route=route)
 
-	def get_all_cloud_accounts(self) -> Dict:
-		"""Get all cloud accounts metadata (parent, child OUs and Cloud Accounts)
-
-		:link   https://api-v2-docs.dome9.com/#organizationalunit_getorganizationalunitcloudaccountsasync
-		:return Dict with cloud accounts metadata
-		:rtype  Dict
-
-		"""
-
-		return self.get_organizational_unit_cloud_accounts(organizational_unit_id='')
-
-	def get_organizational_unit_cloud_accounts(self, organizational_unit_id: str) -> Dict:
+	def get_organizational_unit_cloud_accounts(self, organizational_unit_id: str = '') -> Dict:
 		"""Get cloud accounts attached to OU including child OUs and their cloud accounts
 
 		:link   https://api-v2-docs.dome9.com/#organizationalunit_getorganizationalunitcloudaccountsasync
-		:param  organizational_unit_id: Requested organizational unit id if empty will return all OUs and their Cloud Accounts
+		:param  organizational_unit_id: (Optional) Requested organizational unit id if empty will return all OUs and their Cloud Accounts
 		:type   organizational_unit_id: str[uuid]
 		:return Dict with organizational unit cloud accounts metadata
 		:rtype  Dict
