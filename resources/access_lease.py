@@ -59,7 +59,7 @@ class AccessLease(Dome9Resource):
 		:rtype  AwsAccessLeasePost
 
 		"""
-		route = f'{AccessLeaseConsts.ACCESS_Lease.value}/{AccessLeaseConsts.AWS_CLOUD_ACCOUNT.value}'
+		route = f'{AccessLeaseConsts.ACCESS_LEASE.value}/{AccessLeaseConsts.AWS_CLOUD_ACCOUNT.value}'
 		return self._post(route=route, body=body)
 
 	def get_all(self) -> Dict:
@@ -70,7 +70,7 @@ class AccessLease(Dome9Resource):
 		:rtype  AccessLeasesGrouped
 
 		"""
-		return self._get(route=AccessLeaseConsts.ACCESS_Lease.value)
+		return self._get(route=AccessLeaseConsts.ACCESS_LEASE.value)
 
 	def terminate_lease(self, lease_id: str) -> None:
 		"""Terminate lease
@@ -80,5 +80,5 @@ class AccessLease(Dome9Resource):
 		:type lease_id: str
 
 		"""
-		route = f'{AccessLeaseConsts.ACCESS_Lease.value}/{lease_id}'
+		route = f'{AccessLeaseConsts.ACCESS_LEASE.value}/{lease_id}'
 		return self._delete(route=route)
