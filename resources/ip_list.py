@@ -8,7 +8,7 @@ from dome9 import Dome9Resource, Client, BaseDataclassRequest, APIUtils
 
 
 class IpListConsts(Enum):
-	MAIN_ROUTE = 'IpList'
+	IP_LIST = 'IpList'
 
 
 @dataclass
@@ -64,7 +64,7 @@ class IpList(Dome9Resource):
 
 		"""
 
-		return self._post(route=IpListConsts.MAIN_ROUTE.value, body=body)
+		return self._post(route=IpListConsts.IP_LIST.value, body=body)
 
 	def get(self, ip_list_id: int) -> Dict:
 		"""Get an IP List by ID
@@ -76,7 +76,7 @@ class IpList(Dome9Resource):
 		:rtype  IpList
 
 		"""
-		route = f'{IpListConsts.MAIN_ROUTE.value}/{ip_list_id}'
+		route = f'{IpListConsts.IP_LIST.value}/{ip_list_id}'
 
 		return self._get(route=route)
 
@@ -90,7 +90,7 @@ class IpList(Dome9Resource):
 		:type   body: IpListRequest
 
 		"""
-		route = f'{IpListConsts.MAIN_ROUTE.value}/{ip_list_id}'
+		route = f'{IpListConsts.IP_LIST.value}/{ip_list_id}'
 
 		return self._put(route=route, body=body)
 
@@ -102,6 +102,6 @@ class IpList(Dome9Resource):
 		:type  ip_list_id: int
 
 		"""
-		route = f'{IpListConsts.MAIN_ROUTE.value}/{ip_list_id}'
+		route = f'{IpListConsts.IP_LIST.value}/{ip_list_id}'
 
 		return self._delete(route=route)

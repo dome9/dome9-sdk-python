@@ -6,7 +6,7 @@ from dome9 import Dome9Resource, Client, BaseDataclassRequest
 
 
 class RoleConsts(Enum):
-	MAIN_ROUTE = 'role'
+	ROLE = 'role'
 
 
 @dataclass
@@ -95,7 +95,7 @@ class Role(Dome9Resource):
 		:rtype  Role
 
 		"""
-		return self._post(route=RoleConsts.MAIN_ROUTE.value, body=body)
+		return self._post(route=RoleConsts.ROLE.value, body=body)
 
 	def get(self, role_id: str = '') -> Union[Dict, List[Dict]]:
 		"""Get the specific role with the specified id
@@ -106,7 +106,7 @@ class Role(Dome9Resource):
 		:rtype  Role
 
 		"""
-		route = f'{RoleConsts.MAIN_ROUTE.value}/{role_id}'
+		route = f'{RoleConsts.ROLE.value}/{role_id}'
 		return self._get(route=route)
 
 	def update(self, role_id: str, body: UpdateRole) -> Dict:
@@ -120,7 +120,7 @@ class Role(Dome9Resource):
 		:rtype  Role
 
 		"""
-		route = f'{RoleConsts.MAIN_ROUTE.value}/{role_id}'
+		route = f'{RoleConsts.ROLE.value}/{role_id}'
 		return self._put(route=route, body=body)
 
 	def delete(self, role_id: str) -> None:
@@ -131,5 +131,5 @@ class Role(Dome9Resource):
 		:return: None
 
 		"""
-		route = f'{RoleConsts.MAIN_ROUTE.value}/{role_id}'
+		route = f'{RoleConsts.ROLE.value}/{role_id}'
 		return self._delete(route=route)
