@@ -7,6 +7,11 @@ def readme():
 		return md.read()
 
 
+def requirements():
+	with open('requirements.txt') as requirements_file:
+		return requirements_file.read().splitlines()
+
+
 setup(name='dome9',
 	description='dome9 py sdk module',
 	python_requires='>3.7',
@@ -18,7 +23,7 @@ setup(name='dome9',
 	url='git+https://github.com/Dome9/dome9-sdk-python',
 	packages=find_packages(),
 	include_package_data=True,
-	install_requires=['requests', 'loguru', 'dataclasses-json'],
+	install_requires=requirements(),
 	zip_safe=False)
 project_urls = {
 	"Repository": "https://github.com/Dome9/dome9-sdk-python",
