@@ -1,0 +1,10 @@
+{
+	"id": 94002,
+	"name": "test12",
+	"description": "desc",
+	"rules": [],
+	"hideInCompliance": true,
+	"minFeatureTier": "Trial",
+	"cloudVendor": "aws",
+	"language": "string"
+}

@@ -19,11 +19,16 @@ class AssessmentBundleRequest(BaseDataclassRequest):
 	:type   cloud_account_id: str
 	:param  region: cloud region for the account
 	:type   region: str
+	:param dome9_cloud_account_id: The Dome9 account id
+	:type dome9_cloud_account_id: str
+	:param external_cloud_account_id: account id on cloud provider (AWS, Azure, GCP)
+	:type external_cloud_account_id: str
 	"""
 	id: str
 	cloud_account_id: str
 	region: str = None
-
+	dome9_cloud_account_id: str = None
+	external_cloud_account_id: str = None
 
 class Assessment(Dome9Resource):
 	"""Assessment
