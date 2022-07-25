@@ -204,6 +204,7 @@ class AwsIamSafe(Dome9Resource):
 
 		User._refresh_user_email_id_map()
 
+
 		entity_details = self._get_iam_entity_details(aws_cloud_account_id=aws_cloud_account_id, entity_name=entity_name, entity_type=entity_type)
 		curr_protected_users_ids = AwsIamSafe._get_users_ids_according_to_emails(emails=entity_details['attachedDome9Users'])
 		protected_unprotected_dict = AwsIamSafe._generate_protected_unprotected_map(curr_protected_users_ids=curr_protected_users_ids, users_ids_to_protect=users_ids_to_protect)
